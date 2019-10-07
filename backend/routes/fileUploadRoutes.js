@@ -14,20 +14,10 @@ var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 
 // Get all Documents s Routes
-router.route("/").get((req, res, next) => {
-  DOCUMENT.find(
-    {},
-    null,
-    {
-      sort: { createdAt: 1 }
-    },
-    (err, docs) => {
-      if (err) {
-        return next(err);
-      }
-      res.status(200).send(docs);
-    }
-  );
+router.route("/").get((req, res) => {
+  DOCUMENT.find()
+        .then(documents => res.json(documents))
+        .catch(err => res.status(400).json('Error: ' + err));
 });
 
 // Route to get a single existing GO data (needed for the Edit functionality)
@@ -84,7 +74,7 @@ router.route("/edit/:id").put((req, res, next) => {
 
 // Router to delete a DOCUMENT file
 router.route("/:id").delete((req, res, next) => {
-  DOCUMENT.findByIdAndDelete(req.params.id, (err, result) => {
+  DOCUMENT.findOneAndRemove({ document_id: req.params.id }, (err, result) => {
     if (err) {
       return next(err);
     }

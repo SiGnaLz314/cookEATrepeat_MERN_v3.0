@@ -13,11 +13,12 @@ let documentSchema = new Schema(
     path: { type: String }
   },
   {
-    // createdAt,updatedAt fields are automatically added into records
     timestamps: true
   }
 );
 
 documentSchema.plugin(AutoIncrement, { inc_field: "document_id" });
 
-module.exports = mongoose.model("Document", documentSchema);
+const Document = mongoose.model('Document', documentSchema)
+
+module.exports = Document;

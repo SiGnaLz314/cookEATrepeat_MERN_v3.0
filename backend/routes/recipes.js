@@ -42,7 +42,7 @@ router.route('/:id').get((req, res) => {
 // Route: /Recipe/:id
 // DELETE Request
 router.route('/:id').delete((req, res) => {
-    Recipe.findByIdAndDelete(req.params.id)
+    Recipe.findOneAndRemove({ recipe_id: req.params.id})
         .then(() => res.json('Recipe Deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));
 });

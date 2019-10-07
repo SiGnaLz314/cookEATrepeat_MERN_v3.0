@@ -10,11 +10,15 @@ const Recipe = props => (
         <td>{props.recipe.instructions}</td>
         <td>{props.recipe.date.substring(0,10)}</td>
         <td>
-            <button><Link to={"/edit/"+props.recipe._id}>edit</Link></button> | 
-            <button href="#" onClick={() => { props.deleteRecipe(props.recipe._id) }}><Link to="#">delete</Link></button> 
+            <button><Link to={"/edit/"+props.recipe._id}>edit</Link></button> |
+            <button href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}><Link to="#">delete</Link></button>
         </td>
     </tr>
-        
+
+)
+
+const Doc = props => (
+        <td>{props.document.description}</td>
 )
 
 export default class RecipesList extends Component {
@@ -23,35 +27,51 @@ export default class RecipesList extends Component {
 
         this.deleteRecipe = this.deleteRecipe.bind(this);
 
-        this.state = {recipes: []};
+        this.state = {
+            recipes: [],
+            documents: []
+        };
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/recipes/')
-            .then(response => {
-                this.setState({
-                    recipes: response.data
-                })
+        axios.all([
+            axios.get('http://localhost:5000/recipes/'),
+            axios.get('http://localhost:5000/fileUpload/')
+        ])
+        .then(axios.spread((res1, res2) => {    
+            this.setState({
+                recipes: res1.data,
+                documents: res2.data
             })
-            .catch((error) => {
-                console.log(error);
-            })
+        }));
     }
-    
-    deleteRecipe(id) {
-        axios.delete('http://localhost:5000/recipes/'+id)
-            .then(res => console.log(res.data));
 
-        this.setState({
-            recipes: this.state.recipes.filter(el => el._id !== id)
-        })
+    deleteRecipe(id) {
+        axios.all([
+            axios.delete('http://localhost:5000/recipes/'+id),
+            axios.delete('http://localhost:5000/fileUpload/'+id)
+        ])
+        .then(axios.spread((res1, res2) => {
+            this.setState({
+                recipes: this.state.recipes.filter(el => el.recipe_id !== id),
+                documents: this.state.documents.filter(el => el.document_id !== id)
+            })
+        }));
+
     }
 
     recipeList(){
         return this.state.recipes.map(currentrecipe => {
-            return <Recipe recipe={currentrecipe} deleteRecipe={this.deleteRecipe} key={currentrecipe._id} />;
+            return <Recipe recipe={currentrecipe} deleteRecipe={this.deleteRecipe} key={currentrecipe.recipe_id} />;
         })
     }
+
+    recipeImageList(){
+        return this.state.documents.map(currentdoc => {
+            return <Doc document={currentdoc} key={currentdoc.document_id} />;
+        })
+    }
+
     render() {
         return (
             <div>
@@ -69,6 +89,7 @@ export default class RecipesList extends Component {
                     </thead>
                     <tbody>
                         { this.recipeList() }
+                        { this.recipeImageList() }
                     </tbody>
                 </table>
             </div>

@@ -26,12 +26,11 @@ class FileUpload extends Component {
 
   handleUpload = event => {
     event.preventDefault();
+
     const data = new FormData(event.target);
-    console.log(data);
     data.append("file", this.state.selectedFile, this.state.description);
 
-    axios
-      .post(endpoint, data)
+    axios.post(endpoint, data)
       .then(() => {
             window.location = '/';
       })
@@ -48,20 +47,22 @@ class FileUpload extends Component {
                 <div className="form-group">
                     <label htmlFor="description">Description:</label>
                     <input
-                    type="text"
-                    className="form-control"
-                    name="description"
-                    onChange={this.onChange}
-                    placeholder="Description"
+                      required
+                      type="text"
+                      className="form-control"
+                      name="description"
+                      onChange={this.onChange}
+                      placeholder="Description"
                     />
                 </div>
 
                 <div className="form-group">
                     <input
-                    type="file"
-                    name=""
-                    id=""
-                    onChange={this.handleSelectedFile}
+                      required
+                      type="file"
+                      name=""
+                      id=""
+                      onChange={this.handleSelectedFile}
                     />
                 </div>
                 <button type="submit" className="btn btn-primary">
