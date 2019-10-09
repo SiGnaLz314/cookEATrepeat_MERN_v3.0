@@ -4,14 +4,11 @@ const path = require("path");
 // https://www.npmjs.com/package/multer#api
 // 'destination' and 'filename' - both functions determine where the file should be stored and the name of the file at the destination
 const storageEngine = multer.diskStorage({
-  destination: "./uploads",
+  destination: "../src/uploads",
   filename: function(req, file, fn) {
     fn(
       null,
-      new Date().getTime().toString() +
-        "-" +
-        file.fieldname +
-        path.extname(file.originalname)
+      file.originalname
     );
   }
 });

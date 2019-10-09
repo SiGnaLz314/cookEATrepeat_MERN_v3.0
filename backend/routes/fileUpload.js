@@ -3,17 +3,11 @@ require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const DOCUMENT = require("../models/upload.model");
-const multer = require("multer");
 var uploadDocuments = require("./uploadDocuments");
-const path = require("path");
 const fs = require("fs");
+const path = require('path');
 
-// Multer ships with storage engines DiskStorage and MemoryStorage
-// And Multer adds a body object and a file or files object to the request object. The body object contains the values of the text fields of the form, the file or files object contains the files uploaded via the form.
-var storage = multer.memoryStorage();
-var upload = multer({ storage: storage });
-
-// Get all Documents s Routes
+// Get all Documents Routes
 router.route("/").get((req, res) => {
   DOCUMENT.find()
         .then(documents => res.json(documents))
@@ -22,7 +16,7 @@ router.route("/").get((req, res) => {
 
 // Route to get a single existing GO data (needed for the Edit functionality)
 router.route("/:id").get((req, res, next) => {
-  DOCUMENT.findById(req.params.id, (err, document) => {
+  DOCUMENT.findOne({ document_id: req.params.id }, (err, document) => {
     if (err) {
       return next(err);
     }
@@ -59,8 +53,8 @@ router.route('/upload').post((req, res) => {
 // Route to edit existing record's description field
 // Here, I am updating only the description in this mongo record. Hence using the "$set" parameter
 router.route("/edit/:id").put((req, res, next) => {
-  DOCUMENT.findByIdAndUpdate(
-    req.params.id,
+  DOCUMENT.findOneAndUpdate(
+    { document_id: req.params.id },
     { $set: { description: Object.keys(req.body)[0] } },
     { new: true },
     (err, updateDoc) => {
@@ -79,7 +73,8 @@ router.route("/:id").delete((req, res, next) => {
       return next(err);
     }
     // Now delete the file from the disk storage
-    var target_path = "./uploads/" + result.path;
+    var target_path = path.join(__dirname, '../../src/uploads/') + result.path;
+
     fs.unlink(target_path, function() {
       res.send({
         status: "200",

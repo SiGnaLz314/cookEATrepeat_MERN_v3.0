@@ -8,7 +8,8 @@ class FileUpload extends Component {
     super(props);
     this.state = {
       description: "",
-      selectedFile: null
+      selectedFile: null,
+      image: ''
     };
   }
 
@@ -16,7 +17,8 @@ class FileUpload extends Component {
     e.preventDefault();
     this.setState({
       description: e.target.value,
-      selectedFile: e.target.files[0]
+      selectedFile: e.target.files[0],
+      image: URL.createObjectURL(e.target.files[0])
     });
   };
 
@@ -64,6 +66,9 @@ class FileUpload extends Component {
                       id=""
                       onChange={this.handleSelectedFile}
                     />
+                </div>
+                <div>
+                  <img alt="" src={this.state.image} width='200px' height='200px'/>
                 </div>
                 <button type="submit" className="btn btn-primary">
                     Upload

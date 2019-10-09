@@ -7,7 +7,7 @@ import RecipesList from "./components/recipes-list.component";
 import EditRecipe from "./components/edit-recipe.component";
 import CreateRecipe from "./components/create-recipe.component";
 import CreateUser from "./components/create-user.component";
-import FileUpload from './components/fileUpload.component';
+import FileUpload from './components/file-upload.component';
 
 function App() {
   return (

@@ -3,22 +3,21 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Recipe = props => (
-    <tr>
-        <td>{props.recipe.recipename}</td>
-        <td>{props.recipe.animal}</td>
-        <td>{props.recipe.ingredients}</td>
-        <td>{props.recipe.instructions}</td>
-        <td>{props.recipe.date.substring(0,10)}</td>
-        <td>
-            <button><Link to={"/edit/"+props.recipe._id}>edit</Link></button> |
-            <button href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}><Link to="#">delete</Link></button>
-        </td>
-    </tr>
-
+        <>
+            <td>{props.recipe.recipename}</td>
+            <td>{props.recipe.animal}</td>
+            <td>{props.recipe.ingredients}</td>
+            <td>{props.recipe.instructions}</td>
+            <td>{props.recipe.date.substring(0,10)}</td>
+            <td>
+                <button><Link to={"/edit/"+props.recipe._id}>edit</Link></button> |
+                <button href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}><Link to="#">delete</Link></button>
+            </td>
+        </>
 )
 
 const Doc = props => (
-        <td>{props.document.description}</td>
+        <td><img alt='Description...' src={require('../uploads/' + props.document.path)} width='200px' height='200px'></img></td>
 )
 
 export default class RecipesList extends Component {
@@ -85,11 +84,14 @@ export default class RecipesList extends Component {
                         <th>Instructions</th>
                         <th>Date</th>
                         <th>Actions</th>
+                        <th>Img Description</th>
                         </tr>
                     </thead>
                     <tbody>
-                        { this.recipeList() }
-                        { this.recipeImageList() }
+                        <tr>
+                            { this.recipeList() }
+                            { this.recipeImageList() }
+                        </tr>
                     </tbody>
                 </table>
             </div>
