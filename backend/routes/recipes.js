@@ -16,6 +16,7 @@ router.route('/add').post((req, res) => {
     const animal = req.body.animal;
     const ingredients = req.body.ingredients;
     const instructions = req.body.instructions;
+    const imagepath = req.body.imagepath;
     const date = Date.parse(req.body.date);
 
     const newRecipe = new Recipe({
@@ -23,12 +24,14 @@ router.route('/add').post((req, res) => {
         animal,
         ingredients,
         instructions,
+        imagepath,
         date,
     });
 
     newRecipe.save()
-        .then(() => res.json('Recipe Added!'))
-        .catch(err => res.status(400).json('Error: ' + err));
+        .then(() => res.status(200));
+        // .then(() => res.json('Recipe Added!'))
+        // .catch(err => res.status(400).json('Error: ' + err));
 });
 
 // Route: /Recipe/:id

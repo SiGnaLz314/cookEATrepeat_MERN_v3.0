@@ -43,7 +43,8 @@ router.route('/upload').post((req, res) => {
           if (error) {
             throw error;
           }
-          res.status(200).send(newGo);
+          res.status(200)
+          // res.status(200).send(newGo);
         });
       }
     }

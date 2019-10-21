@@ -4,6 +4,8 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 
+const endpoint = "http://localhost:5000/fileUpload/upload/";
+
 export default class CreateRecipe extends Component {
     constructor(props) {
         super(props);
@@ -13,6 +15,8 @@ export default class CreateRecipe extends Component {
         this.onChangeIngredients = this.onChangeIngredients.bind(this);
         this.onChangeInstructions = this.onChangeInstructions.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
+        this.handleSelectedFile = this.handleSelectedFile.bind(this);
+        this.onChangeFile = this.onChangeFile.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -20,22 +24,44 @@ export default class CreateRecipe extends Component {
             animal: 'beef',
             ingredients: '',
             instructions: '',
+            description: "",
+            selectedFile: null,
+            image: '',
+            imagepath: '',
             date: new Date(),
         }
     }
+
+
+    handleSelectedFile(e) {
+        e.preventDefault();
+        this.setState({
+            description: e.target.value,
+            selectedFile: e.target.files[0],
+            imagepath: e.target.files[0].name,
+            image: URL.createObjectURL(e.target.files[0])
+        });
+    };
+
+    onChangeFile(e) {
+        this.setState({
+            description: e.target.value
+        });
+    };
+
 
     onChangeRecipename(e) {
         this.setState({
             recipename: e.target.value
         });
     }
-    
+
     onChangeAnimaltype(e) {
         this.setState({
             animal: e.target.value
         });
     }
-    
+
     onChangeIngredients(e) {
         this.setState({
             ingredients: e.target.value
@@ -51,8 +77,8 @@ export default class CreateRecipe extends Component {
             date: date
         });
     }
-    
-    onSubmit(e){
+
+    onSubmit(e) {
         e.preventDefault();
 
         const recipe = {
@@ -60,15 +86,23 @@ export default class CreateRecipe extends Component {
             animal: this.state.animal,
             ingredients: this.state.ingredients,
             instructions: this.state.instructions,
+            imagepath: this.state.imagepath,
             date: this.state.date
         }
 
-        console.log(recipe);
+        const data = new FormData(e.target);
+        data.append("file", this.state.selectedFile, this.state.description);
 
-        axios.post('http://localhost:5000/recipes/add', recipe)
-            .then(res => console.log(res.data))
-        
-        window.location = '/file';
+        console.log(recipe);
+        axios.all([
+            axios.post('http://localhost:5000/recipes/add', recipe),
+            axios.post(endpoint, data)
+        ])
+            .then(axios.spread((res1, res2) => {
+                console.log(res1.data);
+                //console.log(res2.data);
+            }))
+            .then(window.location = '/');
     }
     render() {
         return (
@@ -91,12 +125,12 @@ export default class CreateRecipe extends Component {
                             className="form-control"
                             value={this.state.animal}
                             onChange={this.onChangeAnimaltype}>
-                                <option value="beef">Beef</option>
-                                <option value="chicken">Chicken</option>
-                                <option value="dessert">Dessert</option>
-                                <option value="pork">Pork</option>
-                                <option value="seafood">Seafood</option>
-                            </select>
+                            <option value="beef">Beef</option>
+                            <option value="chicken">Chicken</option>
+                            <option value="dessert">Dessert</option>
+                            <option value="pork">Pork</option>
+                            <option value="seafood">Seafood</option>
+                        </select>
                     </div>
                     <div className="form-group">
                         <label>Ingredients: </label>
@@ -115,6 +149,31 @@ export default class CreateRecipe extends Component {
                             value={this.state.instructions}
                             onChange={this.onChangeInstructions}
                         />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="description">Description:</label>
+                        <input
+                            required
+                            type="text"
+                            className="form-control"
+                            name="description"
+                            onChange={this.onChangeFile}
+                            placeholder="Description"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                            required
+                            type="file"
+                            name=""
+                            id=""
+                            onChange={this.handleSelectedFile}
+                        />
+                    </div>
+                    <div>
+                        <img alt="" src={this.state.image} width='200px' height='200px' />
                     </div>
                     <div className="form-group">
                         <label>Date: </label>

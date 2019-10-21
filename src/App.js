@@ -1,13 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./stylesheets/App.css";
 
 import Navbar from "./components/navbar.component";
 import RecipesList from "./components/recipes-list.component";
 import EditRecipe from "./components/edit-recipe.component";
 import CreateRecipe from "./components/create-recipe.component";
 import CreateUser from "./components/create-user.component";
-import FileUpload from './components/file-upload.component';
+//import FileUpload from './components/file-upload.component';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
         <Route path="/edit/:id" component={EditRecipe} />
         <Route path="/create" component={CreateRecipe} />
         <Route path="/user" component={CreateUser} />
-        <Route path="/file" component={FileUpload} />
+        {/* <Route path="/file/:name" component={FileUpload} /> */}
       </div>
     </Router>
   );
