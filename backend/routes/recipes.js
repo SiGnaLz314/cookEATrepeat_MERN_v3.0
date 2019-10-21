@@ -14,10 +14,24 @@ router.route('/').get((req, res) => {
 router.route('/add').post((req, res) => {
     const recipename = req.body.recipename;
     const animal = req.body.animal;
-    const ingredients = req.body.ingredients;
-    const instructions = req.body.instructions;
+    var ingredients = req.body.ingredients;
+    var instructions = req.body.instructions;
     const imagepath = req.body.imagepath;
     const date = Date.parse(req.body.date);
+
+    // ingredients = ingredients.split("\n");
+    // instructions = instructions.split("\n");
+
+    // for (var i = 0; i < ingredients.length; i++) {
+    //     ingredients[i] = ingredients[i].replace(/(?:\\[rn]|[\r\n]+)+/g, "");
+    //     ingredients[i] = "<li>" + ingredients[i] + "</li>";
+    // }
+    // for (var i = 0; i < instructions.length; i++) {
+    //     instructions[i] = instructions[i].replace(/(?:\\[rn]|[\r\n]+)+/g, "");
+    //     instructions[i] = "<li>" + instructions[i] + "</li>";
+    // }
+    // ingredients = ingredients.join('');
+    // instructions = instructions.join('');
 
     const newRecipe = new Recipe({
         recipename,
@@ -60,6 +74,22 @@ router.route('/update/:id').post((req, res) => {
             recipe.ingredients = req.body.ingredients;
             recipe.instructions = req.body.instructions;
             recipe.date = Date.parse(req.body.date);
+
+                    
+            // recipe.ingredients = recipe.ingredients.split("\n");
+            // recipe.instructions = recipe.instructions.split("\n");
+
+            // for (var i = 0; i < recipe.ingredients.length; i++) {
+            //     recipe.ingredients[i] = recipe.ingredients[i].replace(/(?:\\[rn]|[\r\n]+)+/g, "");
+            //     recipe.ingredients[i] = "<li>" + recipe.ingredients[i] + "</li>";
+            // }
+            // for (var i = 0; i < recipe.instructions.length; i++) {
+            //     recipe.instructions[i] = recipe.instructions[i].replace(/(?:\\[rn]|[\r\n]+)+/g, "");
+            //     recipe.instructions[i] = "<li>" + recipe.instructions[i] + "</li>";
+            // }
+            // recipe.ingredients = recipe.ingredients.join('');
+            // recipe.instructions = recipe.instructions.join('');
+
 
             recipe.save()
                 .then(() => res.json('Recipe Updated!'))

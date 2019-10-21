@@ -13,8 +13,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('uploads'));
 
-app.use(express.static(path.join(__dirname, '../src/uploads')));
-
 const uri = process.env.ATLAS_URI;
 // MongoClient constructor
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }

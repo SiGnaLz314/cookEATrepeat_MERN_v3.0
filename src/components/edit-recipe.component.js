@@ -115,19 +115,23 @@ export default class EditRecipe extends Component {
                             </select>
                     </div>
                     <div className="form-group">
-                        <label>Ingredients: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
+                        <label>Variables: </label>
+                        <textarea className="form-control" 
+                            required 
+                            rows="3" 
+                            cols="50" 
+                            placeholder="Variables"
                             value={this.state.ingredients}
                             onChange={this.onChangeIngredients}
                         />
                     </div>
                     <div className="form--group">
-                        <label>Instructions: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
+                        <label>Algorithm: </label>
+                        <textarea className="form-control" 
+                            required 
+                            rows="3" 
+                            cols="50" 
+                            placeholder="Algorithm"
                             value={this.state.instructions}
                             onChange={this.onChangeInstructions}
                         />

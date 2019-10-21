@@ -74,5 +74,13 @@ body {
 #recipe_img {
     width: 200px;
     height: 200px;
-    background-image:url('../uploads/placeholder.jpg');
+}
+
+#recipe_detail{
+    white-space: pre-wrap;
+}
+
+#recipe_detail_img {
+    width: 500px;
+    height: 500px;
 }

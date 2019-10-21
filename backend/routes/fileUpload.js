@@ -74,7 +74,7 @@ router.route("/:id").delete((req, res, next) => {
       return next(err);
     }
     // Now delete the file from the disk storage
-    var target_path = path.join(__dirname, '../../src/uploads/') + result.path;
+    var target_path = path.join(__dirname, '../../public/uploads/') + result.path;
 
     fs.unlink(target_path, function() {
       res.send({

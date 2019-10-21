@@ -5,6 +5,7 @@ import "./stylesheets/App.css";
 
 import Navbar from "./components/navbar.component";
 import RecipesList from "./components/recipes-list.component";
+import RecipeDetail from "./components/recipe.component";
 import EditRecipe from "./components/edit-recipe.component";
 import CreateRecipe from "./components/create-recipe.component";
 import CreateUser from "./components/create-user.component";
@@ -17,6 +18,7 @@ function App() {
         <Navbar />
         <br/>
         <Route path="/" exact component={RecipesList} />
+        <Route path="/recipe/:id" component={RecipeDetail} />
         <Route path="/edit/:id" component={EditRecipe} />
         <Route path="/create" component={CreateRecipe} />
         <Route path="/user" component={CreateUser} />
