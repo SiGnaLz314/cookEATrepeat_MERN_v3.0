@@ -12,10 +12,10 @@
     "multer": "^1.4.2",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "react": "^16.9.0",
+    "react": "^16.11.0",
     "react-datepicker": "^2.9.6",
-    "react-dom": "^16.9.0",
-    "react-router-dom": "^5.0.1",
+    "react-dom": "^16.11.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.1.1",
     "validator": "^11.1.0"
   },
@@ -41,7 +41,7 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^6.4.0",
-    "eslint-utils": "^1.4.2"
+    "eslint": "^6.6.0",
+    "eslint-utils": "^1.4.3"
   }
 }

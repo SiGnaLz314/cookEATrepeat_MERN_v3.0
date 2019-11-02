@@ -18,7 +18,7 @@ function App() {
         <Navbar />
         <br/>
         <Route path="/" exact component={Home} />
-        <Route path="/recipes" exact component={RecipesList} />
+        <Route path="/recipes" component={RecipesList} />
         <Route path="/recipe/:id" component={RecipeDetail} />
         <Route path="/edit/:id" component={EditRecipe} />
         <Route path="/create" component={CreateRecipe} />
