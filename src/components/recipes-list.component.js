@@ -57,9 +57,11 @@ export default class RecipesList extends Component {
     }
 
     recipeList(){
-        return this.state.recipes.map(currentrecipe => {
+
+        const rList = this.state.recipes.map(currentrecipe => {
             return <Recipe recipe={currentrecipe} deleteRecipe={this.deleteRecipe} key={currentrecipe.recipe_id} />;
-        })
+        }) 
+        return rList;
     }
 
     render() {
