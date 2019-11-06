@@ -6,15 +6,25 @@ const Schema = mongoose.Schema;
 const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 let documentSchema = new Schema(
-  {
-    document_id: { type: Number, default: 0 },
-    description: { type: String },
-    fileLink: { type: String },
-    path: { type: String }
-  },
-  {
+{
+    document_id: {
+        type: Number,
+        default: 0
+    },
+    description: {
+        type: String
+    },
+    fileLink: {
+        type: String
+    },
+    path: {
+        type: String
+    }
+}, {
     timestamps: true
-  }
+}, {
+    collection: 'documents'
+}
 );
 
 documentSchema.plugin(AutoIncrement, { inc_field: "document_id" });
