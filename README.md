@@ -1,6 +1,6 @@
 # cookEATrepeat
-A web app to present my recipes.
-A working prototype, proof of concept, test environment, aiding in the creation of a react.js (MERN Stack) application of the same nature.
+A web app to present my recipes, cooking tips, and suggestioned preperation techniques.
+A work in progress.
 
 
 ## Wishlist
@@ -25,15 +25,16 @@ A working prototype, proof of concept, test environment, aiding in the creation 
 ### .env
 - Create .env file in ../backend/
 - Add Keys to .env file:
-    SERVICE | Entry
-    --------|-------
-    Mongo Cloud DB | ATLAS_URI = [MongoDB Atlas](https://cloud.mongodb.com/)
-    Amazon Cloud Hosting | AWS_BUCKET_NAME = [AWS BUCKET](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html)
-    ...| AWS_ACCESS_KEY_ID = **OPTION for hosting images instead of inside a static folder**
-    ...| AWS_SECRET_ACCESS_KEY = **see above**
-    ...| AWS_REGION = **YOUR REGION**
-    ...| AWS_Uploaded_File_URL_Link = **YOUR FILE URL**
-    Authentication | SECRET_KEY = **YOUR SECRET FOR AUTHENTICATION**
+
+SERVICE | ENTRY
+------------ | -------------
+Mongo Cloud DB | ATLAS_URI = [MongoDB Atlas](https://cloud.mongodb.com/)
+Amazon Cloud Hosting | AWS_BUCKET_NAME = [AWS BUCKET](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html)
+... | AWS_ACCESS_KEY_ID = **OPTION for hosting images instead of inside a static folder**
+... | AWS_SECRET_ACCESS_KEY = **see above**
+... | AWS_REGION = **YOUR REGION**
+... | AWS_Uploaded_File_URL_Link = **YOUR FILE URL**
+Authentication | SECRET_KEY = **YOUR SECRET FOR AUTHENTICATION**
 
 ## Setup:
 1. Follow instructions to setup mongoDB Cloud: 
