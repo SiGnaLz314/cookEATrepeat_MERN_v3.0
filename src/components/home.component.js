@@ -11,18 +11,18 @@ const Recipe = props => (
     </tr>
 )
 
-export default class RecipesList extends Component {
+export default class Home extends Component {
     constructor(props) {
         super(props);
 
+        this.componentDidMount = this.componentDidMount.bind(this);
+
         this.state = {
-            recipes: [],
-            documents: []
+            recipes: []
         };
     }
 
     componentDidMount() {
-        
         axios.get('http://localhost:5000/recipes/')
         .then(res => {
             this.setState({
@@ -38,15 +38,29 @@ export default class RecipesList extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <h3>cookEATrepeat Recipes</h3>
-                <table className="table">
-                    <tbody>
-                        { this.recipeList() }
-                    </tbody>
-                </table>
-            </div>
-        )
+        if(this.props.user){
+            return (
+                <div>
+                    <h3>cookEATrepeat Recipes</h3>
+                    <h1>Welcome {JSON.stringify(this.props.user.username)}!</h1>
+                    <table className="table">
+                        <tbody>
+                            { this.recipeList() }
+                        </tbody>
+                    </table>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <h3>cookEATrepeat Recipes</h3>
+                    <table className="table">
+                        <tbody>
+                            { this.recipeList() }
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
     }
 }

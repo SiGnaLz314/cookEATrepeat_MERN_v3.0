@@ -14,8 +14,12 @@ const Recipe = props => (
             </a>
         </td>
         <td>
-            <button><Link to={"/edit/"+props.recipe._id}>edit</Link></button>
-            <button href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}><Link to="#">delete</Link></button>
+            <button className="btn btn-primary col-1 col-mr-auto">
+                <Link to={"/edit/"+props.recipe._id}>edit</Link>
+            </button>
+            <button className="btn btn-primary col-1 col-mr-auto" href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}>
+                <Link to="#">delete</Link>
+            </button>
         </td>
     </tr>
 )
@@ -24,6 +28,7 @@ export default class RecipesList extends Component {
     constructor(props) {
         super(props);
 
+        this.componentDidMount = this.componentDidMount.bind(this);
         this.deleteRecipe = this.deleteRecipe.bind(this);
 
         this.state = {

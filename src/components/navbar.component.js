@@ -1,7 +1,42 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+const UserLinks = props => {
+	if (props.loggedIn) {
+		return (
+            <ul className="navbar-nav mr-auto">
+                <li className="navbar-item">
+                    <Link to="#" className="nav-link" onClick={props._logout}>
+                        Logout
+                    </Link>
+                </li>
+            </ul>
+		)
+	} else {
+		return (
+            <ul className="navbar-nav mr-auto">
+                <li className="navbar-item">
+                    <Link to="/login" className="nav-link">
+                        login
+                    </Link>
+                </li>
+                <li className="navbar-item">
+                    <Link to="/signup" className="nav-link">
+                        sign up
+                    </Link>
+                </li>
+            </ul>
+		)
+	}
+}
+
+
+
 export default class Navbar extends Component {
+    constructor(props){
+        super(props);
+        this.state = {}
+}
 
     render() {
         return (
@@ -10,15 +45,17 @@ export default class Navbar extends Component {
                 <div className="collapse navbar-collapse">
                 <ul className="navbar-nav mr-auto">
                     <li className="navbar-item">
-                    <Link to="/recipes" className="nav-link">Recipes</Link>
+                        <Link to="/recipes" className="nav-link">Recipes</Link>
                     </li>
+                    {this.props.loggedIn ? (
                     <li className="navbar-item">
-                    <Link to="/create" className="nav-link">Create Recipe</Link>
+                        <Link to="/create" className="nav-link">Create Recipe</Link>
                     </li>
-                    <li className="navbar-item">
-                    <Link to="/user" className="nav-link">Create User</Link>
-                    </li>
+                        ) : (
+                    <></>
+                    )}
                 </ul>
+                <UserLinks _logout={this.props._logout} loggedIn={this.props.loggedIn} />
                 </div>
             </nav>
         );

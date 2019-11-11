@@ -8,6 +8,7 @@ export default class EditRecipe extends Component {
     constructor(props) {
         super(props);
 
+        this.componentDidMount = this.componentDidMount.bind(this);
         this.onChangeRecipename = this.onChangeRecipename.bind(this);
         this.onChangeAnimaltype = this.onChangeAnimaltype.bind(this);
         this.onChangeIngredients = this.onChangeIngredients.bind(this);

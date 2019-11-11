@@ -6,6 +6,8 @@ export default class RecipeDetail extends Component {
     constructor(props) {
         super(props);
 
+        this.componentDidMount = this.componentDidMount.bind(this);
+
         this.state = {
             recipename: '',
             animal: '',
