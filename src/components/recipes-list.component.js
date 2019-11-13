@@ -9,9 +9,12 @@ const Recipe = props => (
         <td>{props.recipe.ingredients}</td>
         <td>{props.recipe.instructions}</td>
         <td>{props.recipe.date.substring(0,10)}</td>
-        <td><a href={'/recipe/'+props.recipe._id}>
-            <img id='recipe_img' alt='Not Available' src={`../uploads/${props.recipe.imagepath}`}></img>
-            </a>
+        <td>
+            <Link to={'/recipe/'+props.recipe._id}>
+                <button>
+                    <img id='recipe_img' alt='Not Available' src={`../uploads/${props.recipe.imagepath}`}></img>
+                </button>
+            </Link>
         </td>
         <td>
             <button className="btn btn-primary col-1 col-mr-auto">
