@@ -24,27 +24,27 @@ router.route('/').get((req, res, next) => {
 })
 
 router.route('/login').post(
-    (req, res, next) => {
+    function(req, res, next) {
         console.log(req.body);
         console.log('');
         next()
     },
     passport.authenticate('local'),
     (req, res) => {
-        console.log('Logged In: ', req.user);
+        console.log('Logged In: ', req.user.local.username);
         const userData = {
-            username: req.user.username
+            username: req.user.local.username
         };
-        res.send(userData);
+        return res.json({user: userData});
     }
 )
 
 router.route('/logout').post((req, res) => {
     if(req.user) {
         req.logout();
-        res.send({ msg: 'Logged Out'});
+        return res.send({ msg: 'Logged Out'});
     } else {
-        res.send({msg: 'not available'});
+        return res.send({msg: 'not available'});
     }
 })
 
@@ -53,7 +53,7 @@ router.route('/signup').post( (req, res) => {
 
     User.findOne({ 'local.username': username }, (err, user) => {
         if(user) {
-            res.send({
+            return res.send({
                 error: 'User already exists.'
             });
         }

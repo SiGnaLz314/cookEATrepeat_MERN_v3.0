@@ -42,7 +42,7 @@ export default class Home extends Component {
             return (
                 <div>
                     <h3>cookEATrepeat Recipes</h3>
-                    <h1>Welcome {JSON.stringify(this.props.user.username)}!</h1>
+                    <h1>Welcome {this.props.user.username}!</h1>
                     <table className="table">
                         <tbody>
                             { this.recipeList() }
