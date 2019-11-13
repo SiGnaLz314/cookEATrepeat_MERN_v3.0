@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Recipe = props => (
     <tr>
         <td>
-            <a href={'/recipe/'+props.recipe._id}>
-                <img id='recipe_img' alt='Not Available' src={`../uploads/${props.recipe.imagepath}`}></img>
-            </a>
+            <Link to={'/recipe/'+props.recipe._id}>
+                <button>
+                    <img id='recipe_img' alt='Not Available' src={`../uploads/${props.recipe.imagepath}`}></img>
+                </button>
+            </Link>
         </td>
     </tr>
 )
