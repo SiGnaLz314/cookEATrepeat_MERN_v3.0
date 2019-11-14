@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const Recipe = props => (
+const RecipeDetail = props => (
     <tr>
         <td>{props.recipe.recipename}</td>
         <td>{props.recipe.animal}</td>
@@ -10,7 +10,7 @@ const Recipe = props => (
         <td>{props.recipe.instructions}</td>
         <td>{props.recipe.date.substring(0,10)}</td>
         <td>
-            <Link to={'/recipe/'+props.recipe._id}>
+            <Link to={'/recipe/'+props.recipe.recipe_id} >
                 <button>
                     <img id='recipe_img' alt='Not Available' src={`../uploads/${props.recipe.imagepath}`}></img>
                 </button>
@@ -31,23 +31,7 @@ export default class RecipesList extends Component {
     constructor(props) {
         super(props);
 
-        this.componentDidMount = this.componentDidMount.bind(this);
         this.deleteRecipe = this.deleteRecipe.bind(this);
-
-        this.state = {
-            recipes: [],
-            documents: []
-        };
-    }
-
-    componentDidMount() {
-        
-        axios.get('http://localhost:5000/recipes/')
-        .then(res => {
-            this.setState({
-                recipes: res.data
-            })
-        });
     }
 
     deleteRecipe(id) {
@@ -57,17 +41,15 @@ export default class RecipesList extends Component {
         ])
         .then(axios.spread((res1, res2) => {
             this.setState({
-                recipes: this.state.recipes.filter(el => el.recipe_id !== id),
-                documents: this.state.documents.filter(el => el.document_id !== id)
+                recipes: this.props.recipes.filter(el => el.recipe_id !== id),
             })
         }));
 
     }
 
-    recipeList(){
-
-        const rList = this.state.recipes.map(currentrecipe => {
-            return <Recipe recipe={currentrecipe} deleteRecipe={this.deleteRecipe} key={currentrecipe.recipe_id} />;
+    recipeDetail(){
+        const rList = this.props.recipes.map(currentrecipe => {
+            return <RecipeDetail recipe={currentrecipe} deleteRecipe={this.deleteRecipe} key={currentrecipe.recipe_id} />;
         }) 
         return rList;
     }
@@ -89,7 +71,7 @@ export default class RecipesList extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        { this.recipeList() }
+                        { this.recipeDetail() }
                     </tbody>
                 </table>
             </div>

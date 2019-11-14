@@ -24,28 +24,34 @@ class App extends Component {
 
         this.state = {
             loggedIn: false,
-            user: null
+            user: null,
+            recipes: [],
         }
     }
 
+
+
     componentDidMount() {
-        axios.get('http://localhost:5000/users/')
-            .then(response => {
-                console.log(response.data);
-                if (response.data.user) {
-                    console.log("User Found");
-                    this.setState({
-                        loggedIn: true,
-                        user: response.data.user
-                    });
-                } else {
-                    console.log("No User Found");
-                    this.setState({
-                        loggedIn: false,
-                        user: null
-                    });
-                }
-            })
+        // RECIPES & USER As PROPS of App
+        axios.all([
+            axios.get('http://localhost:5000/recipes/'),
+            axios.get('http://localhost:5000/users/')
+        ])
+        .then(axios.spread((resRecipe, resUser) => {
+            if (resUser.data.user) {
+                this.setState({
+                    loggedIn: true,
+                    user: resUser.data.user,
+                    recipes: resRecipe.data,
+                });
+            } else {
+                this.setState({
+                    loggedIn: false,
+                    user: null,
+                    recipes: resRecipe.data,
+                });
+            }
+        }))
     }
 
     _logout(event) {
@@ -83,20 +89,25 @@ class App extends Component {
                 <div className="container">
                     <Navbar _logout={this._logout} loggedIn={this.state.loggedIn} />
                     <br />
-                    <Route exact path="/"
-                        render={() =>
-                            <Home user={this.state.user} />}
+                    <Route exact path="/" render={() =>
+                        <Home 
+                            user={this.state.user}
+                            recipes={this.state.recipes}
+                        /> }
                     />
-                    <Route exact path="/login"
-                        render={() =>
-                            <Login
-                                _login={this._login}
-                                _googleSignin={this._googleSignin}
-                            />}
+                    <Route exact path="/login" render={() =>
+                        <Login
+                            _login={this._login}
+                            _googleSignin={this._googleSignin}
+                        />}
                     />
                     <Route exact path="/signup" component={SignUp} />
-                    <Route path="/recipes" component={RecipesList} />
-                    <Route path="/recipe/:id" component={RecipeDetail} />
+                    <Route path="/recipes" render={() =>
+                        <RecipesList recipes={this.state.recipes} /> }
+                    />
+                    <Route path="/recipe/:id" render={() =>
+                        <RecipeDetail recipes={this.state.recipes} /> }
+                    />
                     <Route path="/edit/:id" component={EditRecipe} />
                     <Route path="/create" component={CreateRecipe} />
                 </div>

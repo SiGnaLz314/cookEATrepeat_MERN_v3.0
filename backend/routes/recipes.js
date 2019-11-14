@@ -19,6 +19,9 @@ router.route('/add').post((req, res) => {
     const imagepath = req.body.imagepath;
     const date = Date.parse(req.body.date);
 
+    // FORMATTING FOR INPUT OF INSTRUCTIONS/INGREDIENTS
+    // NEED TO DECIDE ON FORMATTING STILL
+    //
     // ingredients = ingredients.split("\n");
     // instructions = instructions.split("\n");
 
@@ -51,7 +54,7 @@ router.route('/add').post((req, res) => {
 // Route: /Recipe/:id
 // GET Request
 router.route('/:id').get((req, res) => {
-    Recipe.findById(req.params.id)
+    Recipe.findOne({recipe_id: req.params.id})
         .then(recipe => res.json(recipe))
         .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -75,7 +78,9 @@ router.route('/update/:id').post((req, res) => {
             recipe.instructions = req.body.instructions;
             recipe.date = Date.parse(req.body.date);
 
-                    
+            // FORMATTING FOR INPUT OF INSTRUCTIONS/INGREDIENTS
+            // NEED TO DECIDE ON FORMATTING STILL
+            //
             // recipe.ingredients = recipe.ingredients.split("\n");
             // recipe.instructions = recipe.instructions.split("\n");
 

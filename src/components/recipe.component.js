@@ -1,6 +1,31 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import 'react-router';
 
+
+const Recipe = props => (
+    <>
+    <div className="row">
+        <h1>
+            {props.recipe.recipename}
+        </h1>
+    </div>
+    <div className="column">
+        <img id="recipe_detail_img" alt="Not Available" src={`../uploads/${props.recipe.imagepath}`}/>
+        <div>
+            <h3>Algorithm:</h3>
+            <div id="recipe_detail">
+                {props.recipe.instructions}
+            </div>
+        </div>
+    </div>
+    <div className="column">
+        <h3>Variables:</h3>
+        <div id="recipe_detail">
+            {props.recipe.ingredients}
+        </div>
+    </div>
+    </>
+)
 
 export default class RecipeDetail extends Component {
     constructor(props) {
@@ -9,56 +34,27 @@ export default class RecipeDetail extends Component {
         this.componentDidMount = this.componentDidMount.bind(this);
 
         this.state = {
-            recipename: '',
-            animal: '',
-            ingredients: '',
-            instructions: '',
-            imagepath: '',
-            date: new Date(),
+            recipe: [],
         }
     }
 
-    componentDidMount() {
-        axios.get('http://localhost:5000/recipes/'+this.props.match.params.id)
-            .then(response => {
-                this.setState({
-                recipename: response.data.recipename,
-                animal: response.data.animal,
-                ingredients: response.data.ingredients,
-                instructions: response.data.instructions,
-                imagepath: response.data.imagepath,
-                date: new Date(response.data.date)
-            })
-        })
-        .catch(function(error) {
-            console.log(error);
-        })
-    }
+     componentDidMount() {
+
+     }
     
+     recipe(){
+        const rList = this.props.recipes
+            .filter(recipe => recipe.recipe_id.toString() === window.location.pathname.substring(8))
+            .map((recipe) => {
+                return <Recipe recipe={recipe} deleteRecipe={this.deleteRecipe} key={recipe.recipe_id} />;
+            });
+        return rList;
+    }
 
     render() {
         return (
         <>
-        <h1>
-            {this.state.recipename}
-        </h1>
-        <div className="row">
-			<div className="column">
-            <img id="recipe_detail_img" alt="Not Available" src={`../uploads/${this.state.imagepath}`}/>
-				<div>
-					<h3>Algorithm:</h3>
-					<div id="recipe_detail">
-						{this.state.instructions}
-					</div>
-				</div>
-            </div>
-			<div className="column">
-				<h3>Variables:</h3>
-				<div id="recipe_detail">
-                    {this.state.ingredients}
-				</div>
-			</div>
-        </div>
+            {this.recipe()}
         </>
         )
     }

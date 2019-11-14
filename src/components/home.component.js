@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
-const Recipe = props => (
+const RecipeList = props => (
     <tr>
         <td>
-            <Link to={'/recipe/'+props.recipe._id}>
+            <Link to={'/recipe/'+props.recipe.recipe_id}>
                 <button>
                     <img id='recipe_img' alt='Not Available' src={`../uploads/${props.recipe.imagepath}`}></img>
                 </button>
@@ -17,26 +16,11 @@ const Recipe = props => (
 export default class Home extends Component {
     constructor(props) {
         super(props);
-
-        this.componentDidMount = this.componentDidMount.bind(this);
-
-        this.state = {
-            recipes: []
-        };
-    }
-
-    componentDidMount() {
-        axios.get('http://localhost:5000/recipes/')
-        .then(res => {
-            this.setState({
-                recipes: res.data
-            })
-        });
     }
 
     recipeList(){
-        return this.state.recipes.map(currentrecipe => {
-            return <Recipe recipe={currentrecipe} key={currentrecipe.recipe_id} />;
+        return this.props.recipes.map(currentrecipe => {
+            return <RecipeList recipe={currentrecipe} key={currentrecipe.recipe_id} />;
         })
     }
 

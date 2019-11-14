@@ -27,13 +27,13 @@ export default class EditRecipe extends Component {
 
     componentDidMount() {
         axios.get('http://localhost:5000/recipes/'+this.props.match.params.id)
-            .then(response => {
+            .then(res => {
                 this.setState({
-                recipename: response.data.recipename,
-                animal: response.data.animal,
-                ingredients: response.data.ingredients,
-                instructions: response.data.instructions,
-                date: new Date(response.data.date)
+                recipename: res.data.recipename,
+                animal: res.data.animal,
+                ingredients: res.data.ingredients,
+                instructions: res.data.instructions,
+                date: new Date(res.data.date)
             })
         })
         .catch(function(error) {
