@@ -14,9 +14,6 @@ const RecipeList = props => (
 )
 
 export default class Home extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     recipeList(){
         return this.props.recipes.map(currentrecipe => {

@@ -18,7 +18,7 @@ const RecipeDetail = props => (
         </td>
         <td>
             <button className="btn btn-primary col-1 col-mr-auto">
-                <Link to={"/edit/"+props.recipe._id}>edit</Link>
+                <Link to={"/edit/"+props.recipe.recipe_id}>edit</Link>
             </button>
             <button className="btn btn-primary col-1 col-mr-auto" href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}>
                 <Link to="#">delete</Link>
@@ -34,18 +34,29 @@ export default class RecipesList extends Component {
         this.deleteRecipe = this.deleteRecipe.bind(this);
     }
 
+    
     deleteRecipe(id) {
-        axios.all([
-            axios.delete('http://localhost:5000/recipes/'+id),
-            axios.delete('http://localhost:5000/fileUpload/'+id)
-        ])
-        .then(axios.spread((res1, res2) => {
+        axios.delete('http://localhost:5000/recipes/'+id)
+        .then((res) => {
             this.setState({
                 recipes: this.props.recipes.filter(el => el.recipe_id !== id),
             })
-        }));
+        });
 
     }
+    // REASON: Removing Document from DB
+    // deleteRecipe(id) {
+    //     axios.all([
+    //         axios.delete('http://localhost:5000/recipes/'+id),
+    //         axios.delete('http://localhost:5000/fileUpload/'+id)
+    //     ])
+    //     .then(axios.spread((res1, res2) => {
+    //         this.setState({
+    //             recipes: this.props.recipes.filter(el => el.recipe_id !== id),
+    //         })
+    //     }));
+
+    // }
 
     recipeDetail(){
         const rList = this.props.recipes.map(currentrecipe => {

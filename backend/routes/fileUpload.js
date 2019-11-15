@@ -7,22 +7,22 @@ var uploadDocuments = require("./uploadDocuments");
 const fs = require("fs");
 const path = require('path');
 
-// Get all Documents Routes
-router.route("/").get((req, res) => {
-  DOCUMENT.find()
-        .then(documents => res.json(documents))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
+// // Get all Documents Routes
+// router.route("/").get((req, res) => {
+//   DOCUMENT.find()
+//         .then(documents => res.json(documents))
+//         .catch(err => res.status(400).json('Error: ' + err));
+// });
 
-// Route to get a single existing GO data (needed for the Edit functionality)
-router.route("/:id").get((req, res, next) => {
-  DOCUMENT.findOne({ document_id: req.params.id }, (err, document) => {
-    if (err) {
-      return next(err);
-    }
-    res.json(document);
-  });
-});
+// // Route to get a single existing GO data (needed for the Edit functionality)
+// router.route("/:id").get((req, res, next) => {
+//   DOCUMENT.findOne({ document_id: req.params.id }, (err, document) => {
+//     if (err) {
+//       return next(err);
+//     }
+//     res.json(document);
+//   });
+// });
 
 // route to upload a pdf document file
 router.route('/upload').post((req, res) => {
@@ -33,19 +33,21 @@ router.route('/upload').post((req, res) => {
       if (req.file == undefined) {
         console.log("Error on File, no file was selected");
       } else {
-        var fullPath = req.file.filename;
-        var document = {
-          path: fullPath,
-          description: req.body.description
-        };
-        var newDocument = new DOCUMENT(document);
-        newDocument.save(function(error, newGo) {
-          if (error) {
-            throw error;
-          }
-          res.status(200)
-          // res.status(200).send(newGo);
-        });
+        // REASON: Removing Document.model from DB
+        // var fullPath = req.file.filename;
+        // var document = {
+        //   path: fullPath,
+        //   description: req.body.description
+        // };
+        // var newDocument = new DOCUMENT(document);
+        // newDocument.save(function(error, newGo) {
+        //   if (error) {
+        //     throw error;
+        //   }
+        //   res.status(200)
+        //   // res.status(200).send(newGo);
+        // });
+        res.status(200)
       }
     }
   });

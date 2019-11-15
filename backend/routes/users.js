@@ -66,9 +66,7 @@ router.route('/signup').post( (req, res) => {
                     return res.json(err)
 			    return res.json(savedUser)
 		    })
-            //.then(() => res.status(200))
-            // .then(() => res.json('Recipe Added!'))
-            //.catch(err => res.status(400).json('Error: ' + err));
+            .catch(err => res.status(400).json('Error: ' + err));
     })
 })
 

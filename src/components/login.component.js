@@ -8,7 +8,7 @@ export default class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            redirectTo: null
+            redirectTo: null,
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,7 +17,7 @@ export default class Login extends Component {
 
     handleChange(event) {
         this.setState({
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
         });
     }
 
@@ -26,7 +26,7 @@ export default class Login extends Component {
         console.log('Submit');
         this.props._login(this.state.username, this.state.password);
         this.setState({
-            redirectTo: '/'
+            redirectTo: '/',
         });
     }
 

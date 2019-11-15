@@ -64,6 +64,7 @@ class App extends Component {
                     loggedIn: false,
                     user: null
                 });
+                window.location = '/';
             }
         }).catch(error => {
             console.log('login error: ')
@@ -108,7 +109,9 @@ class App extends Component {
                     <Route path="/recipe/:id" render={() =>
                         <RecipeDetail recipes={this.state.recipes} /> }
                     />
-                    <Route path="/edit/:id" component={EditRecipe} />
+                    <Route path="/edit/:id" render={() => 
+                        <EditRecipe recipes={this.state.recipes} /> }
+                    />
                     <Route path="/create" component={CreateRecipe} />
                 </div>
             </Router >

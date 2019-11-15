@@ -7,10 +7,15 @@ A work in progress.
 - [x] Display static images
 - [x] Connect to Database to host recipe data
 - [x] Dynamically load recipe data and images
-- [x] Complete CRUD capabilities (Create, Read, Update, Delete)
-- [ ] Complete Authentication
+- [.] CRUD capabilities (Create, Read, Update, Delete)
+	- [ ] Refactor (Update, Delete) for stateless component
+- [.] Authentication
+	- [x] passport-local
+	- [ ] passport-jwt
+	- [ ] passport-google
 - [ ] Format and Validate Input (Images, Recipes, Users )
-- [ ] Testing
+	- [ ] Testing
+- [ ] Redux & Hooks Refactoring
 - [ ] Plant roses and paint the barn
 
 
