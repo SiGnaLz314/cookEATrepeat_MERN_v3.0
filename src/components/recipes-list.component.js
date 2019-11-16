@@ -17,11 +17,11 @@ const RecipeDetail = props => (
             </Link>
         </td>
         <td>
-            <button className="btn btn-primary col-1 col-mr-auto">
-                <Link to={"/edit/"+props.recipe.recipe_id}>edit</Link>
+            <button className="btn btn-outline-primary col-auto col-mr-auto">
+                <Link key={props.recipe.recipe_id} to={ `/edit/${props.recipe.recipe_id}`}>edit</Link>
             </button>
-            <button className="btn btn-primary col-1 col-mr-auto" href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}>
-                <Link to="#">delete</Link>
+            <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}>
+                <Link key={props.recipe.recipe_id} to="#">delete</Link>
             </button>
         </td>
     </tr>
@@ -60,7 +60,7 @@ export default class RecipesList extends Component {
 
     recipeDetail(){
         const rList = this.props.recipes.map(currentrecipe => {
-            return <RecipeDetail recipe={currentrecipe} deleteRecipe={this.deleteRecipe} key={currentrecipe.recipe_id} />;
+            return <RecipeDetail recipe={currentrecipe} location={this.props.location} deleteRecipe={this.deleteRecipe} key={currentrecipe.recipe_id} />;
         }) 
         return rList;
     }

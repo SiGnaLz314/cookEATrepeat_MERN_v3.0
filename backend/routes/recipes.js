@@ -70,36 +70,8 @@ router.route('/:id').delete((req, res) => {
 // Route: /Recipe/update/:id
 // POST Request
 router.route('/update/:id').post((req, res) => {
-    Recipe.findById(req.params.id)
-        .then(recipe => {
-            recipe.recipename = req.body.recipename;
-            recipe.animal = req.body.animal;
-            recipe.ingredients = req.body.ingredients;
-            recipe.instructions = req.body.instructions;
-            recipe.date = Date.parse(req.body.date);
-
-            // FORMATTING FOR INPUT OF INSTRUCTIONS/INGREDIENTS
-            // NEED TO DECIDE ON FORMATTING STILL
-            //
-            // recipe.ingredients = recipe.ingredients.split("\n");
-            // recipe.instructions = recipe.instructions.split("\n");
-
-            // for (var i = 0; i < recipe.ingredients.length; i++) {
-            //     recipe.ingredients[i] = recipe.ingredients[i].replace(/(?:\\[rn]|[\r\n]+)+/g, "");
-            //     recipe.ingredients[i] = "<li>" + recipe.ingredients[i] + "</li>";
-            // }
-            // for (var i = 0; i < recipe.instructions.length; i++) {
-            //     recipe.instructions[i] = recipe.instructions[i].replace(/(?:\\[rn]|[\r\n]+)+/g, "");
-            //     recipe.instructions[i] = "<li>" + recipe.instructions[i] + "</li>";
-            // }
-            // recipe.ingredients = recipe.ingredients.join('');
-            // recipe.instructions = recipe.instructions.join('');
-
-
-            recipe.save()
-                .then(() => res.json('Recipe Updated!'))
-                .catch(err => res.status(400).json('Error: '+ err));
-        })
+    Recipe.findOneAndUpdate({recipe_id: req.body.recipe_id}, req.body)
+        .then(() => res.json('Recipe Updated!'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 

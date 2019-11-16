@@ -8,37 +8,24 @@ export default class EditRecipe extends Component {
     constructor(props) {
         super(props);
 
-        this.componentDidMount = this.componentDidMount.bind(this);
+        var url = window.location.pathname;
+        var id = url.substring(url.lastIndexOf('/') + 1);
+        
         this.onChangeRecipename = this.onChangeRecipename.bind(this);
         this.onChangeAnimaltype = this.onChangeAnimaltype.bind(this);
         this.onChangeIngredients = this.onChangeIngredients.bind(this);
         this.onChangeInstructions = this.onChangeInstructions.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-
+        
         this.state = {
             recipename: '',
-            animal: '',
+            animal: 'beef',
             ingredients: '',
             instructions: '',
             date: new Date(),
+            recipe_id: id,
         }
-    }
-
-    componentDidMount() {
-        axios.get('http://localhost:5000/recipes/'+this.props.match.params.id)
-            .then(res => {
-                this.setState({
-                recipename: res.data.recipename,
-                animal: res.data.animal,
-                ingredients: res.data.ingredients,
-                instructions: res.data.instructions,
-                date: new Date(res.data.date)
-            })
-        })
-        .catch(function(error) {
-            console.log(error);
-        })
     }
 
     onChangeRecipename(e) {
@@ -77,13 +64,14 @@ export default class EditRecipe extends Component {
             animal: this.state.animal,
             ingredients: this.state.ingredients,
             instructions: this.state.instructions,
-            date: this.state.date
+            date: this.state.date,
+            recipe_id: this.state.recipe_id,
         }
 
-        console.log(recipe);
+        // console.log(recipe);
 
-        axios.post('http://localhost:5000/recipes/update/'+ this.props.match.params.id, recipe)
-            .then(res => console.log(res.data))
+        axios.post('http://localhost:5000/recipes/update/'+ recipe.recipe_id, recipe)
+            .then(res => console.log("EditRecipe Axios Post", res.data))
         
         window.location = '/';
     }

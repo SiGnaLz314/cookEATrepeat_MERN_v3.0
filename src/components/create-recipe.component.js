@@ -93,7 +93,7 @@ export default class CreateRecipe extends Component {
         const data = new FormData(e.target);
         data.append("file", this.state.selectedFile, this.state.description);
 
-        console.log(recipe);
+        // console.log(recipe);
         axios.all([
             axios.post('http://localhost:5000/recipes/add', recipe),
             axios.post(endpoint, data)
