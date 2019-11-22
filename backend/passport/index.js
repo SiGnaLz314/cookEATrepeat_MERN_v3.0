@@ -8,7 +8,9 @@ const User = require('../models/user.model');
 passport.serializeUser((user, done) => {
     console.log('Serializing user... ');
     console.log(user);
-    done(null, {_id: user._id});
+    // Passport Docs:
+    done(null, user.id);
+    // done(null, {_id: user._id});
 });
 
 passport.deserializeUser( (id, done) => {
@@ -17,7 +19,9 @@ passport.deserializeUser( (id, done) => {
         (err, user) => {
             console.log('Deserialized User: ');
             console.log(user);
-            done(null, user);
+            // Passport Docs:
+            done(err, user);
+            // done(null, user);
     });
 });
 

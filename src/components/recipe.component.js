@@ -44,11 +44,12 @@ export default class RecipeDetail extends Component {
     
      recipe(){
         const rList = this.props.recipes
-            .filter(recipe => recipe.recipe_id.toString() === window.location.pathname.substring(8))
-            .map((recipe) => {
-                return <Recipe recipe={recipe} deleteRecipe={this.deleteRecipe} key={recipe.recipe_id} />;
-            });
-        return rList;
+        if(rList.length > 0){
+            const recipe = rList.find(el => el.recipe_id.toString() === window.location.pathname.substring(8));
+            return <Recipe recipe={recipe} deleteRecipe={this.deleteRecipe} key={recipe.recipe_id} />;
+        } else {
+            window.location = '/';
+        }
     }
 
     render() {

@@ -8,8 +8,8 @@ export default class EditRecipe extends Component {
     constructor(props) {
         super(props);
 
-        var url = window.location.pathname;
-        var id = url.substring(url.lastIndexOf('/') + 1);
+        let url = window.location.pathname;
+        let id = url.substring(url.lastIndexOf('/') + 1);
         
         this.onChangeRecipename = this.onChangeRecipename.bind(this);
         this.onChangeAnimaltype = this.onChangeAnimaltype.bind(this);

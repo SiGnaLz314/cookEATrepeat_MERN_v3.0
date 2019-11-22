@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const DOCUMENT = require("../models/upload.model");
-var uploadDocuments = require("./uploadDocuments");
+const uploadDocuments = require("./uploadDocuments");
 const fs = require("fs");
 const path = require('path');
 
@@ -34,12 +34,12 @@ router.route('/upload').post((req, res) => {
         console.log("Error on File, no file was selected");
       } else {
         // REASON: Removing Document.model from DB
-        // var fullPath = req.file.filename;
-        // var document = {
+        // let fullPath = req.file.filename;
+        // let document = {
         //   path: fullPath,
         //   description: req.body.description
         // };
-        // var newDocument = new DOCUMENT(document);
+        // let newDocument = new DOCUMENT(document);
         // newDocument.save(function(error, newGo) {
         //   if (error) {
         //     throw error;
@@ -76,7 +76,7 @@ router.route("/:id").delete((req, res, next) => {
       return next(err);
     }
     // Now delete the file from the disk storage
-    var target_path = path.join(__dirname, '../../public/uploads/') + result.path;
+    let target_path = path.join(__dirname, '../../public/uploads/') + result.path;
 
     fs.unlink(target_path, function() {
       res.send({

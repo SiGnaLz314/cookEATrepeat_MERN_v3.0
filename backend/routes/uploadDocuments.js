@@ -13,7 +13,7 @@ const storageEngine = multer.diskStorage({
   }
 });
 
-var validateFile = function(file, cb) {
+const validateFile = function(file, cb) {
   allowedFileTypes = /jpeg|jpg|png|gif|pdf/;
   const extension = allowedFileTypes.test(
     path.extname(file.originalname).toLowerCase()

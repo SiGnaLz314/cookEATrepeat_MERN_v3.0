@@ -14,8 +14,8 @@ router.route('/').get((req, res) => {
 router.route('/add').post((req, res) => {
     const recipename = req.body.recipename;
     const animal = req.body.animal;
-    var ingredients = req.body.ingredients;
-    var instructions = req.body.instructions;
+    let ingredients = req.body.ingredients;
+    let instructions = req.body.instructions;
     const imagepath = req.body.imagepath;
     const date = Date.parse(req.body.date);
 
@@ -25,11 +25,11 @@ router.route('/add').post((req, res) => {
     // ingredients = ingredients.split("\n");
     // instructions = instructions.split("\n");
 
-    // for (var i = 0; i < ingredients.length; i++) {
+    // for (let i = 0; i < ingredients.length; i++) {
     //     ingredients[i] = ingredients[i].replace(/(?:\\[rn]|[\r\n]+)+/g, "");
     //     ingredients[i] = "<li>" + ingredients[i] + "</li>";
     // }
-    // for (var i = 0; i < instructions.length; i++) {
+    // for (let i = 0; i < instructions.length; i++) {
     //     instructions[i] = instructions[i].replace(/(?:\\[rn]|[\r\n]+)+/g, "");
     //     instructions[i] = "<li>" + instructions[i] + "</li>";
     // }

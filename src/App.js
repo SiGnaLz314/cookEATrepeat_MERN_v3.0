@@ -57,19 +57,19 @@ class App extends Component {
     _logout(event) {
         event.preventDefault();
         console.log('Logging Out...');
-        axios.post('http://localhost:5000/users/logout').then(res => {
-            console.log(res.data);
-            if (res.status === 200) {
-                this.setState({
-                    loggedIn: false,
-                    user: null
-                });
-                window.location = '/';
-            }
-        }).catch(error => {
-            console.log('login error: ')
-            console.log(error);
-        })
+        axios.post('http://localhost:5000/users/logout')
+            .then(res => {
+                console.log(res.data);
+                if (res.status === 200) {
+                    this.setState({
+                        loggedIn: false,
+                        user: null
+                    });
+            }})
+            .catch(error => {
+                console.log('logout error: ')
+                console.log(error);
+            })
     }
 
     _login(username, password) {

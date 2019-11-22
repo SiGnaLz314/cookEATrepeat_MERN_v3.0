@@ -23,10 +23,12 @@ export default class Home extends Component {
 
     render() {
         if(this.props.user){
+                let userName = this.props.user.username;
+                userName = userName.substring(0, userName.indexOf('@'));
             return (
                 <div>
                     <h3>cookEATrepeat Recipes</h3>
-                    <h1>Welcome {this.props.user.username}!</h1>
+                    <h1>Welcome {userName}!</h1>
                     <table className="table">
                         <tbody>
                             { this.recipeList() }

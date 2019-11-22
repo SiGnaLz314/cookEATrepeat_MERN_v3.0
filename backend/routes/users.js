@@ -14,8 +14,6 @@ router.route('/google/callback').get(
 )
 
 router.route('/').get((req, res, next) => {
-    console.log('USER:');
-    console.log(req.user);
     if(req.user){
         return res.json({ user: req.user });
     } else {
@@ -25,8 +23,6 @@ router.route('/').get((req, res, next) => {
 
 router.route('/login').post(
     function(req, res, next) {
-        console.log(req.body);
-        console.log('');
         next()
     },
     passport.authenticate('local'),
@@ -40,9 +36,13 @@ router.route('/login').post(
 )
 
 router.route('/logout').post((req, res) => {
+    // Passport Docs:
+    // req.logout();
+    // res.redirect('/');
+    // This Works Though
     if(req.user) {
         req.logout();
-        return res.send({ msg: 'Logged Out'});
+        res.redirect('/');
     } else {
         return res.send({msg: 'not available'});
     }
