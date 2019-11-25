@@ -52,6 +52,10 @@ class App extends Component {
                 });
             }
         }))
+        .catch(error => {
+            console.log('load error: ')
+            console.log(error);
+        })
     }
 
     _logout(event) {
@@ -82,6 +86,10 @@ class App extends Component {
                         user: res.data.user
                     });
                 }
+            })
+            .catch(error => {
+                console.log('login error: ')
+                console.log(error);
             })
     }
     render() {

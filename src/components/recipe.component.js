@@ -48,7 +48,7 @@ export default class RecipeDetail extends Component {
             const recipe = rList.find(el => el.recipe_id.toString() === window.location.pathname.substring(8));
             return <Recipe recipe={recipe} deleteRecipe={this.deleteRecipe} key={recipe.recipe_id} />;
         } else {
-            window.location = '/';
+            this.props.history.push('/');
         }
     }
 

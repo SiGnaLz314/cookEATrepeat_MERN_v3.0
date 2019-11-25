@@ -93,16 +93,14 @@ export default class CreateRecipe extends Component {
         const data = new FormData(e.target);
         data.append("file", this.state.selectedFile, this.state.description);
 
-        // console.log(recipe);
         axios.all([
             axios.post('http://localhost:5000/recipes/add', recipe),
             axios.post(endpoint, data)
         ])
             .then(axios.spread((res1, res2) => {
                 console.log(res1.data);
-                //console.log(res2.data);
             }))
-            .then(window.location = '/');
+            .then(this.props.history.push("/"));
     }
     render() {
         return (
@@ -128,6 +126,7 @@ export default class CreateRecipe extends Component {
                             <option value="beef">Beef</option>
                             <option value="chicken">Chicken</option>
                             <option value="dessert">Dessert</option>
+                            <option value="lamb">Lamb</option>
                             <option value="pork">Pork</option>
                             <option value="seafood">Seafood</option>
                         </select>

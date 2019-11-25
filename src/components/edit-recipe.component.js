@@ -71,9 +71,10 @@ export default class EditRecipe extends Component {
         // console.log(recipe);
 
         axios.post('http://localhost:5000/recipes/update/'+ recipe.recipe_id, recipe)
-            .then(res => console.log("EditRecipe Axios Post", res.data))
-        
-        window.location = '/';
+            .then(res => {
+                console.log("EditRecipe Axios Post", res.data);
+                this.props.history.push('/');
+            })
     }
     render() {
         return (

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -9,7 +8,6 @@ export default class SignUp extends Component {
             username: '',
             password: '',
             confirmPassword: '',
-            redirectTo: null
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -37,9 +35,7 @@ export default class SignUp extends Component {
             console.log(res);
             if(!res.data.errmsg) {
                 console.log('Success!');
-                this.setState({
-                    redirectTo: '/login'
-                })
+                this.props.history.push("/login");
             } else {
                 console.log('Error Signing Up. User already exists with that username');
             }
@@ -49,9 +45,6 @@ export default class SignUp extends Component {
     }
 
     render() {
-        if(this.state.redirectTo) {
-            return <Redirect to={{pathname: this.state.redirectTo}} />
-        }
         return(
             <div className="SignupForm">
                 <h1>Signup for access to cookEATrepeat</h1>
