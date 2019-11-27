@@ -79,7 +79,6 @@ class App extends Component {
     _login(username, password) {
         axios.post('http://localhost:5000/users/login', { username, password })
             .then(res => {
-                console.log(res);
                 if (res.status === 200) {
                     this.setState({
                         loggedIn: true,

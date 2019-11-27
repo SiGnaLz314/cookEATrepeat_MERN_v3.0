@@ -7,24 +7,8 @@ const uploadDocuments = require("./uploadDocuments");
 const fs = require("fs");
 const path = require('path');
 
-// // Get all Documents Routes
-// router.route("/").get((req, res) => {
-//   DOCUMENT.find()
-//         .then(documents => res.json(documents))
-//         .catch(err => res.status(400).json('Error: ' + err));
-// });
 
-// // Route to get a single existing GO data (needed for the Edit functionality)
-// router.route("/:id").get((req, res, next) => {
-//   DOCUMENT.findOne({ document_id: req.params.id }, (err, document) => {
-//     if (err) {
-//       return next(err);
-//     }
-//     res.json(document);
-//   });
-// });
-
-// route to upload a pdf document file
+// route to upload a document(Image)
 router.route('/upload').post((req, res) => {
   uploadDocuments(req, res, error => {
     if (error) {
@@ -33,21 +17,11 @@ router.route('/upload').post((req, res) => {
       if (req.file == undefined) {
         console.log("Error on File, no file was selected");
       } else {
-        // REASON: Removing Document.model from DB
-        // let fullPath = req.file.filename;
-        // let document = {
-        //   path: fullPath,
-        //   description: req.body.description
-        // };
-        // let newDocument = new DOCUMENT(document);
-        // newDocument.save(function(error, newGo) {
-        //   if (error) {
-        //     throw error;
-        //   }
-        //   res.status(200)
-        //   // res.status(200).send(newGo);
-        // });
-        res.status(200)
+        res.send({
+          status: "200",
+          responseType: "string",
+          response: "success"
+        });
       }
     }
   });

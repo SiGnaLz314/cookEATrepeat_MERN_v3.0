@@ -100,6 +100,9 @@ export default class CreateRecipe extends Component {
             .then(axios.spread((res1, res2) => {
                 console.log(res1.data);
             }))
+            .catch(error =>{
+                console.log("Error Adding Recipe", error);
+            })
             .then(this.props.history.push("/"));
     }
     render() {

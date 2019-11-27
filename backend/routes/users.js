@@ -15,6 +15,7 @@ router.route('/google/callback').get(
 
 router.route('/').get((req, res, next) => {
     if(req.user){
+        // console.log(req.sessionID);
         return res.json({ user: req.user });
     } else {
         return res.json({ user: null });

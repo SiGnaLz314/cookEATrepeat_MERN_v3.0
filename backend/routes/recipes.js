@@ -1,4 +1,5 @@
 const router = require('express').Router();
+
 let Recipe = require('../models/recipe.model');
 
 // Route: /Recipe/
@@ -46,9 +47,14 @@ router.route('/add').post((req, res) => {
     });
 
     newRecipe.save()
-        .then(() => res.status(200));
-        // .then(() => res.json('Recipe Added!'))
-        // .catch(err => res.status(400).json('Error: ' + err));
+        .then(() => 
+            res.send({
+                status: "200",
+                responseType: "string",
+                response: "success"
+            })
+          )
+        .catch(err => res.status(400).json('Error: ' + err));
 });
 
 // Route: /Recipe/:id
