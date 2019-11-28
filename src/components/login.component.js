@@ -41,26 +41,30 @@ export default class Login extends Component {
                 <div className="LoginForm">
                     <h1>Login</h1>
                     <form>
+                    <div className="form-group">
                         <label htmlFor="username">Username: </label>
                         <input type="text"
                             name="username"
                             value={this.state.username}
                             onChange={this.handleChange}
                         />
+                        </div>
+                        <div className="form-group">
                         <label htmlFor="password">Password: </label>
                         <input type="password"
                             name="password"
                             value={this.state.password}
                             onChange={this.handleChange}
                         />
+                        </div>
                         <button className="btn btn-primary col-1 col-mr-auto" onClick={this.handleSubmit}>
                             Login
                         </button>
+                        <a href="/users/google">
+                            {/* <GoogleButton /> */}
+                            <img src={googleButton} alt="sign into Google Button" />
+    					</a>
                     </form>
-                    <a href="/users/google">
-						{/* <GoogleButton /> */}
-						<img src={googleButton} alt="sign into Google Button" />
-					</a>
                 </div>
             )
         }
