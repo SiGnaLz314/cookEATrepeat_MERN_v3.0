@@ -47,12 +47,18 @@ export default class Navbar extends Component {
                     <li className="navbar-item">
                         <Link to="/recipes" className="nav-link">Recipes</Link>
                     </li>
-                    {this.props.loggedIn ? (
+                    
                     <li className="navbar-item">
-                        <Link to="/create" className="nav-link">Create Recipe</Link>
+                        <Link to="/profiles" className="nav-link">Profiles</Link>
                     </li>
-                        ) : (
-                    <></>
+                    {this.props.loggedIn ? (
+                        <>
+                            <li className="navbar-item">
+                                <Link to="/create" className="nav-link">Create Recipe</Link>
+                            </li>
+                        </>
+                    ) : (
+                        <></>
                     )}
                 </ul>
                 <UserLinks _logout={this.props._logout} loggedIn={this.props.loggedIn} />

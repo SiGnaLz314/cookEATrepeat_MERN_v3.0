@@ -36,7 +36,7 @@ export default class RecipesList extends Component {
 
     
     deleteRecipe(id) {
-        axios.delete('http://localhost:5000/recipes/'+id)
+        axios.delete('http://localhost:5000/recipes/delete'+id)
         .then((res) => {
             this.setState({
                 recipes: this.props.recipes.filter(el => el.recipe_id !== id),
@@ -44,20 +44,7 @@ export default class RecipesList extends Component {
         });
 
     }
-    // REASON: Removing Document from DB
-    // deleteRecipe(id) {
-    //     axios.all([
-    //         axios.delete('http://localhost:5000/recipes/'+id),
-    //         axios.delete('http://localhost:5000/fileUpload/'+id)
-    //     ])
-    //     .then(axios.spread((res1, res2) => {
-    //         this.setState({
-    //             recipes: this.props.recipes.filter(el => el.recipe_id !== id),
-    //         })
-    //     }));
-
-    // }
-
+    
     recipeDetail(){
         const rList = this.props.recipes.map(currentrecipe => {
             return <RecipeDetail recipe={currentrecipe} location={this.props.location} deleteRecipe={this.deleteRecipe} key={currentrecipe.recipe_id} />;

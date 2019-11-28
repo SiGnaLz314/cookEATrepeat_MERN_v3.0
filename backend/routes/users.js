@@ -29,10 +29,7 @@ router.route('/login').post(
     passport.authenticate('local'),
     (req, res) => {
         console.log('Logged In: ', req.user.local.username);
-        const userData = {
-            username: req.user.local.username
-        };
-        return res.json({user: userData});
+        return res.json({user: req.user.local.username});
     }
 )
 
@@ -45,7 +42,7 @@ router.route('/logout').post((req, res) => {
         req.logout();
         res.redirect('/');
     } else {
-        return res.send({msg: 'not available'});
+        return res.json({message: 'Logged Out'});
     }
 })
 

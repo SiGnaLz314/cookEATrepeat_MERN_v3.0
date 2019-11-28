@@ -23,7 +23,7 @@ export default class Home extends Component {
 
     render() {
         if(this.props.user){
-                let userName = this.props.user.username;
+                let userName = this.props.user;
                 userName = userName.substring(0, userName.indexOf('@'));
             return (
                 <div>

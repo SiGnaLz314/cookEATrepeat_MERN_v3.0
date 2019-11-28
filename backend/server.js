@@ -49,15 +49,15 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session()); // Calls deserializer
 
-const authRouter = require('./routes/users');
+const adminRouter = require('./routes/admin');
 const recipesRouter = require('./routes/recipes');
 const usersRouter = require('./routes/users');
-const uploadRouter = require('./routes/fileUpload');
+const uploadRouter = require('./routes/upload');
 
-app.use('/users', authRouter);
+app.use('/profiles', adminRouter);
 app.use('/recipes', recipesRouter);
 app.use('/users', usersRouter);
-app.use('/fileUpload', uploadRouter);
+app.use('/upload', uploadRouter);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

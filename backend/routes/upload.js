@@ -9,7 +9,7 @@ const path = require('path');
 
 
 // route to upload a document(Image)
-router.route('/upload').post((req, res) => {
+router.route('/image').post((req, res) => {
   uploadDocuments(req, res, error => {
     if (error) {
       console.log("Error after Routing, please try again !!");

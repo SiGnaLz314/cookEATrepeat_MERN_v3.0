@@ -7,21 +7,21 @@ const User = require('../models/user.model');
 // User Serialization for persistent Login Sessions
 passport.serializeUser((user, done) => {
     console.log('Serializing user... ');
-    console.log(user);
-    // Passport Docs:
-    done(null, user.id);
-    // done(null, {_id: user._id});
+    console.log(user._id);
+    done(null, user._id);
 });
 
 passport.deserializeUser( (id, done) => {
     console.log('Deserializing user... ')
     User.findById(id, 
         (err, user) => {
+            if(err){
+                console.log(err);
+                done(err);
+            }
             console.log('Deserialized User: ');
             console.log(user);
-            // Passport Docs:
-            done(err, user);
-            // done(null, user);
+            done(null, user);
     });
 });
 

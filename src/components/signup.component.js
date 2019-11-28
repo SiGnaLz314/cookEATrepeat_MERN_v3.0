@@ -31,14 +31,16 @@ export default class SignUp extends Component {
         axios.post('http://localhost:5000/users/signup', {
             username: this.state.username,
             password: this.state.password
-        }).then(res => {
-            if(!res.data.errmsg) {
+        })
+        .then(res => {
+            if(!res.data.error) {
                 console.log('Success!');
                 this.props.history.push("/login");
             } else {
-                console.log('Error Signing Up. User already exists with that username');
+                alert(res.data.error);
             }
-        }).catch(error =>{
+        })
+        .catch(error =>{
             console.log("Error Signing up ", error);
         })
     }

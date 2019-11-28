@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import axios from 'axios';
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -13,6 +13,18 @@ import RecipesList from "./components/recipes-list.component";
 import RecipeDetail from "./components/recipe.component";
 import EditRecipe from "./components/edit-recipe.component";
 import CreateRecipe from "./components/create-recipe.component";
+import Profile from "./components/profiles.component";
+
+const AuthRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={(props) => (
+      rest.loggedIn === true
+        ? <Component {...props} />
+        : <Redirect to={{
+            pathname: '/login',
+            state: { from: props.location}
+        }} />
+    )} />
+)
 
 class App extends Component {
     constructor() {
@@ -57,6 +69,8 @@ class App extends Component {
             console.log(error);
         })
     }
+    
+
 
     _logout(event) {
         event.preventDefault();
@@ -69,6 +83,7 @@ class App extends Component {
                         loggedIn: false,
                         user: null
                     });
+                    window.location = '/';
             }})
             .catch(error => {
                 console.log('logout error: ')
@@ -120,6 +135,7 @@ class App extends Component {
                         <EditRecipe recipes={this.state.recipes} /> }
                     />
                     <Route path="/create" component={CreateRecipe} />
+                    <AuthRoute path="/profiles" loggedIn={this.state.loggedIn} component={Profile} />
                 </div>
             </Router >
         );

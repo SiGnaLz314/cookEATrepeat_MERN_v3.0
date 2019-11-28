@@ -8,7 +8,7 @@ export default class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            redirectTo: null,
+            redirectTo: false,
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,13 +26,16 @@ export default class Login extends Component {
         console.log('Submit');
         this.props._login(this.state.username, this.state.password);
         this.setState({
-            redirectTo: '/',
+            redirectTo: true,
         });
     }
 
     render(){
-        if(this.state.redirectTo) {
-            return <Redirect to={{pathname: this.state.redirectTo}} />
+        const {from} = this.props.location || {from: {pathname: '/'}};
+        const { redirectTo } = this.state;
+
+        if(redirectTo === true) {
+            return <Redirect to={from} />
         } else {
             return (
                 <div className="LoginForm">

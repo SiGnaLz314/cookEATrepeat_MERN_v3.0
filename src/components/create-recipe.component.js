@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 
-const endpoint = "http://localhost:5000/fileUpload/upload/";
+const endpoint = "http://localhost:5000/upload/image/";
 
 export default class CreateRecipe extends Component {
     constructor(props) {
