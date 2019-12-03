@@ -43,8 +43,12 @@ app.use(
 		secret: process.env.SECRET_KEY, //pick a random string to make the hash that is generated secure
 		store: new MongoStore({ mongooseConnection: connection }),
 		resave: false, //required
-		saveUninitialized: false //required
-	})
+		saveUninitialized: false, //required
+        cookie: { 
+            secure: false,
+        },
+        key:'connect.sid' 
+    })
 )
 app.use(passport.initialize());
 app.use(passport.session()); // Calls deserializer

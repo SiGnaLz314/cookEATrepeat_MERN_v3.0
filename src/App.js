@@ -77,7 +77,8 @@ class App extends Component {
         console.log('Logging Out...');
         axios.post('http://localhost:5000/users/logout')
             .then(res => {
-                console.log(res.data);
+                console.log("APP Logout: res", res);
+                console.log("APP Logout: res.data", res.data);
                 if (res.status === 200) {
                     this.setState({
                         loggedIn: false,
@@ -94,6 +95,8 @@ class App extends Component {
     _login(username, password) {
         axios.post('http://localhost:5000/users/login', { username, password })
             .then(res => {
+                console.log("APP Login: res", res);
+                console.log("APP Login: res.data", res.data);
                 if (res.status === 200) {
                     this.setState({
                         loggedIn: true,
@@ -131,10 +134,8 @@ class App extends Component {
                     <Route path="/recipe/:id" render={() =>
                         <RecipeDetail recipes={this.state.recipes} /> }
                     />
-                    <Route path="/edit/:id" render={() => 
-                        <EditRecipe recipes={this.state.recipes} /> }
-                    />
-                    <Route path="/create" component={CreateRecipe} />
+                    <AuthRoute path="/edit/:id" loggedIn={this.state.loggedIn} recipes={this.state.recipes} component={EditRecipe} />
+                    <AuthRoute path="/create" loggedIn={this.state.loggedIn} component={CreateRecipe} />
                     <AuthRoute path="/profiles" loggedIn={this.state.loggedIn} component={Profile} />
                 </div>
             </Router >

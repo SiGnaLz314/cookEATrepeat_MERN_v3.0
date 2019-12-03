@@ -5,6 +5,9 @@ let Recipe = require('../models/recipe.model');
 // Route: /Recipe/
 // GET Request
 router.route('/').get((req, res) => {
+    console.log("Recipe Request Session ID: ", req.sessionID);
+    console.log("Recipe Request Session: ", req.session);
+    console.log("Recipe Request _passport: ", req._passport);
     Recipe.find()
         .then(recipes => res.json(recipes))
         .catch(err => res.status(400).json('Error: ' + err));
@@ -60,6 +63,7 @@ router.route('/add').post((req, res) => {
 // Route: /Recipe/:id
 // GET Request
 router.route('/:id').get((req, res) => {
+    console.log("Recipe ID GET Request: ", req);
     Recipe.findOne({recipe_id: req.params.id})
         .then(recipe => res.json(recipe))
         .catch(err => res.status(400).json('Error: ' + err));
@@ -76,6 +80,7 @@ router.route('/delete/:id').delete((req, res) => {
 // Route: /Recipe/update/:id
 // POST Request
 router.route('/update/:id').post((req, res) => {
+    console.log("Recipe Update POST Request: ", req);
     Recipe.findOneAndUpdate({recipe_id: req.body.recipe_id}, req.body)
         .then(() => res.json('Recipe Updated!'))
         .catch(err => res.status(400).json('Error: ' + err));

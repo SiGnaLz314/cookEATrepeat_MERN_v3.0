@@ -22,16 +22,46 @@ router.route('/').get((req, res, next) => {
     }
 })
 
+//PRODUCTION CODE:
+// router.route('/login').post(
+//     function(req, res, next) {
+//         next()
+//     },
+//     passport.authenticate('local'),
+//     (req, res) => {
+//         console.log('Logged In: ', req.user.local.username);
+//         return res.json({user: req.user.local.username});
+//     }
+// )
+
+//DEBUGGING CUSTOM ROUTE:
 router.route('/login').post(
-    function(req, res, next) {
-        next()
+    function (req, res, next) {
+        // call passport authentication passing the "local" strategy name and a callback function
+        passport.authenticate('local', function (error, user, info) {
+          // this will execute in any case, even if a passport strategy will find an error
+          // log everything to console
+        console.log("USERS /login: error", error);
+        console.log("USERS /login: user", user);
+        console.log("USERS /login: info", info);
+    
+        if (error) {
+            res.status(401).send(error);
+        } else if (!user) {
+            res.status(401).send(info);
+        } else {
+            next();
+        }
+    
+            res.status(401).send(info);
+        })(req, res);
     },
-    passport.authenticate('local'),
-    (req, res) => {
-        console.log('Logged In: ', req.user.local.username);
-        return res.json({user: req.user.local.username});
+      // function to call once successfully authenticated
+    function (req, res) {
+        res.status(200).send('Logged in!');
     }
-)
+);
+
 
 router.route('/logout').post((req, res) => {
     // Passport Docs:
