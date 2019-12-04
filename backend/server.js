@@ -10,7 +10,6 @@ const MongoStore = require('connect-mongo')(session);
 const port = process.env.PORT || 5000;
 
 // MIDDLEWARE
-app.use(cors());
 app.use(express.json());
 app.use(express.static('uploads'));
 app.use(express.urlencoded({ extended: true }));
@@ -52,6 +51,16 @@ app.use(
 )
 app.use(passport.initialize());
 app.use(passport.session()); // Calls deserializer
+app.all('*', function (req, res, next) {
+    console.log("********")
+    console.log("All Routes session:", req.session);
+    console.log("********")
+    console.log("All Routes sessionID:", req.sessionID);
+    console.log('')
+    console.log('')
+    next(); // pass control to the next handler
+  });
+app.use(cors());
 
 const adminRouter = require('./routes/admin');
 const recipesRouter = require('./routes/recipes');

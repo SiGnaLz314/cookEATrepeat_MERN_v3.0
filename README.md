@@ -1,5 +1,5 @@
 # cookEATrepeat
-A web app to present my recipes, cooking tips, and suggestioned preperation techniques.
+A web app to present my recipes, cooking tips, and suggested preperation techniques.
 A work in progress.
 
 
