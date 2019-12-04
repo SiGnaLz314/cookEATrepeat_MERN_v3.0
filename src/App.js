@@ -15,6 +15,13 @@ import EditRecipe from "./components/edit-recipe.component";
 import CreateRecipe from "./components/create-recipe.component";
 import Profile from "./components/profiles.component";
 
+/**
+ * AuthRoute: Protect Routes.
+ * Unauthorized Users will be Redirected to /login Page.
+ * 
+ * @param component Protected Component
+ * @param [...rest] Additional Props to be passed to the Component
+ */
 const AuthRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
       rest.loggedIn === true
@@ -26,6 +33,16 @@ const AuthRoute = ({ component: Component, ...rest }) => (
     )} />
 )
 
+/**
+ * App: Atrium of the application.
+ * 
+ * Handles main data queries and authentication.
+ * 
+ * @listens event: login()
+ * @listens event: logout()
+ * 
+ * @returns {render()} Routes with necessary props passed.
+ */
 class App extends Component {
     constructor() {
         super();
@@ -44,7 +61,7 @@ class App extends Component {
 
 
     componentDidMount() {
-        // RECIPES & USER As PROPS of App
+        // RECIPES & USER Passed down to components as PROPS of App
         axios.all([
             axios.get('http://localhost:5000/recipes/'),
             axios.get('http://localhost:5000/users/')

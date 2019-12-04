@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import googleButton from '../stylesheets/google/btn_google_signin_dark_normal_web.png';
 
+/**
+ * Login: Handle user input and interaction on Login
+ * 
+ * @fires event:this.props_login()
+ * 
+ * @param {string} username
+ * @param {string} password
+ * @param {boolean} redirectTo
+ * 
+ * @returns Login Component, redirects user to location login was called from.
+ */
 export default class Login extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +31,11 @@ export default class Login extends Component {
             [event.target.name]: event.target.value,
         });
     }
-
+    /**
+     * handleSumbit: Passes User info to props._login (method of App Component)
+     * 
+     * @param {*} event makes call to App Method _login(username, password)
+     */
     handleSubmit(event) {
         event.preventDefault();
         console.log('Submit');

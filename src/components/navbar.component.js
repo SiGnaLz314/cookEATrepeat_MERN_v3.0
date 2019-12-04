@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * UserLinks: Displays DOM elements in NavBar based on loggedIn
+ * 
+ * @param {*} props loggedIn (boolean) _logout (App method)
+ * 
+ * @returns {DOM elements} Login and Signup, or Logout
+ */
 const UserLinks = props => {
 	if (props.loggedIn) {
 		return (

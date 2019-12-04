@@ -6,17 +6,22 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const endpoint = "http://localhost:5000/upload/image/";
 
+
+/**
+ * CreateRecipe: Component to assist in adding a new recipe to the database.
+ * 
+ * File and Form are handled seperately.
+ * 
+ * @fires event:handleSelectedFile 
+ * @fires event:onSubmit Sends File as FormData and User info as Object.
+ * 
+ */
 export default class CreateRecipe extends Component {
     constructor(props) {
         super(props);
 
-        this.onChangeRecipename = this.onChangeRecipename.bind(this);
-        this.onChangeAnimaltype = this.onChangeAnimaltype.bind(this);
-        this.onChangeIngredients = this.onChangeIngredients.bind(this);
-        this.onChangeInstructions = this.onChangeInstructions.bind(this);
-        this.onChangeDate = this.onChangeDate.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleSelectedFile = this.handleSelectedFile.bind(this);
-        this.onChangeFile = this.onChangeFile.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -32,6 +37,12 @@ export default class CreateRecipe extends Component {
         }
     }
 
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
+
 
     handleSelectedFile(e) {
         e.preventDefault();
@@ -42,41 +53,6 @@ export default class CreateRecipe extends Component {
             image: URL.createObjectURL(e.target.files[0])
         });
     };
-
-    onChangeFile(e) {
-        this.setState({
-            description: e.target.value
-        });
-    };
-
-
-    onChangeRecipename(e) {
-        this.setState({
-            recipename: e.target.value
-        });
-    }
-
-    onChangeAnimaltype(e) {
-        this.setState({
-            animal: e.target.value
-        });
-    }
-
-    onChangeIngredients(e) {
-        this.setState({
-            ingredients: e.target.value
-        });
-    }
-    onChangeInstructions(e) {
-        this.setState({
-            instructions: e.target.value
-        });
-    }
-    onChangeDate(date) {
-        this.setState({
-            date: date
-        });
-    }
 
     onSubmit(e) {
         e.preventDefault();
@@ -111,21 +87,23 @@ export default class CreateRecipe extends Component {
                 <h3>Create Recipe</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <label>Recipe Name:</label>
+                        <label htmlFor="recipename">Recipe Name:</label>
                         <input type="text"
                             required
+                            name="recipename"
                             className="form-control"
                             value={this.state.recipename}
-                            onChange={this.onChangeRecipename}
+                            onChange={this.handleChange}
                         />
                     </div>
                     <div className="form-group">
-                        <label>Animal Type:</label>
+                        <label htmlFor="animal">Animal Type:</label>
                         <select ref="userInput"
                             required
+                            name="animal"
                             className="form-control"
                             value={this.state.animal}
-                            onChange={this.onChangeAnimaltype}>
+                            onChange={this.handleChange}>
                             <option value="beef">Beef</option>
                             <option value="chicken">Chicken</option>
                             <option value="dessert">Dessert</option>
@@ -135,25 +113,27 @@ export default class CreateRecipe extends Component {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>Variables: </label>
+                        <label htmlFor="ingredients">Variables: </label>
                         <textarea className="form-control" 
                             required 
+                            name="ingredients"
                             rows="3" 
                             cols="50" 
                             placeholder="Variables"
                             value={this.state.ingredients}
-                            onChange={this.onChangeIngredients}
+                            onChange={this.handleChange}
                         />
                     </div>
                     <div className="form--group">
-                        <label>Algorithm: </label>
+                        <label htmlFor="instructions">Algorithm: </label>
                         <textarea className="form-control" 
                             required 
+                            name="instructions"
                             rows="3" 
                             cols="50" 
                             placeholder="Algorithm"
                             value={this.state.instructions}
-                            onChange={this.onChangeInstructions}
+                            onChange={this.handleChange}
                         />
                     </div>
 
@@ -164,7 +144,7 @@ export default class CreateRecipe extends Component {
                             type="text"
                             className="form-control"
                             name="description"
-                            onChange={this.onChangeFile}
+                            onChange={this.handleChange}
                             placeholder="Description"
                         />
                     </div>
@@ -182,11 +162,12 @@ export default class CreateRecipe extends Component {
                         <img alt="" src={this.state.image} width='200px' height='200px' />
                     </div>
                     <div className="form-group">
-                        <label>Date: </label>
+                        <label htmlFor="date" >Date: </label>
                         <div>
                             <DatePicker
+                                name="date"
                                 selected={this.state.date}
-                                onChange={this.onChangeDate}
+                                onChange={this.handleChange}
                             />
                         </div>
                     </div>

@@ -4,6 +4,11 @@ const User = require('../models/user.model');
 const passport = require('../passport');
 
 
+/**
+ * GOOGLE AUTH: passport-google-oauth.
+ * 
+ * NOT USED: Future Feature.
+ */
 router.route('/google').get(passport.authenticate('google', {scope: ['profile']}))
 
 router.route('/google/callback').get(
@@ -13,6 +18,14 @@ router.route('/google/callback').get(
     })
 )
 
+/**
+ * POST: Register User Info.
+ * 
+ * Creates User Object in Database with user input details.
+ * 
+ * @alias http://localhost:3000/singup
+ * @see signup.coponent
+ */
 router.route('/signup').post( (req, res) => {
     const {username, firstName, lastName, password } = req.body
 
@@ -37,7 +50,12 @@ router.route('/signup').post( (req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 })
 
-//PRODUCTION CODE:
+/**
+ * POST: LOGIN: PRODUCTION.
+ * 
+ * Uses passport.authenticate('local') as designed.  Does not provide debugging details.
+ * 
+ */
 router.route('/login').post(
     function(req, res, next) {
         console.log("/login req.session", req.sessionID)
@@ -58,7 +76,12 @@ router.route('/login').post(
     }
 )
 
-//DEBUGGING CUSTOM ROUTE:
+/**
+ * Login: DEVELOPMENT.
+ * 
+ * Uses passport.authenticate('local') user defined.  Provides Err insight.
+ * 
+ */
 // router.route('/login').post(
 //     function (req, res, next) {
 //         // call passport authentication passing the "local" strategy name and a callback function
@@ -87,15 +110,29 @@ router.route('/login').post(
 // );
 
 
+/**
+ * Get: User.
+ * 
+ * Supplies the boolean for loggedIn.
+ * 
+ * @alias http://localhost:3000/
+ * @see App
+ */
 router.route('/').get((req, res, next) => {
     if(req.user){
-        // console.log(req.sessionID);
         return res.json({ user: req.user });
     } else {
         return res.json({ user: null });
     }
 })
 
+
+/**
+ * Logout.
+ * 
+ * Ensures that req.user object is destroyed.
+ * 
+ */
 router.route('/logout').post((req, res) => {
     if(req.user) {
         req.logout();

@@ -1,6 +1,13 @@
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const User = require('../models/user.model')
 
+/**
+ * NOT USED CURRENTLY
+ * 
+ * NEED: passport-local to work properly
+ * NEED: domain for registration to google developer network
+ * 
+ */
 const strategy = new GoogleStrategy(
 	{
 		clientID: process.env.GOOGLE_CLIENT_ID,

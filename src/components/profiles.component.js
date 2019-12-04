@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-
+/**
+ * Profile: Displays List of registered users
+ * 
+ * @fires axios.get('http://localhost:5000/profiles/')
+ * 
+ * @returns {DOM elements} Registerd User Details
+ */
 export default class Profile extends Component {
     constructor(props) {
         super(props);
@@ -16,10 +22,13 @@ export default class Profile extends Component {
         axios.get('http://localhost:5000/profiles/')
         .then((res) => {
             if (res.data.users) {
+                console.log("Profiles res.data:", res.data);
+
                 this.setState({
                     users: res.data,
                 });
             } else {
+                console.log("Profiles else res.data:", res.data);
                 this.setState({
                     users: res.data,
                 });
@@ -31,6 +40,11 @@ export default class Profile extends Component {
         })
     }
 
+    /**
+     * userDetail: Map individual users to table row element
+     * 
+     * @return {Array} Containing <tr> elements with user data.
+     */
     userDetail(){
         const uList = this.state.users.map(currentuser => {
             return <tr key={currentuser._id}><td key={currentuser._id}>{currentuser.local.username}</td></tr>;

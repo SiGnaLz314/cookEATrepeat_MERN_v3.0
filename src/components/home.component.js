@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * RecipeList: List of Recipe Images
+ * 
+ * @param {recipe Object} props 
+ */
 const RecipeList = props => (
     <tr>
         <td>
@@ -13,6 +18,13 @@ const RecipeList = props => (
     </tr>
 )
 
+/**
+ * Home: Displays Recipes recieved from App as Props.
+ * 
+ * Displays username if user is Logged in.
+ * 
+ * @returns {DOM element} Displaying recipe images
+ */
 export default class Home extends Component {
 
     recipeList(){

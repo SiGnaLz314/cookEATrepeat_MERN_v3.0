@@ -2,9 +2,14 @@ const router = require('express').Router();
 
 let Recipe = require('../models/recipe.model');
 
-// Route: /Recipe/
-// GET Request
+/**
+ * Get: All Recipes in Database
+ * 
+ * @see home.component
+ * @alias http://localhost:3000/
+ */
 router.route('/').get((req, res) => {
+    // console.log("Session Debugging:");
     // console.log("Recipe Request Session ID: ", req.sessionID);
     // console.log("Recipe Request Session: ", req.session);
     // console.log("Recipe Request _passport: ", req._passport);
@@ -13,8 +18,12 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// Route: /Recipe/add
-// POST Request
+/**
+ * Post: Create Recipe
+ * 
+ * @see create-recipe.component
+ * @alias http://localhost:3000/create
+ */
 router.route('/add').post((req, res) => {
     const recipename = req.body.recipename;
     const animal = req.body.animal;
@@ -22,23 +31,6 @@ router.route('/add').post((req, res) => {
     let instructions = req.body.instructions;
     const imagepath = req.body.imagepath;
     const date = Date.parse(req.body.date);
-
-    // FORMATTING FOR INPUT OF INSTRUCTIONS/INGREDIENTS
-    // NEED TO DECIDE ON FORMATTING STILL
-    //
-    // ingredients = ingredients.split("\n");
-    // instructions = instructions.split("\n");
-
-    // for (let i = 0; i < ingredients.length; i++) {
-    //     ingredients[i] = ingredients[i].replace(/(?:\\[rn]|[\r\n]+)+/g, "");
-    //     ingredients[i] = "<li>" + ingredients[i] + "</li>";
-    // }
-    // for (let i = 0; i < instructions.length; i++) {
-    //     instructions[i] = instructions[i].replace(/(?:\\[rn]|[\r\n]+)+/g, "");
-    //     instructions[i] = "<li>" + instructions[i] + "</li>";
-    // }
-    // ingredients = ingredients.join('');
-    // instructions = instructions.join('');
 
     const newRecipe = new Recipe({
         recipename,
@@ -60,25 +52,37 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// Route: /Recipe/:id
-// GET Request
+/**
+ * Get/id: Individual Recipe
+ * 
+ * Not used since state is raised and filtered by id.
+ * 
+ * Will remove
+ */
 router.route('/:id').get((req, res) => {
-    // console.log("Recipe ID GET Request: ", req);
     Recipe.findOne({recipe_id: req.params.id})
         .then(recipe => res.json(recipe))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// Route: /Recipe/:id
-// DELETE Request
+/**
+ * Delete: Removes recipe from Database
+ * 
+ * @alias http://localhost:3000/recipes
+ * @see recipe-list.component
+ */
 router.route('/delete/:id').delete((req, res) => {
     Recipe.findOneAndRemove({ recipe_id: req.params.id})
         .then(() => res.json('Recipe Deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// Route: /Recipe/update/:id
-// POST Request
+/**
+ * Update: Update recipe in Database
+ * 
+ * @alias http://localhost:3000/edit/:id
+ * @see edit-recipe.component
+ */
 router.route('/update/:id').post((req, res) => {
     // console.log("Recipe Update POST Request: ", req);
     Recipe.findOneAndUpdate({recipe_id: req.body.recipe_id}, req.body)

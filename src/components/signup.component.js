@@ -1,6 +1,20 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+/**
+ * SignUp: Procures data from user.
+ * 
+ * Sends user data to backend.
+ * 
+ * @listens event:handleSubmit()
+ * @fires event:handleSubmit()
+ * 
+ * @param {string} firstName
+ * @param {string} lastName
+ * @param {string} username
+ * @param {string} password
+ * @param {string} confirmPassword
+ */
 export default class SignUp extends Component {
     constructor(props) {
         super(props);

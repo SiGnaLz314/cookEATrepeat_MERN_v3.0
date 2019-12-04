@@ -1,6 +1,14 @@
 const User = require('../models/user.model');
 const LocalStrategy = require('passport-local').Strategy
 
+/**
+ * Passport LocalStrategy: passport-local
+ *
+ * Ensures user exists in database.
+ * 
+ * @returns error, or truthy. 
+ * @see passport/index
+ */
 const strategy = new LocalStrategy(
     {
         usernameField: 'username' // Can be changed 'username' is default

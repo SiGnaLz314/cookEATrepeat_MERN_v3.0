@@ -7,8 +7,13 @@ const uploadDocuments = require("./uploadDocuments");
 const fs = require("fs");
 const path = require('path');
 
-
-// route to upload a document(Image)
+/**
+ * POST: Upload image to storage 
+ * 
+ * @alias http://localhost:3000/upload/image
+ * 
+ * @see routes/uploadDocuments handles moving the image to storage
+ */
 router.route('/image').post((req, res) => {
   uploadDocuments(req, res, error => {
     if (error) {
@@ -27,8 +32,16 @@ router.route('/image').post((req, res) => {
   });
 });
 
-// Route to edit existing record's description field
-// Here, I am updating only the description in this mongo record. Hence using the "$set" parameter
+/**
+ * Edit: Only edits Description.
+ * 
+ * NEED to add ability to update image.
+ * Delete current image associated to Recipe.
+ * Add New image.
+ * 
+ * @alias http://localhost:3000/upload/edit/:id
+ * 
+ */
 router.route("/edit/:id").put((req, res, next) => {
   DOCUMENT.findOneAndUpdate(
     { document_id: req.params.id },
@@ -43,7 +56,11 @@ router.route("/edit/:id").put((req, res, next) => {
   );
 });
 
-// Router to delete a DOCUMENT file
+/**
+ * Delete: Remove file from storage
+ * 
+ * @see route/recipes
+ */
 router.route("/:id").delete((req, res, next) => {
   DOCUMENT.findOneAndRemove({ document_id: req.params.id }, (err, result) => {
     if (err) {
