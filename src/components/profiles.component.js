@@ -47,7 +47,7 @@ export default class Profile extends Component {
      */
     userDetail(){
         const uList = this.state.users.map(currentuser => {
-            return <tr key={currentuser._id}><td key={currentuser._id}>{currentuser.local.username}</td></tr>;
+            return <tr key={currentuser._id}><td key={currentuser._id}>{currentuser.username}</td></tr>;
         }) 
         return uList;
     }

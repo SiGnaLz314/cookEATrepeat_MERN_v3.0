@@ -31,10 +31,10 @@ connection.once('open', () => {
 // CONNECT-MONGO Config
 app.use(
 	session({
-		secret: process.env.SECRET_KEY, //pick a random string to make the hash that is generated secure
-		store: new MongoStore({ mongooseConnection: connection }),
-		resave: false, //required mark sessions active (wait for changes)
-		saveUninitialized: false, //required dont save session automatically (wait for changes)
+		secret: process.env.SECRET_KEY, // Pick a random string to make the hash
+		store: new MongoStore({ mongooseConnection: connection }), // Store session data on MongoDB
+		resave: false, // REQUIRED: Mark sessions active (wait for changes)
+		saveUninitialized: false, // REQUIRED: Dont save session automatically (wait for changes)
         cookie: { 
             secure: false, // Does not use HTTPS
         },
@@ -90,3 +90,5 @@ if (process.env.NODE_ENV === 'development') {
 app.listen(port, () => {
     console.log(`SERVER is running on port: ${port}`);
 });
+
+module.exports = app;

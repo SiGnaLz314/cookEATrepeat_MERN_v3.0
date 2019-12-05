@@ -4,23 +4,17 @@ const bcrypt = require('bcryptjs');
 mongoose.promise = Promise;
 
 const userSchema = new Schema({
-	firstName: { type: String, unique: false },
-	lastName: { type: String, unique: false },
-	local: {
-		username: { type: String, unique: false, required: false },
-        password: { type: String, unique: false, required: false },
-	},
-	google: {
-		googleId: { type: String, required: false }
-	},
-	photos: []
-}, {
+    firstName: {type: String, unique: false },
+    lastName: { type: String, unique: false },
+    username: { type: String, unique: true },
+    password: { type: String, unique: false },
+},{
     collection: 'users'
 });
 
 userSchema.methods = {
     checkPassword: function(inputPassword){
-        return bcrypt.compareSync(inputPassword, this.local.password);
+        return bcrypt.compareSync(inputPassword, this.password);
     },
     hashPassword: plainTextPassword => {
         return bcrypt.hashSync(plainTextPassword, 10)
@@ -28,11 +22,11 @@ userSchema.methods = {
 }
 
 userSchema.pre('save', function(next){
-    if(!this.local.password) {
+    if(!this.password) {
         console.log('NO PASSWORD PROVIDED ---- PLEASE PROVIDE A PASSWORD');
         next();
     } else {
-        this.local.password = this.hashPassword(this.local.password);
+        this.password = this.hashPassword(this.password);
         next();
     }
 })

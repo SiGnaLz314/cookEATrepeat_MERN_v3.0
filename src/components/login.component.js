@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import googleButton from '../stylesheets/google/btn_google_signin_dark_normal_web.png';
 
 /**
  * Login: Handle user input and interaction on Login
@@ -75,10 +74,6 @@ export default class Login extends Component {
                         <button className="btn btn-primary col-1 col-mr-auto" onClick={this.handleSubmit}>
                             Login
                         </button>
-                        <a href="/users/google">
-                            {/* <GoogleButton /> */}
-                            <img src={googleButton} alt="sign into Google Button" />
-    					</a>
                     </form>
                 </div>
             )

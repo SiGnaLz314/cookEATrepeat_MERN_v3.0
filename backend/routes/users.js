@@ -5,20 +5,6 @@ const passport = require('../passport');
 
 
 /**
- * GOOGLE AUTH: passport-google-oauth.
- * 
- * NOT USED: Future Feature.
- */
-router.route('/google').get(passport.authenticate('google', {scope: ['profile']}))
-
-router.route('/google/callback').get(
-    passport.authenticate('google',{
-        successRedirect: '/',
-        failureRedirect: '/login'
-    })
-)
-
-/**
  * POST: Register User Info.
  * 
  * Creates User Object in Database with user input details.
@@ -29,15 +15,15 @@ router.route('/google/callback').get(
 router.route('/signup').post( (req, res) => {
     const {username, firstName, lastName, password } = req.body
 
-    User.findOne({ 'local.username': username }, (err, user) => {
+    User.findOne({ 'username': username }, (err, user) => {
         if(user) {
             return res.send({
                 err: 'User already exists.'
             });
         }
         const newUser = new User({
-            'local.username': username,
-            'local.password': password,
+            'username': username,
+            'password': password,
             'firstName': firstName,
             'lastName': lastName,
         })
@@ -70,7 +56,7 @@ router.route('/login').post(
     (req, res) => {
         console.log('Logged In User: ', req.user);
         var userInfo = {
-            user: req.user.local.username
+            user: req.user.username
         }
         res.send(userInfo);
     }

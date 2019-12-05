@@ -1,7 +1,5 @@
 const passport = require('passport');
 const LocalStrategy = require('./localStrategy');
-//GOOGLE STRATEGY needs API Trusted Domain Verification (Will complete after hosting domain)
-//const GoogleStrategy = require('./googleStrategy');
 const User = require('../models/user.model');
 
 // User Serialization for persistent Login Sessions
@@ -12,7 +10,7 @@ passport.serializeUser((user, done) => {
     console.log(user);
     console.log('')
     console.log('')
-    done(null, {_id: user._id});
+    done(null, user.id);
 });
 
 // ISSUE NOT Being Called.
@@ -20,7 +18,7 @@ passport.serializeUser((user, done) => {
 // findOne never finds an _id that matches (? Perplexing)
 passport.deserializeUser( (id, done) => {
     console.log('Deserializing user... ')
-    User.findOne({_id: id}, 'username',
+    User.findById({id: id}, 'username',
         (err, user) => {
             if(err){
                 console.log("Deserializing Error:", err);
@@ -33,7 +31,5 @@ passport.deserializeUser( (id, done) => {
 });
 
 passport.use(LocalStrategy);
-// SEE NOTE ABOVE
-//passport.use(GoogleStrategy);
 
 module.exports = passport;
