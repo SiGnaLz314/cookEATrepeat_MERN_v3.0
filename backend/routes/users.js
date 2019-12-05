@@ -44,17 +44,28 @@ router.route('/signup').post( (req, res) => {
  */
 router.route('/login').post(
     function(req, res, next) {
-        console.log("/login req.session", req.sessionID)
-        console.log('-------------');
-        console.log("/login req.session", req.session)
-        console.log('-------------');
-        console.log('')
-        console.log('')
+        // console.log("/login req.session", req.sessionID)
+        // console.log('-------------');
+        // console.log("/login req.session", req.session)
+        // console.log('-------------');
+        // console.log('')
+        // console.log('')
         next();
     },
     passport.authenticate('local'),
     (req, res) => {
-        console.log('Logged In User: ', req.user);
+        // console.log('/login req: ', req)
+        // console.log('/login req.session: ', req.session)
+        console.log('/login req.sessionID: ', req.sessionID)
+        console.log('Is Authenticated:', req.isAuthenticated())
+        console.log('/login req.session.passport: ', req.session.passport.user)
+        // console.log('Logged In User: ', req.user);
+        console.log('');
+        console.log('');
+        // var userInfo = {
+        //     user: req.user.username,
+        //     session: req.sessionID,
+        // }
         var userInfo = {
             user: req.user.username
         }

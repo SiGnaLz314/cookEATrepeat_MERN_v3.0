@@ -10,7 +10,7 @@ passport.serializeUser((user, done) => {
     console.log(user);
     console.log('')
     console.log('')
-    done(null, user.id);
+    done(null, {_id: user._id});
 });
 
 // ISSUE NOT Being Called.
@@ -18,7 +18,7 @@ passport.serializeUser((user, done) => {
 // findOne never finds an _id that matches (? Perplexing)
 passport.deserializeUser( (id, done) => {
     console.log('Deserializing user... ')
-    User.findById({id: id}, 'username',
+    User.findOne({_id: id}, 'username',
         (err, user) => {
             if(err){
                 console.log("Deserializing Error:", err);

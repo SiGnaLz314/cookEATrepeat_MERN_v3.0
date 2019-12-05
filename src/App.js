@@ -58,8 +58,6 @@ class App extends Component {
         }
     }
 
-
-
     componentDidMount() {
         // RECIPES & USER Passed down to components as PROPS of App
         axios.all([
@@ -87,8 +85,6 @@ class App extends Component {
         })
     }
     
-
-
     _logout(event) {
         event.preventDefault();
         console.log('Logging Out...');
@@ -109,6 +105,16 @@ class App extends Component {
             })
     }
 
+    /**
+     * _login: Sends User Credentials to passport.authenticate('local').
+     * 
+     * Sets loggedIn state to boolean based on response from passport.
+     * 
+     * @fires event:POST 'http://localhost:5000/users/login'
+     * 
+     * @param {String} username 
+     * @param {String} password
+     */
     _login(username, password) {
         axios.post('http://localhost:5000/users/login', { username, password })
             .then(res => {
