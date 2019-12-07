@@ -14,7 +14,7 @@ const UserLinks = props => {
             <ul className="navbar-nav mr-auto">
                 <li className="navbar-item">
                     <Link to="#" className="nav-link" onClick={props._logout}>
-                        Logout
+                        logout
                     </Link>
                 </li>
             </ul>
@@ -51,24 +51,28 @@ export default class Navbar extends Component {
             <Link to="/" className="navbar-brand">cookEATrepeat</Link>
                 <div className="collapse navbar-collapse">
                 <ul className="navbar-nav mr-auto">
-                    <li className="navbar-item">
-                        <Link to="/recipes" className="nav-link">Recipes</Link>
+                    <li className="nav-link">
+                        <Link to="/recipes" className="nav-link">recipes</Link>
                     </li>
                     
-                    <li className="navbar-item">
-                        <Link to="/profiles" className="nav-link">Profiles</Link>
+                    <li className="nav-link">
+                        <Link to="/profiles" className="nav-link">profiles</Link>
                     </li>
                     {this.props.loggedIn ? (
                         <>
-                            <li className="navbar-item">
-                                <Link to="/create" className="nav-link">Create Recipe</Link>
+                            <li className="nav-link">
+                                <Link to="/create" className="nav-link">create recipe</Link>
                             </li>
                         </>
                     ) : (
                         <></>
                     )}
                 </ul>
-                <UserLinks _logout={this.props._logout} loggedIn={this.props.loggedIn} />
+                <ul className="navbar-nav ml-auto">
+                <li className="nav-link">
+                    <UserLinks _logout={this.props._logout} loggedIn={this.props.loggedIn} />
+                </li>
+                </ul>
                 </div>
             </nav>
         );

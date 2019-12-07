@@ -24,12 +24,12 @@ import Profile from "./components/profiles.component";
  */
 const AuthRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
-      rest.loggedIn === true
-        ? <Component {...props} />
-        : <Redirect to={{
-            pathname: '/login',
-            state: { from: props.location}
-        }} />
+        rest.loggedIn === true
+            ? <Component {...props} />
+            : <Redirect to={{
+                pathname: '/login',
+                state: { from: props.location }
+            }} />
     )} />
 )
 
@@ -49,7 +49,8 @@ class App extends Component {
 
         this.componentDidMount = this.componentDidMount.bind(this);
         this._logout = this._logout.bind(this);
-        this._login = this._login.bind(this);
+        this.setUser = this.setUser.bind(this);
+        this.getUser = this.getUser.bind(this);
 
         this.state = {
             loggedIn: false,
@@ -59,32 +60,33 @@ class App extends Component {
     }
 
     componentDidMount() {
+        this.getUser();
         // RECIPES & USER Passed down to components as PROPS of App
         axios.all([
             axios.get('http://localhost:5000/recipes/'),
             axios.get('http://localhost:5000/users/')
         ])
-        .then(axios.spread((resRecipe, resUser) => {
-            if (resUser.data.user) {
-                this.setState({
-                    loggedIn: true,
-                    user: resUser.data.user,
-                    recipes: resRecipe.data,
-                });
-            } else {
-                this.setState({
-                    loggedIn: false,
-                    user: null,
-                    recipes: resRecipe.data,
-                });
-            }
-        }))
-        .catch(error => {
-            console.log('load error: ')
-            console.log(error);
-        })
+            .then(axios.spread((resRecipe, resUser) => {
+                if (resUser.data.user) {
+                    this.setState({
+                        loggedIn: true,
+                        user: resUser.data.user,
+                        recipes: resRecipe.data,
+                    });
+                } else {
+                    this.setState({
+                        loggedIn: false,
+                        user: null,
+                        recipes: resRecipe.data,
+                    });
+                }
+            }))
+            .catch(error => {
+                console.log('load error: ')
+                console.log(error);
+            })
     }
-    
+
     _logout(event) {
         event.preventDefault();
         console.log('Logging Out...');
@@ -98,7 +100,8 @@ class App extends Component {
                         user: null
                     });
                     window.location = '/';
-            }})
+                }
+            })
             .catch(error => {
                 console.log('logout error: ')
                 console.log(error);
@@ -115,23 +118,34 @@ class App extends Component {
      * @param {String} username 
      * @param {String} password
      */
-    _login(username, password) {
-        axios.post('http://localhost:5000/users/login', { username, password })
-            .then(res => {
-                console.log("APP Login: res", res);
-                console.log("APP Login: res.data", res.data);
-                if (res.status === 200) {
-                    this.setState({
-                        loggedIn: true,
-                        user: res.data.user
-                    });
-                }
-            })
-            .catch(error => {
-                console.log('login error: ')
-                console.log(error);
-            })
+    setUser(user) {
+        this.setState({
+            loggedIn: true,
+            user: user.userInfo.user
+        });
     }
+
+    getUser() {
+        axios.get('http://localhost:5000/users/').then(res => {
+            console.log('Get user response: ')
+            console.log(res.data)
+            if (res.data.user) {
+                console.log('Get User: There is a user saved in the server session: ')
+
+                this.setState({
+                    loggedIn: true,
+                    username: res.data.user.username
+                })
+            } else {
+                console.log('Get user: no user');
+                this.setState({
+                    loggedIn: false,
+                    username: null
+                })
+            }
+        })
+    }
+
     render() {
         return (
             <Router>
@@ -139,23 +153,22 @@ class App extends Component {
                     <Navbar _logout={this._logout} loggedIn={this.state.loggedIn} />
                     <br />
                     <Route exact path="/" render={() =>
-                        <Home 
+                        <Home
                             user={this.state.user}
                             recipes={this.state.recipes}
-                        /> }
+                        />}
                     />
                     <Route exact path="/login" render={() =>
                         <Login
-                            _login={this._login}
-                            _googleSignin={this._googleSignin}
+                            setUser={this.setUser}
                         />}
                     />
                     <Route exact path="/signup" component={SignUp} />
                     <Route path="/recipes" render={() =>
-                        <RecipesList recipes={this.state.recipes} /> }
+                        <RecipesList recipes={this.state.recipes} />}
                     />
                     <Route path="/recipe/:id" render={() =>
-                        <RecipeDetail recipes={this.state.recipes} /> }
+                        <RecipeDetail recipes={this.state.recipes} />}
                     />
                     <AuthRoute path="/edit/:id" loggedIn={this.state.loggedIn} recipes={this.state.recipes} component={EditRecipe} />
                     <AuthRoute path="/create" loggedIn={this.state.loggedIn} component={CreateRecipe} />

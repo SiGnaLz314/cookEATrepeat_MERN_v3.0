@@ -22,13 +22,13 @@ export default class Profile extends Component {
         axios.get('http://localhost:5000/profiles/')
         .then((res) => {
             if (res.data.users) {
-                console.log("Profiles res.data:", res.data);
+                // console.log("Profiles res.data:", res.data);
 
                 this.setState({
                     users: res.data,
                 });
             } else {
-                console.log("Profiles else res.data:", res.data);
+                // console.log("Profiles else res.data:", res.data);
                 this.setState({
                     users: res.data,
                 });

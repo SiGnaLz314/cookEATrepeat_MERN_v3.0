@@ -9,14 +9,17 @@ const passport = require('../passport');
  * 
  * Creates User Object in Database with user input details.
  * 
- * @alias http://localhost:3000/singup
+ * @alias http://localhost:3000/signup
  * @see signup.coponent
  */
 router.route('/signup').post( (req, res) => {
     const {username, firstName, lastName, password } = req.body
 
     User.findOne({ 'username': username }, (err, user) => {
-        if(user) {
+        if(err){
+            console.log(`Sign Up Error: ${err}`);
+        }
+        else if(user) {
             return res.send({
                 err: 'User already exists.'
             });
@@ -30,7 +33,8 @@ router.route('/signup').post( (req, res) => {
         newUser.save((err, savedUser) => {
                 if (err) 
                     return res.json(err)
-			    res.json(savedUser)
+                res.json(savedUser)
+                res.redirect('./login');
 		    })
     })
     .catch(err => res.status(400).json('Error: ' + err));
@@ -44,32 +48,14 @@ router.route('/signup').post( (req, res) => {
  */
 router.route('/login').post(
     function(req, res, next) {
-        // console.log("/login req.session", req.sessionID)
-        // console.log('-------------');
-        // console.log("/login req.session", req.session)
-        // console.log('-------------');
-        // console.log('')
-        // console.log('')
         next();
     },
     passport.authenticate('local'),
     (req, res) => {
-        // console.log('/login req: ', req)
-        // console.log('/login req.session: ', req.session)
-        console.log('/login req.sessionID: ', req.sessionID)
-        console.log('Is Authenticated:', req.isAuthenticated())
-        console.log('/login req.session.passport: ', req.session.passport.user)
-        // console.log('Logged In User: ', req.user);
-        console.log('');
-        console.log('');
-        // var userInfo = {
-        //     user: req.user.username,
-        //     session: req.sessionID,
-        // }
         var userInfo = {
             user: req.user.username
         }
-        res.send(userInfo);
+        res.json(userInfo);
     }
 )
 
@@ -117,8 +103,10 @@ router.route('/login').post(
  */
 router.route('/').get((req, res, next) => {
     if(req.user){
+        console.log(`/ GET req.user: ${req.user}`);
         return res.json({ user: req.user });
     } else {
+        console.log(`/ GET req.user: ${req.user}`);
         return res.json({ user: null });
     }
 })

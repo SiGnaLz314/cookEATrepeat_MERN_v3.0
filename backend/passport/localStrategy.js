@@ -14,7 +14,7 @@ const strategy = new LocalStrategy(
         usernameField: 'username' // Can be changed 'username' is default
     },
     (username, password, done) => {
-        console.log(`LOCAL STRATEGY Username: ${username}`);
+        // console.log(`LOCAL STRATEGY Username: ${username}`);
         
         User.findOne({'username': username}, (err, user) => {
             if(err) {

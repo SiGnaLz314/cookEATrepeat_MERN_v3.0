@@ -7,13 +7,25 @@ const passport = require('passport');
 const session = require('express-session');
 const app = express();
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const MongoStore = require('connect-mongo')(session);
 const port = process.env.PORT || 5000;
+const morgan = require('morgan');
+
+const adminRouter = require('./routes/admin');
+const recipesRouter = require('./routes/recipes');
+const usersRouter = require('./routes/users');
+const uploadRouter = require('./routes/upload');
+
+var environment = process.env.NODE_ENV || 'development';
 
 // MIDDLEWARE
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static('uploads'));
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 
 // MongoClient constructor
@@ -39,7 +51,8 @@ app.use(
 		resave: false, // REQUIRED: Mark sessions active (wait for changes)
 		saveUninitialized: false, // REQUIRED: Dont save session automatically (wait for changes)
         cookie: {
-            maxAge: 2 * 24 * 60 * 60 * 1000, // Only store for 2 Days
+            // maxAge: 2 * 24 * 60 * 60 * 1000, // Only store for 2 Days
+            maxAge:  60 * 60 * 1000, // TEST: Only store for 60 minute(s)
             httpOnly: true,
             secure: false, // Does not use HTTPS
         },
@@ -47,29 +60,39 @@ app.use(
     })
 )
 app.use(passport.initialize());
-app.use(passport.session()); // Calls deserializer
+app.use(passport.session()); // Calls serializeUser and deserializerUser(?)
 
-// Moved below passport.session to ensure its enabled with passport.session
-app.use(cors());
+// ******POINT OF INVESTIGATION*******
+// Calling passport.session() Deserializes User
+// Also adds passport: { user: userID } to Session
+passport.session();
 
-// Added for Session Debugging
-app.all('*', function (req, res, next) {
-    console.log("********")
-    console.log("All Routes session.cookie.expires:", req.session.cookie.expires);
-    console.log("********")
-    console.log("All Routes sessionID:", req.sessionID);
-    console.log('All Routes Is Authenticated: ', req.isAuthenticated());
-    console.log('')
-    console.log('')
-    next(); // pass control to the next handler
-  });
+// Moved below passport.session to ensure its enabled after passport.session
+// Added {credentials, origin} to ensure it was not being blocked by cors()
+// Can remove after ensuring crendtials move freely
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+
+app.use((req, res, next)=>{
+    console.log('APP:', req.session);
+    console.log('==================');
+    console.log('APP:', req.user);
+    next();
+});
+
+// // Added for Session Debugging
+// app.all('*', function (req, res, next) {
+//     // console.log("********")
+//     // console.log("All Routes session.cookie.expires:", req.session.cookie.expires);
+//     // console.log("********")
+//     console.log("All Routes sessionID:", req.sessionID);
+//     console.log('All Routes Is Authenticated: ', req.isAuthenticated());
+//     console.log('')
+//     console.log('')
+//     next(); // pass control to the next handler
+//   });
 
 // Routes are below passport.session for proper order
-const adminRouter = require('./routes/admin');
-const recipesRouter = require('./routes/recipes');
-const usersRouter = require('./routes/users');
-const uploadRouter = require('./routes/upload');
-app.use('/profiles', adminRouter);
+app.use('/profiles', ensureAuthenticated, adminRouter);
 app.use('/recipes', recipesRouter);
 app.use('/users', usersRouter);
 app.use('/upload', uploadRouter);
@@ -83,18 +106,27 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (process.env.NODE_ENV === 'development') {
+if (environment === 'development') {
     app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+        res.status(err.status || 500).json(err);
+        res.json(err);
     });
 }
 
 app.listen(port, () => {
     console.log(`SERVER is running on port: ${port}`);
 });
+
+// Simple route middleware to ensure user is authenticated.
+//   Use this route middleware on any resource that needs to be protected.  If
+//   the request is authenticated (typically via a persistent login session),
+//   the request will proceed.  Otherwise, the user will be redirected to the
+//   login page.
+function ensureAuthenticated(req, res, next) {
+    // if (req.isAuthenticated()) { return next(); }
+    // res.redirect('/login');
+    if (req) { return next(); }
+    res.redirect('/login');
+}
 
 module.exports = app;
