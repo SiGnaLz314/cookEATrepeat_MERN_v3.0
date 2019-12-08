@@ -50,7 +50,6 @@ class App extends Component {
         this.componentDidMount = this.componentDidMount.bind(this);
         this._logout = this._logout.bind(this);
         this.setUser = this.setUser.bind(this);
-        this.getUser = this.getUser.bind(this);
 
         this.state = {
             loggedIn: false,
@@ -60,7 +59,6 @@ class App extends Component {
     }
 
     componentDidMount() {
-        this.getUser();
         // RECIPES & USER Passed down to components as PROPS of App
         axios.all([
             axios.get('http://localhost:5000/recipes/'),
@@ -99,7 +97,7 @@ class App extends Component {
                         loggedIn: false,
                         user: null
                     });
-                    window.location = '/';
+                    // window.location = '/';
                 }
             })
             .catch(error => {
@@ -124,28 +122,6 @@ class App extends Component {
             user: user.userInfo.user
         });
     }
-
-    getUser() {
-        axios.get('http://localhost:5000/users/').then(res => {
-            console.log('Get user response: ')
-            console.log(res.data)
-            if (res.data.user) {
-                console.log('Get User: There is a user saved in the server session: ')
-
-                this.setState({
-                    loggedIn: true,
-                    username: res.data.user.username
-                })
-            } else {
-                console.log('Get user: no user');
-                this.setState({
-                    loggedIn: false,
-                    username: null
-                })
-            }
-        })
-    }
-
     render() {
         return (
             <Router>

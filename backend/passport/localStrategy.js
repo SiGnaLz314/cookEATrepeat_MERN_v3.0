@@ -11,7 +11,7 @@ const LocalStrategy = require('passport-local').Strategy;
  */
 const strategy = new LocalStrategy(
     {
-        usernameField: 'username' // Can be changed 'username' is default
+        usernameField: 'username', // Can be changed 'username' is default
     },
     (username, password, done) => {
         // console.log(`LOCAL STRATEGY Username: ${username}`);

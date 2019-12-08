@@ -6,7 +6,6 @@ const path = require("path");
 const passport = require('passport');
 const session = require('express-session');
 const app = express();
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const MongoStore = require('connect-mongo')(session);
 const port = process.env.PORT || 5000;
@@ -26,7 +25,6 @@ app.use(express.static('uploads'));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cookieParser());
 
 // MongoClient constructor
 const uri = process.env.ATLAS_URI;
@@ -42,21 +40,21 @@ connection.once('open', () => {
 })
 
 
-// EXPRESS-SESSION Config
+// SESSION Config
 var sessionStore = new MongoStore({ mongooseConnection: connection });
 app.use(
 	session({
 		secret: process.env.SECRET_KEY, // Pick a random string to make the hash
 		store: sessionStore, // Store session data in MongoStore
 		resave: false, // REQUIRED: Mark sessions active (wait for changes)
-		saveUninitialized: false, // REQUIRED: Dont save session automatically (wait for changes)
+        saveUninitialized: false, // REQUIRED: Dont save session automatically (wait for changes)
         cookie: {
             // maxAge: 2 * 24 * 60 * 60 * 1000, // Only store for 2 Days
             maxAge:  60 * 60 * 1000, // TEST: Only store for 60 minute(s)
             httpOnly: true,
             secure: false, // Does not use HTTPS
         },
-        key:'connect.sid' // SessionID (connect.sid is default)
+        name:'connect.sid' // SessionID (connect.sid is default)
     })
 )
 app.use(passport.initialize());
@@ -65,7 +63,7 @@ app.use(passport.session()); // Calls serializeUser and deserializerUser(?)
 // ******POINT OF INVESTIGATION*******
 // Calling passport.session() Deserializes User
 // Also adds passport: { user: userID } to Session
-passport.session();
+// passport.session();
 
 // Moved below passport.session to ensure its enabled after passport.session
 // Added {credentials, origin} to ensure it was not being blocked by cors()
@@ -73,9 +71,12 @@ passport.session();
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 app.use((req, res, next)=>{
+    
+    console.log(`APP Req._passport.session:`, req._passport.session);
     console.log('APP:', req.session);
     console.log('==================');
     console.log('APP:', req.user);
+    console.log('APP isAuthenticated:', req.isAuthenticated());
     next();
 });
 
@@ -124,7 +125,7 @@ app.listen(port, () => {
 //   login page.
 function ensureAuthenticated(req, res, next) {
     // if (req.isAuthenticated()) { return next(); }
-    // res.redirect('/login');
+    // res.redirect('http://localhost:3000/login');
     if (req) { return next(); }
     res.redirect('/login');
 }

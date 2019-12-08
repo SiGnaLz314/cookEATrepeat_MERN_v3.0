@@ -34,7 +34,7 @@ router.route('/signup').post( (req, res) => {
                 if (err) 
                     return res.json(err)
                 res.json(savedUser)
-                res.redirect('./login');
+                // res.redirect('./login');
 		    })
     })
     .catch(err => res.status(400).json('Error: ' + err));
@@ -51,11 +51,19 @@ router.route('/login').post(
         next();
     },
     passport.authenticate('local'),
-    (req, res) => {
+    (req, res, next) => {
         var userInfo = {
             user: req.user.username
         }
         res.json(userInfo);
+        next();
+    },
+    (req, res, next) => {
+        req.login(req.user, () =>{
+            req.session.save(()=>{
+                console.log('Req.Session.save():', req.session)
+            });
+        });
     }
 )
 
@@ -101,7 +109,7 @@ router.route('/login').post(
  * @alias http://localhost:3000/
  * @see App
  */
-router.route('/').get((req, res, next) => {
+router.route('/').get((req, res) => {
     if(req.user){
         console.log(`/ GET req.user: ${req.user}`);
         return res.json({ user: req.user });
@@ -120,6 +128,7 @@ router.route('/').get((req, res, next) => {
  */
 router.route('/logout').post((req, res) => {
     if(req.user) {
+        console.log('LOGOUT:', req.user);
         req.logout();
         res.redirect('/');
     } else {

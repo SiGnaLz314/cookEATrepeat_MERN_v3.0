@@ -19,7 +19,15 @@ export default class Profile extends Component {
         }
     }
     componentDidMount() {
-        axios.get('http://localhost:5000/profiles/')
+        let axiosConfig = {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': 'http://localhost:3000/',
+              'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+            }
+        }
+        axios.get('http://localhost:5000/profiles/', axiosConfig)
         .then((res) => {
             if (res.data.users) {
                 // console.log("Profiles res.data:", res.data);
