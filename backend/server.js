@@ -70,27 +70,14 @@ app.use(passport.session()); // Calls serializeUser and deserializerUser(?)
 // Can remove after ensuring crendtials move freely
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
-app.use((req, res, next)=>{
-    
-    console.log(`APP Req._passport.session:`, req._passport.session);
-    console.log('APP:', req.session);
-    console.log('==================');
-    console.log('APP:', req.user);
-    console.log('APP isAuthenticated:', req.isAuthenticated());
-    next();
-});
-
-// // Added for Session Debugging
-// app.all('*', function (req, res, next) {
-//     // console.log("********")
-//     // console.log("All Routes session.cookie.expires:", req.session.cookie.expires);
-//     // console.log("********")
-//     console.log("All Routes sessionID:", req.sessionID);
-//     console.log('All Routes Is Authenticated: ', req.isAuthenticated());
-//     console.log('')
-//     console.log('')
-//     next(); // pass control to the next handler
-//   });
+// app.use((req, res, next)=>{
+    // console.log(`APP Req._passport.session:`, req._passport.session);
+    // console.log('APP:', req.session);
+    // console.log('==================');
+    // console.log('APP:', req.user);
+    // console.log('APP isAuthenticated:', req.isAuthenticated());
+    // next();
+// });
 
 // Routes are below passport.session for proper order
 app.use('/profiles', ensureAuthenticated, adminRouter);
@@ -124,10 +111,8 @@ app.listen(port, () => {
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
 function ensureAuthenticated(req, res, next) {
-    // if (req.isAuthenticated()) { return next(); }
-    // res.redirect('http://localhost:3000/login');
-    if (req) { return next(); }
-    res.redirect('/login');
+    if (req.isAuthenticated()) { return next(); }
+    res.redirect('http://localhost:3000/login');
 }
 
 module.exports = app;

@@ -52,7 +52,6 @@ export default class SignUp extends Component {
         })
         .then(res => {
             if(!res.data.error) {
-                console.log('Success!');
                 this.props.history.push("/login");
             } else {
                 alert(res.data.error);

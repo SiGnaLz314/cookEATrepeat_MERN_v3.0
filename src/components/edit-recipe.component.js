@@ -11,7 +11,6 @@ import "react-datepicker/dist/react-datepicker.css";
 export default class EditRecipe extends Component {
     constructor(props) {
         super(props);
-        console.log("constructor: ", props);
 
         let url = window.location.pathname;
         let id = url.substring(url.lastIndexOf('/') + 1);
@@ -60,7 +59,6 @@ export default class EditRecipe extends Component {
 
         axios.post('http://localhost:5000/recipes/update/'+ recipe.recipe_id, recipe)
             .then(res => {
-                console.log("EditRecipe Axios Post", res.data);
                 this.props.history.push('/');
             })
     }

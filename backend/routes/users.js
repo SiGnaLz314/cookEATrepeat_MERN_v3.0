@@ -61,7 +61,7 @@ router.route('/login').post(
     (req, res, next) => {
         req.login(req.user, () =>{
             req.session.save(()=>{
-                console.log('Req.Session.save():', req.session)
+                // console.log('Req.Session.save():', req.session)
             });
         });
     }
@@ -111,10 +111,10 @@ router.route('/login').post(
  */
 router.route('/').get((req, res) => {
     if(req.user){
-        console.log(`/ GET req.user: ${req.user}`);
+        // console.log(`/ GET req.user: ${req.user}`);
         return res.json({ user: req.user });
     } else {
-        console.log(`/ GET req.user: ${req.user}`);
+        // console.log(`/ GET req.user: ${req.user}`);
         return res.json({ user: null });
     }
 })
@@ -128,7 +128,7 @@ router.route('/').get((req, res) => {
  */
 router.route('/logout').post((req, res) => {
     if(req.user) {
-        console.log('LOGOUT:', req.user);
+        // console.log('LOGOUT:', req.user);
         req.logout();
         res.redirect('/');
     } else {

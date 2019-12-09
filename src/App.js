@@ -87,17 +87,16 @@ class App extends Component {
 
     _logout(event) {
         event.preventDefault();
-        console.log('Logging Out...');
+        // console.log('Logging Out...');
         axios.post('http://localhost:5000/users/logout')
             .then(res => {
-                console.log("APP Logout: res", res);
-                console.log("APP Logout: res.data", res.data);
+                // console.log("APP Logout: res", res);
+                // console.log("APP Logout: res.data", res.data);
                 if (res.status === 200) {
                     this.setState({
                         loggedIn: false,
                         user: null
                     });
-                    // window.location = '/';
                 }
             })
             .catch(error => {

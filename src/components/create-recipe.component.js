@@ -73,8 +73,8 @@ export default class CreateRecipe extends Component {
             axios.post('http://localhost:5000/recipes/add', recipe),
             axios.post(endpoint, data)
         ])
-            .then(axios.spread((res1, res2) => {
-                console.log(res1.data);
+            .then(axios.spread((resRecipe, resUpload) => {
+                // console.log(resRecipe.data);
             }))
             .catch(error =>{
                 console.log("Error Adding Recipe", error);

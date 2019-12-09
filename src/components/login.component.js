@@ -46,7 +46,6 @@ export default class Login extends Component {
               'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
             }
           }
-        console.log('Submit');
         axios.post('http://localhost:5000/users/login', { username:this.state.username, password:this.state.password }, axiosConfig)
             .then(res => {
                 // console.log("APP Login: res", res);
