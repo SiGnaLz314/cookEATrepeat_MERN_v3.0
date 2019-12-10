@@ -46,9 +46,16 @@ export default class RecipeDetail extends Component {
     constructor(props) {
         super(props);
 
+        this.componentDidMount = this.componentDidMount.bind(this);
+
         this.state = {
             recipe: [],
         }
+    }
+
+    componentDidMount(){
+        // Ensure component mounts at top of page.
+        window.scrollTo(0, 0);
     }
     
      recipe(){

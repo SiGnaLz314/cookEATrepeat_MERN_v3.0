@@ -23,6 +23,7 @@ export default class CreateRecipe extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSelectedFile = this.handleSelectedFile.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
 
         this.state = {
             recipename: '',
@@ -35,6 +36,11 @@ export default class CreateRecipe extends Component {
             imagepath: '',
             date: new Date(),
         }
+    }
+
+    componentDidMount(){
+        // Ensure component mounts at top of page.
+        window.scrollTo(0, 0);
     }
 
     handleChange(event) {

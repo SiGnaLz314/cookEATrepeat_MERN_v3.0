@@ -17,8 +17,11 @@ export default class Profile extends Component {
         this.state = {
             users: [],
         }
-    }
-    componentDidMount() {
+    }    
+    
+    componentDidMount(){
+        // Ensure component mounts at top of page.
+        window.scrollTo(0, 0);
         let axiosConfig = {
             withCredentials: true,
             headers: {

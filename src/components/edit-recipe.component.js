@@ -30,6 +30,8 @@ export default class EditRecipe extends Component {
     }
     
     componentDidMount(){
+        // Ensure component mounts at top of page.
+        window.scrollTo(0, 0);
         var recipe_props = this.props.location.state.recipe;
         this.setState({
             recipename: recipe_props.recipename,

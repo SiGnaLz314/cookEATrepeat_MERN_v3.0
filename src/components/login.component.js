@@ -24,6 +24,12 @@ export default class Login extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
+    }
+
+    componentDidMount(){
+        // Ensure component mounts at top of page.
+        window.scrollTo(0, 0);
     }
 
     handleChange(event) {

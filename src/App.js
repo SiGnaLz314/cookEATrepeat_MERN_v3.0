@@ -59,6 +59,7 @@ class App extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0)
         // RECIPES & USER Passed down to components as PROPS of App
         axios.all([
             axios.get('http://localhost:5000/recipes/'),

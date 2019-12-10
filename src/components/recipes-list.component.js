@@ -33,6 +33,8 @@ const RecipeDetail = props => (
             </button>
             <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}>
                 <Link key={props.recipe.recipe_id} to="#">delete</Link>
+            {/* <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) props.deleteRecipe(props.recipe.recipe_id) }}>
+                <Link key={props.recipe.recipe_id} to="#">delete</Link> */}
             </button>
         </td>   
     </tr>
@@ -52,6 +54,13 @@ export default class RecipesList extends Component {
         super(props);
 
         this.deleteRecipe = this.deleteRecipe.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
+
+    }
+
+    componentDidMount(){
+        // Ensure component mounts at top of page.
+        window.scrollTo(0, 0);
     }
 
     /**
@@ -60,11 +69,14 @@ export default class RecipesList extends Component {
      * @param {id} recipe_id
      */
     deleteRecipe(id) {
-        axios.delete('http://localhost:5000/recipes/delete'+id)
+        axios.delete('http://localhost:5000/recipes/delete'+id )
         .then((res) => {
             this.setState({
                 recipes: this.props.recipes.filter(el => el.recipe_id !== id),
             })
+        })
+        .catch((err) => {
+            console.log(`Error Deleting Recipe: ${err}`);
         });
 
     }
