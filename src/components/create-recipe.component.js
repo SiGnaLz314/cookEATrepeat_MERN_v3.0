@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 
-const endpoint = "http://localhost:5000/upload/image/";
+ const endpoint = "http://localhost:5000/upload/image/";
 
 
 /**
@@ -19,7 +19,7 @@ const endpoint = "http://localhost:5000/upload/image/";
 export default class CreateRecipe extends Component {
     constructor(props) {
         super(props);
-
+        
         this.handleChange = this.handleChange.bind(this);
         this.handleSelectedFile = this.handleSelectedFile.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -72,15 +72,15 @@ export default class CreateRecipe extends Component {
             date: this.state.date
         }
 
-        const data = new FormData(e.target);
+        let data = new FormData(e.target);
         data.append("file", this.state.selectedFile, this.state.description);
-
+        
         axios.all([
             axios.post('http://localhost:5000/recipes/add', recipe),
             axios.post(endpoint, data)
         ])
             .then(axios.spread((resRecipe, resUpload) => {
-                // console.log(resRecipe.data);
+                this.props.addRecipe(recipe);
             }))
             .catch(error =>{
                 console.log("Error Adding Recipe", error);

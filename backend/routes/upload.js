@@ -4,8 +4,6 @@ const express = require("express");
 const router = express.Router();
 const DOCUMENT = require("../models/upload.model");
 const uploadDocuments = require("./uploadDocuments");
-const fs = require("fs");
-const path = require('path');
 
 /**
  * POST: Upload image to storage 
@@ -54,29 +52,6 @@ router.route("/edit/:id").put((req, res, next) => {
       res.status(200).send(updateDoc);
     }
   );
-});
-
-/**
- * Delete: Remove file from storage
- * 
- * @see route/recipes
- */
-router.route("/:id").delete((req, res, next) => {
-  DOCUMENT.findOneAndRemove({ document_id: req.params.id }, (err, result) => {
-    if (err) {
-      return next(err);
-    }
-    // Now delete the file from the disk storage
-    let target_path = path.join(__dirname, '../../public/uploads/') + result.path;
-
-    fs.unlink(target_path, function() {
-      res.send({
-        status: "200",
-        responseType: "string",
-        response: "success"
-      });
-    });
-  });
 });
 
 module.exports = router;

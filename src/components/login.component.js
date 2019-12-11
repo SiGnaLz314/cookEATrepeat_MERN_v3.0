@@ -38,9 +38,13 @@ export default class Login extends Component {
         });
     }
     /**
-     * handleSumbit: Passes User info to props._login (method of App Component)
+     * handleSumbit: Passes results to props.setUser (method of App Component).
      * 
-     * @param {*} event makes call to App Method _login(username, password)
+     * @fires event:POST 'http://localhost:5000/users/login'
+     * 
+     * @param {String} username 
+     * @param {String} password
+     * @param {Object} axiosConfig header properties for the http request
      */
     handleSubmit(event) {
         event.preventDefault();

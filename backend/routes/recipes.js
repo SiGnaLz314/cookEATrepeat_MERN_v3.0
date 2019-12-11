@@ -69,11 +69,18 @@ router.route('/:id').get((req, res) => {
  * Delete: Removes recipe from Database
  * 
  * @alias http://localhost:3000/recipes
- * @see recipe-list.component
+ * @see recipes-list.component
  */
 router.route('/delete/:id').delete((req, res) => {
-    Recipe.findOneAndRemove({ recipe_id: req.params.id})
-        .then(() => res.json('Recipe Deleted.'))
+    Recipe.findOneAndRemove({ recipe_id: req.params.id}, (err, result)=>{
+            if (err) {
+                return next(err);
+            }
+            const target_path = path.join(__dirname, '../../public/uploads/') + result.imagepath;
+            fs.unlink(target_path, function() {
+                res.json('Recipe Deleted Successfully');
+            });    
+        })
         .catch(err => res.status(400).json('Error: ' + err));
 });
 

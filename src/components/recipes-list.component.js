@@ -52,7 +52,7 @@ const RecipeDetail = props => (
 export default class RecipesList extends Component {
     constructor(props) {
         super(props);
-
+        
         this.deleteRecipe = this.deleteRecipe.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
 
@@ -69,17 +69,26 @@ export default class RecipesList extends Component {
      * @param {id} recipe_id
      */
     deleteRecipe(id) {
-        axios.delete('http://localhost:5000/recipes/delete'+id )
-        .then((res) => {
-            this.setState({
-                recipes: this.props.recipes.filter(el => el.recipe_id !== id),
-            })
+        axios.delete('http://localhost:5000/recipes/delete/'+id )
+        .then(() => {
+            this.props.removeRecipe(id);
         })
         .catch((err) => {
             console.log(`Error Deleting Recipe: ${err}`);
         });
 
     }
+    // REASON: Removing Document from DB
+    // deleteRecipe(id) {
+    //     axios.all([
+    //         axios.delete('http://localhost:5000/recipes/'+id),
+    //         axios.delete('http://localhost:5000/fileUpload/'+id)
+    //     ])
+    //     .then(axios.spread((res1, res2) => {
+    //         this.setState({
+    //             recipes: this.props.recipes.filter(el => el.recipe_id !== id),
+    //         })
+    // }));
     
     /**
      * recipeDetail: Map each recipe contained in props to currentrecipe
