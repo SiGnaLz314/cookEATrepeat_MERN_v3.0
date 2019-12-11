@@ -15,8 +15,11 @@
     "react": "^16.11.0",
     "react-datepicker": "^2.9.6",
     "react-dom": "^16.11.0",
+    "react-fade-in": "^0.1.6",
+    "react-loading": "^2.0.3",
+    "react-lottie": "^1.2.3",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.1.1",
+    "react-scripts": "^3.3.0",
     "validator": "^11.1.0"
   },
   "scripts": {
