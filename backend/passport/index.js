@@ -2,28 +2,32 @@ const passport = require('passport');
 const LocalStrategy = require('./localStrategy');
 const User = require('../models/user.model');
 
-// User Serialization for persistent Login Sessions
+/**
+ * serializeUser: adds passport: user to express-session
+ * 
+ * @see login.component axios.post(URL, {user}, axiosConfig)
+ * 
+ * IMPORTANT: axios post needs header set to include credentials
+ */
 passport.serializeUser((user, done) => {
-    // console.log('Serializing user: ');
-    // console.log(user._id);
-    // console.log('')
-    // console.log('')
     done(null, user._id);
 });
 
-// ISSUE NOT Being Called.
-// Express Session is creting new Session on each request
-// findOne never finds an _id that matches (? Perplexing)
+/**
+ * deserializeUser: called when sessionID is found in express-session
+ * which will be passed as session{...{passport: user}}.
+ * 
+ * IMPORTANT: axios post needs header set to include credentials.
+ * 
+ * @see profiles.component axios.get(URL, axiosConfig)
+ * 
+ */
 passport.deserializeUser( (id, done) => {
-    // console.log('Deserializing user... ')
     User.findById(id, 'username',
         (err, user) => {
             if(err){
-                // console.log("Deserializing Error:", err);
                 done(err);
             }
-            // console.log('Deserialized User: ');
-            // console.log(user);
             done(null, user);
     });
 });
