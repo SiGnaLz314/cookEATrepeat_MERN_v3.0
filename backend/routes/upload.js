@@ -2,7 +2,6 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const DOCUMENT = require("../models/upload.model");
 const uploadDocuments = require("./uploadDocuments");
 
 /**
@@ -28,30 +27,6 @@ router.route('/image').post((req, res) => {
       }
     }
   });
-});
-
-/**
- * Edit: Only edits Description.
- * 
- * NEED to add ability to update image.
- * Delete current image associated to Recipe.
- * Add New image.
- * 
- * @alias http://localhost:3000/upload/edit/:id
- * 
- */
-router.route("/edit/:id").put((req, res, next) => {
-  DOCUMENT.findOneAndUpdate(
-    { document_id: req.params.id },
-    { $set: { description: Object.keys(req.body)[0] } },
-    { new: true },
-    (err, updateDoc) => {
-      if (err) {
-        return next(err);
-      }
-      res.status(200).send(updateDoc);
-    }
-  );
 });
 
 module.exports = router;
