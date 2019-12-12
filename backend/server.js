@@ -83,7 +83,7 @@ app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use('/profiles', ensureAuthenticated, adminRouter);
 app.use('/recipes', recipesRouter);
 app.use('/users', usersRouter);
-app.use('/upload', ensureAuthenticated, uploadRouter);
+app.use('/upload', uploadRouter);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -7,15 +7,11 @@ import { Link } from 'react-router-dom';
  * @param {recipe Object} props 
  */
 const RecipeList = props => (
-    <tr>
-        <td>
-            <Link to={'/recipe/'+props.recipe.recipe_id}>
-                <button>
-                    <img id='recipe_img' alt='Not Available' src={`../uploads/${props.recipe.imagepath}`}></img>
-                </button>
-            </Link>
-        </td>
-    </tr>
+    <div className="col-lg-6 box">
+        <Link to={'/recipe/'+props.recipe.recipe_id}>
+            <input type="image" id='recipe_img' alt="Not Available" src={`../uploads/${props.recipe.imagepath}`} />
+        </Link>
+    </div>
 )
 
 /**
@@ -41,22 +37,18 @@ export default class Home extends Component {
                 <div>
                     <h3>cookEATrepeat Recipes</h3>
                     <h1>Welcome {userName}!</h1>
-                    <table className="table">
-                        <tbody>
-                            { this.recipeList() }
-                        </tbody>
-                    </table>
+                    <div id="recipe" className="container">
+                        { this.recipeList() }
+                    </div>
                 </div>
             )
         } else {
             return (
                 <div>
                     <h3>cookEATrepeat Recipes</h3>
-                    <table className="table">
-                        <tbody>
-                            { this.recipeList() }
-                        </tbody>
-                    </table>
+                    <div id="recipe" className="container">
+                        { this.recipeList() }
+                    </div>
                 </div>
             )
         }

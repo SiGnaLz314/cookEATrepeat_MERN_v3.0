@@ -4,8 +4,9 @@
 
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     text-align: center;
+    background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255,255,255,.7)), no-repeat fixed center url("./images/leaf_background.jpg");
 }
 
 .main {
@@ -24,25 +25,6 @@ body {
     padding: 0 4px;
 }
 
-/* Create two equal columns that sits next to each other */
-.column {
-    flex: 50%;
-    padding: 0 4px;
-}
-
-.column img {
-    margin-top: 8px;
-    vertical-align: middle;
-}
-
-.column ul{
-    text-align: left;
-}
-
-.column ol {
-    text-align: left;
-}
-
 .nav-link a {
     float: left;
     color: #f2f2f2;
@@ -57,16 +39,61 @@ body {
     color: black;
 }
 
-    
+
 .nav-link a.active {
     background-color: #3BA458;
     opacity: .5;
     color: white;
 }
 
+.box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 50%;
+    min-width: 200px; 
+}
+.container #recipe {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.col-lg-6.box {
+    padding: 15px;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+    flex: 50%;
+    padding: 0 4px;
+}
+
+/* Add Footer Space */
+.footer {
+    margin-top: 25px;
+    background-color: #3BA458 ;
+    opacity: .60;
+}
+
+.footer a {
+    color: #f2f2f2;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+#recipe-action {
+    margin-bottom: 5px;
+}
+
+
 #preview_image {
     max-width: 300px;
     max-height: 200px;
+}
+
+#recipe-title{
+    justify-content: center;
 }
 
 #recipe_img {
@@ -87,4 +114,15 @@ body {
     max-height:50vh;
     height: 25vh;
     overflow-y: auto;
- }
+}
+
+#seperator {
+    padding: 25vh;
+}
+
+#u-pass{
+    width: 30vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+}

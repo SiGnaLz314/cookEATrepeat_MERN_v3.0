@@ -14,7 +14,7 @@ import SignUp from './components/signup.component';
 import Navbar from "./components/navbar.component";
 import Home from "./components/home.component";
 import RecipesList from "./components/recipes-list.component";
-import RecipeDetail from "./components/recipe.component";
+import RecipeDetail from "./components/recipe-detail.component";
 import EditRecipe from "./components/edit-recipe.component";
 import CreateRecipe from "./components/create-recipe.component";
 import Profile from "./components/profiles.component";
@@ -46,6 +46,18 @@ const AuthRoute = ({ component: Component, ...rest }) => (
                     state: { from: props.location }
             }} />
     )} />
+)
+
+const Footer = () => (
+    <>
+    <div id="seperator" />
+    <div className="footer">
+        &copy; {new Date().getFullYear()}<br/>
+        created by: chris del duco<br/>
+        <a href="https://www.linkedin.com/in/christopher-del-duco/"> contact </a>
+        
+    </div>
+    </>
 )
 
 /**
@@ -209,7 +221,8 @@ class App extends Component {
                         <Route path="/recipes" render={() =>
                             <RecipesList 
                                 recipes={this.state.recipes}
-                                removeRecipe={this.removeRecipe} />}
+                                removeRecipe={this.removeRecipe}
+                                loggedIn={this.state.loggedIn} />}
                         />
                         <Route path="/recipe/:id" render={() =>
                             <RecipeDetail recipes={this.state.recipes} />}
@@ -223,6 +236,7 @@ class App extends Component {
                     </div>
                 </Router >
             )}
+            <Footer/>
             </>
         );
     }

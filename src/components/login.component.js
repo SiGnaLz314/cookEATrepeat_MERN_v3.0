@@ -68,14 +68,14 @@ export default class Login extends Component {
                     this.props.setUser({
                         userInfo
                     });
+                    this.setState({
+                        redirectTo: true,
+                    })
                 }
             })
             .catch(error => {
                 console.log(`login error: ${error}`);
             })
-            this.setState({
-                redirectTo: true,
-            });
     }
 
     render() {
@@ -89,27 +89,25 @@ export default class Login extends Component {
                 <div className="LoginForm">
                     <h1>Login</h1>
                     <form>
-                        <div className="form-group">
+                        <div className="form-group" id="u-pass">
                             <div className="col-auto">
-                                <label className="form-label" htmlFor="username">Username: </label>
-                            </div>
-                            <div className="col-auto">
+                                <label htmlFor="username"></label>
                                 <input className="form-control"
                                     type="text"
                                     name="username"
+                                    placeholder="user@email.com"
                                     value={this.state.username}
                                     onChange={this.handleChange}
                                 />
                             </div>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group" id="u-pass">
                             <div className="col-auto">
-                                <label className="form-label" htmlFor="password">Password: </label>
-                            </div>
-                            <div className="col-auto">
+                                <label htmlFor="password"></label>
                                 <input className="form-control"
                                     type="password"
                                     name="password"
+                                    placeholder="password"
                                     value={this.state.password}
                                     onChange={this.handleChange}
                                 />
@@ -117,7 +115,7 @@ export default class Login extends Component {
                         </div>
                         <div className="form-group ">
                             <div className="col-auto">
-                                <button className="btn btn-primary col-2 col-mr-auto" onClick={this.handleSubmit}>
+                                <button className="btn btn-primary col-mr-auto" onClick={this.handleSubmit}>
                                     Login
                                 </button>
                             </div>

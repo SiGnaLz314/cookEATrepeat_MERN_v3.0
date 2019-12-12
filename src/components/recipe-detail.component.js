@@ -10,7 +10,7 @@ import 'react-router';
  */
 const Recipe = props => (
     <>
-    <div className="row">
+    <div id="recipe-title" className="row">
         <h1>
             {props.recipe.recipename}
         </h1>
