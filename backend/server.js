@@ -60,24 +60,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session()); // Calls serializeUser and deserializerUser(?)
 
-// ******POINT OF INVESTIGATION*******
-// Calling passport.session() Deserializes User
-// Also adds passport: { user: userID } to Session
-// passport.session();
-
-// Moved below passport.session to ensure its enabled after passport.session
-// Added {credentials, origin} to ensure it was not being blocked by cors()
-// Can remove after ensuring crendtials move freely
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
-
-// app.use((req, res, next)=>{
-    // console.log(`APP Req._passport.session:`, req._passport.session);
-    // console.log('APP:', req.session);
-    // console.log('==================');
-    // console.log('APP:', req.user);
-    // console.log('APP isAuthenticated:', req.isAuthenticated());
-    // next();
-// });
 
 // Routes are below passport.session for proper order
 app.use('/profiles', ensureAuthenticated, adminRouter);
