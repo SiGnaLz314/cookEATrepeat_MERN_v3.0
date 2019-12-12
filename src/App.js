@@ -179,9 +179,9 @@ class App extends Component {
             {!this.state.loading ? (
                 <FadeIn>
                     <div className="container-fluid">
-                    <div class="row">
-                        <div class="col-12 p-0">
-                            <div class="min-vh-100 text-center d-flex flex-column justify-content-center">
+                    <div className="row">
+                        <div className="col-12 p-0">
+                            <div className="min-vh-100 text-center d-flex flex-column justify-content-center">
                                 <h1>we shall wait for good food</h1>
                                     <Lottie options={defaultOptions} height={120} width={120} />
                             </div>

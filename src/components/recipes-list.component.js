@@ -17,8 +17,8 @@ const RecipeDetail = props => (
     <tr>
         <td>{props.recipe.recipename}</td>
         <td>{props.recipe.animal}</td>
-        <td>{props.recipe.ingredients}</td>
-        <td>{props.recipe.instructions}</td>
+        <td><div id="data-long">{props.recipe.ingredients}</div></td>
+        <td><div id="data-long">{props.recipe.instructions}</div></td>
         <td>{props.recipe.date.substring(0,10)}</td>
         <td>
             <Link to={'/recipe/'+props.recipe.recipe_id} >

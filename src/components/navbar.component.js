@@ -13,7 +13,7 @@ const UserLinks = props => {
 		return (
             <ul className="navbar-nav mr-auto">
                 <li className="navbar-item">
-                    <NavLink to="#" className="nav-link" onClick={props._logout}>
+                    <NavLink to="/logout" className="nav-link" onClick={props._logout}>
                         logout
                     </NavLink>
                 </li>
@@ -58,12 +58,12 @@ export default class Navbar extends Component {
                     </li>
                     
                     <li className="nav-link">
-                        <NavLink to="/profiles" className="nav-link">profiles</NavLink>
+                        <NavLink to="/create" className="nav-link">create recipe</NavLink>
                     </li>
                     {this.props.loggedIn ? (
                         <>
                             <li className="nav-link">
-                                <NavLink to="/create" className="nav-link">create recipe</NavLink>
+                                <NavLink to="/profiles" className="nav-link">profiles</NavLink>
                             </li>
                         </>
                     ) : (
@@ -72,7 +72,7 @@ export default class Navbar extends Component {
                 </ul>
                 <ul className="navbar-nav ml-auto">
                 <li className="nav-link">
-                    <UserLinks _logout={this.props._logout} loggedIn={this.props.loggedIn} />
+                    <UserLinks className="nav-link" _logout={this.props._logout} loggedIn={this.props.loggedIn} />
                 </li>
                 </ul>
                 </div>

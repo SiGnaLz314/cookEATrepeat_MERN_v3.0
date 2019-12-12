@@ -82,3 +82,9 @@ body {
     width: 700px;
     height: 500px;
 }
+
+#data-long {
+    max-height:50vh;
+    height: 25vh;
+    overflow-y: auto;
+ }
