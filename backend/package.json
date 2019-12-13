@@ -4,8 +4,8 @@
   "description": "backend for cer",
   "main": "index.js",
   "scripts": {
-    "start": "set DEBUG=express-session & nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "heroku-postbuild": "cd .. && npm install --only=dev && npm install && npm run build"
   },
   "author": "signalz314",
   "license": "ISC",
@@ -27,5 +27,8 @@
     "passport": "^0.4.0",
     "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0"
+  },
+  "engines": {
+    "node": "12.13.1"
   }
 }
