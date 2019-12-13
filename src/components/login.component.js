@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import {FormErrors} from '../utils/FormErrors.util';
 
 /**
  * Login: Handle user input and interaction on Login
@@ -20,11 +21,16 @@ export default class Login extends Component {
             username: '',
             password: '',
             redirectTo: false,
+            formErrors: {username:'', password:''},
+            usernameValid: false,
+            passwordValid: false,
+            formValid: false,
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.validateField = this.validateField.bind(this);
     }
 
     componentDidMount(){
@@ -33,8 +39,10 @@ export default class Login extends Component {
     }
 
     handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value,
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({ [name]: value},
+            ()=>{ this.validateField(name, value)
         });
     }
     /**
@@ -78,6 +86,33 @@ export default class Login extends Component {
             })
     }
 
+    validateField(fieldName, value) {
+        let fieldValidationErrors = this.state.formErrors;
+        let usernameValid = this.state.usernameValid;
+        let passwordValid = this.state.passwordValid;
+
+        switch(fieldName) {
+            case 'username':
+                usernameValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+                fieldValidationErrors.username = usernameValid ? '' : ' is invalid';
+                break;
+            case 'password':
+                passwordValid = value.length >= 4;
+                fieldValidationErrors.password = passwordValid ? '' : ' is too short';
+                break;
+            default:
+                break;
+        }
+        this.setState({
+            formErrors: fieldValidationErrors,
+            usernameValid: usernameValid,
+            passwordValid: passwordValid
+        }, this.validateForm);
+    }
+    validateForm() {
+        this.setState({formValid: this.state.usernameValid && this.state.passwordValid});
+    }
+    
     render() {
         const { from } = this.props.location || { from: { pathname: '/' } };
         const { redirectTo } = this.state;
@@ -86,10 +121,15 @@ export default class Login extends Component {
             return <Redirect to={from} />
         } else {
             return (
+                <>
+                <div className="panel panel-default">
+                    <FormErrors formErrors={this.state.formErrors} />
+                </div>
+
                 <div className="LoginForm">
                     <h1>Login</h1>
                     <form>
-                        <div className="form-group" id="u-pass">
+                        <div id="u-pass" className={'form-group'}>
                             <div className="col-auto">
                                 <label htmlFor="username"></label>
                                 <input className="form-control"
@@ -101,7 +141,7 @@ export default class Login extends Component {
                                 />
                             </div>
                         </div>
-                        <div className="form-group" id="u-pass">
+                        <div id="u-pass" className="form-group">
                             <div className="col-auto">
                                 <label htmlFor="password"></label>
                                 <input className="form-control"
@@ -115,13 +155,16 @@ export default class Login extends Component {
                         </div>
                         <div className="form-group ">
                             <div className="col-auto">
-                                <button className="btn btn-primary col-mr-auto" onClick={this.handleSubmit}>
+                                <button className="btn btn-primary col-mr-auto" 
+                                    onClick={this.handleSubmit}
+                                    disabled={!this.state.formValid}>
                                     Login
                                 </button>
                             </div>
                         </div>
                     </form>
                 </div>
+                </>
             )
         }
     }

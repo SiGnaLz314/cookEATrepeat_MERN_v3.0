@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
+import { FormErrors } from '../utils/FormErrors.util';
+
 import "react-datepicker/dist/react-datepicker.css";
 
-
- const endpoint = "http://localhost:5000/upload/image/";
+const endpoint = "http://localhost:5000/upload/image/";
 
 
 /**
@@ -24,6 +25,7 @@ export default class CreateRecipe extends Component {
         this.handleSelectedFile = this.handleSelectedFile.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.validateField = this.validateField.bind(this);
 
         this.state = {
             recipename: '',
@@ -35,6 +37,17 @@ export default class CreateRecipe extends Component {
             image: '',
             imagepath: '',
             date: new Date(),
+
+            formErrors: {
+                recipename:'',
+                ingredients: '',
+                instructions: '',
+                description: '',
+            },
+            nameValid: false,
+            ingredientsValid: false,
+            instructionsValid: false,
+            descriptionValid: false,
         }
     }
 
@@ -44,11 +57,12 @@ export default class CreateRecipe extends Component {
     }
 
     handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({[name]: value},
+            ()=>{this.validateField(name, value)}
+        );
     }
-
 
     handleSelectedFile(e) {
         e.preventDefault();
@@ -62,7 +76,6 @@ export default class CreateRecipe extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-
         const recipe = {
             recipename: this.state.recipename,
             animal: this.state.animal,
@@ -87,8 +100,59 @@ export default class CreateRecipe extends Component {
             })
             .then(this.props.history.push("/"));
     }
+    
+    validateField(fieldName, value) {
+        let fieldValidationErrors = this.state.formErrors;
+        let nameValid = this.state.nameValid;
+        let ingredientsValid = this.state.ingredientsValid;
+        let instructionsValid = this.state.instructionsValid;
+        let descriptionValid = this.state.descriptionValid;
+
+        switch(fieldName) {
+            case 'recipename':
+                nameValid = value.length >= 1;
+                fieldValidationErrors.recipename = nameValid ? '' : ' is invalid';
+                break;
+            case 'ingredients':
+                ingredientsValid = value.length >= 1;
+                fieldValidationErrors.ingredients = ingredientsValid ? '' : ' is too short';
+                break;
+            case 'instructions':
+                instructionsValid = value.length >= 1;
+                fieldValidationErrors.instructions = instructionsValid ? '' : ' is too short';
+                break;
+            case 'description':
+                descriptionValid = value.length >= 1;
+                fieldValidationErrors.description = descriptionValid ? '' : ' is too short';
+                break;
+            default:
+                break;
+        }
+        this.setState({
+            formErrors: fieldValidationErrors,
+            nameValid: nameValid,
+            ingredientsValid: ingredientsValid,
+            instructionsValid: instructionsValid,
+            descriptionValid: descriptionValid,
+        }, this.validateForm);
+    }
+    validateForm() {
+        this.setState({
+            formValid: 
+                this.state.usernameValid 
+                && this.state.passwordValid
+                && this.state.ingredientsValid
+                && this.state.instructionsValid
+                && this.state.descriptionValid});
+    }
+
     render() {
         return (
+            <>
+            <div className="panel panel-default">
+                <FormErrors formErrors={this.state.formErrors} />
+            </div>
+
             <div>
                 <h3>Create Recipe</h3>
                 <form onSubmit={this.onSubmit}>
@@ -182,6 +246,7 @@ export default class CreateRecipe extends Component {
                     </div>
                 </form>
             </div>
+            </>
         )
     }
 }
