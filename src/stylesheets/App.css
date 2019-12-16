@@ -126,3 +126,8 @@ body {
     margin-right: auto;
     margin-bottom: 0;
 }
+
+.form-control.has-error{
+    border: 2px solid red;
+    border-radius: 4px;
+}

@@ -41,6 +41,7 @@ export default class SignUp extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.validateField = this.validateField.bind(this);
+        this.errorClass = this.errorClass.bind(this);
     }
 
     handleChange(event) {
@@ -128,6 +129,9 @@ export default class SignUp extends Component {
                 && this.state.lastNameValid
                 && this.state.confirmPassValid});
     }
+    errorClass(error){
+        return(error.length === 0 ? '' : 'has-error');
+    }
 
     render() {
         return (
@@ -141,7 +145,8 @@ export default class SignUp extends Component {
                 <div className="form-group" id="u-pass">
                     <div className="col-auto">
                         <label htmlFor="firstName"></label>
-                        <input className="form-control"
+                        <input
+                            className={`form-control ${this.errorClass(this.state.formErrors.firstName)}`}
                             type="text"
                             required
                             name="firstName"
@@ -154,7 +159,8 @@ export default class SignUp extends Component {
                 <div className="form-group" id="u-pass">
                     <div className="col-auto">
                         <label htmlFor="lastName"></label>
-                        <input className="form-control"
+                        <input 
+                            className={`form-control ${this.errorClass(this.state.formErrors.lastName)}`}
                             type="text"
                             required
                             name="lastName"
@@ -167,7 +173,8 @@ export default class SignUp extends Component {
                 <div className="form-group" id="u-pass">
                     <div className="col-auto">
                         <label htmlFor="username"></label>
-                        <input className="form-control"
+                        <input
+                            className={`form-control ${this.errorClass(this.state.formErrors.username)}`}
                             type="text"
                             required
                             name="username"
@@ -180,7 +187,8 @@ export default class SignUp extends Component {
                 <div className="form-group" id="u-pass">
                     <div className="col-auto">
                         <label htmlFor="password"></label>
-                        <input className="form-control"
+                        <input
+                            className={`form-control ${this.errorClass(this.state.formErrors.password)}`}
                             type="password"
                             required
                             name="password"
@@ -193,7 +201,8 @@ export default class SignUp extends Component {
                 <div className="form-group" id="u-pass">
                     <div className="col-auto">
                         <label htmlFor="confirmPassword"></label>
-                        <input className="form-control"
+                        <input
+                            className={`form-control ${this.errorClass(this.state.formErrors.password)}`}
                             type="password"
                             required
                             name="confirmPassword"

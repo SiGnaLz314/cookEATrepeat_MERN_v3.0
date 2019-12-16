@@ -31,6 +31,7 @@ export default class Login extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.validateField = this.validateField.bind(this);
+        this.errorClass = this.errorClass.bind(this);
     }
 
     componentDidMount(){
@@ -112,6 +113,9 @@ export default class Login extends Component {
     validateForm() {
         this.setState({formValid: this.state.usernameValid && this.state.passwordValid});
     }
+    errorClass(error) {
+        return(error.length === 0 ? '' : 'has-error');
+    }
     
     render() {
         const { from } = this.props.location || { from: { pathname: '/' } };
@@ -132,7 +136,8 @@ export default class Login extends Component {
                         <div id="u-pass" className={'form-group'}>
                             <div className="col-auto">
                                 <label htmlFor="username"></label>
-                                <input className="form-control"
+                                <input 
+                                    className={`form-control ${this.errorClass(this.state.formErrors.username)}`}
                                     type="text"
                                     name="username"
                                     placeholder="user@email.com"
@@ -144,7 +149,8 @@ export default class Login extends Component {
                         <div id="u-pass" className="form-group">
                             <div className="col-auto">
                                 <label htmlFor="password"></label>
-                                <input className="form-control"
+                                <input
+                                    className={`form-control ${this.errorClass(this.state.formErrors.password)}`}
                                     type="password"
                                     name="password"
                                     placeholder="password"

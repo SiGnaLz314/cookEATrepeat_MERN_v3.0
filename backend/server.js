@@ -76,18 +76,23 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-// development error handler
-// will print stacktrace
-if (environment === 'development') {
-    app.use(function(err, req, res, next) {
+if (environment === "production") {
+    // Express will serve up production assets
+    app.use(express.static("build"));
+    app.get("*", (req, res) => res.sendFile(path.resolve("build", "index.html")));
+}
+
+if (environment === "development") {
+    app.use(function (err, req, res, next) {
         res.status(err.status || 500).json(err);
         res.json(err);
     });
+    // Express will serve up production assets
+    app.use(express.static("public"));
+    app.get("*", (req, res) =>
+        res.sendFile(path.resolve("public", "index.html"))
+    );
 }
-
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
 
 app.listen(port, () => {
     console.log(`SERVER is running on port: ${port}`);
