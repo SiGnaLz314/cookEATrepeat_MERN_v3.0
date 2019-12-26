@@ -79,14 +79,16 @@ if (environment === "development") {
 }
 
 // Routes are below passport.session for proper order
-app.use('/profiles', ensureAuthenticated, adminRouter);
-app.use('/recipes', recipesRouter);
-app.use('/users', usersRouter);
-app.use('/upload', uploadRouter);
+app.use('/api/profiles', ensureAuthenticated, adminRouter);
+app.use('/api/recipes', recipesRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/upload', uploadRouter);
 
-app.get('/*', (request, response) => {
-	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
+if(process.env.NODE_ENV === 'production'){
+    app.get('/*', (request, response) => {
+        response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    });
+}
 
 app.listen(port, () => {
     console.log(`SERVER is running on port: ${port}`);

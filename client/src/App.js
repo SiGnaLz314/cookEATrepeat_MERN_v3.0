@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./stylesheets/App.css";
-import * as cooking from './stylesheets/cooking.json.js';
+import * as cooking from './stylesheets/cooking.json';
 
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
@@ -93,8 +93,8 @@ class App extends Component {
         // RECIPES & USER Passed down to components as PROPS of App
         setTimeout(() => {
             axios.all([
-                axios.get('api/recipes/'),
-                axios.get('api/users/')
+                axios.get('/api/recipes/'),
+                axios.get('/api/users/')
                 ])
                 .then(axios.spread((resRecipe, resUser) => {
                     if (resUser.data.user) {
