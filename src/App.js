@@ -55,7 +55,6 @@ const Footer = () => (
         &copy; {new Date().getFullYear()}<br/>
         created by: chris del duco<br/>
         <a href="https://www.linkedin.com/in/christopher-del-duco/"> contact </a>
-        
     </div>
     </>
 )
@@ -105,6 +104,7 @@ class App extends Component {
                             loading: true,
                         });
                     } else {
+                        console.log(resRecipe.data);
                         this.setState({
                             loggedIn: false,
                             user: null,

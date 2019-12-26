@@ -79,7 +79,7 @@ app.use(function(req, res, next) {
 if (environment === "production") {
     // Express will serve up production assets
     app.use(express.static("build"));
-    app.get("*", (req, res) => res.sendFile(path.resolve("build", "index.html")));
+    app.get("*", (req, res) => res.sendFile(path.resolve("../build", "index.html")));
 }
 
 if (environment === "development") {
@@ -90,11 +90,12 @@ if (environment === "development") {
     // Express will serve up production assets
     app.use(express.static("public"));
     app.get("*", (req, res) =>
-        res.sendFile(path.resolve("public", "index.html"))
+        res.sendFile(path.resolve("../public", "index.html"))
     );
 }
 
 app.listen(port, () => {
+    console.log('dirname:', path.resolve("../public", "index.html"));
     console.log(`SERVER is running on port: ${port}`);
 });
 
