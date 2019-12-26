@@ -26,10 +26,11 @@ export default class SignUp extends Component {
             password: '',
             confirmPassword: '',
             formErrors: {
-                username:'', 
-                firstName:'', 
-                lastName:'', 
-                password:''},
+                username: '',
+                firstName: '',
+                lastName: '',
+                password: ''
+            },
             usernameValid: false,
             firstNameValid: false,
             lastNameValid: false,
@@ -47,9 +48,10 @@ export default class SignUp extends Component {
     handleChange(event) {
         const name = event.target.name;
         const value = event.target.value;
-        this.setState({ [name]: value},
-            ()=>{ this.validateField(name, value)
-        });
+        this.setState({ [name]: value },
+            () => {
+                this.validateField(name, value)
+            });
     }
 
     handleSubmit(event) {
@@ -60,7 +62,7 @@ export default class SignUp extends Component {
             return;
         }
 
-        axios.post('http://localhost:5000/users/signup', {
+        axios.post('/api/users/signup', {
             username: this.state.username,
             password: this.state.password,
             firstName: this.state.firstName,
@@ -78,7 +80,7 @@ export default class SignUp extends Component {
             })
     }
 
-    
+
     validateField(fieldName, value) {
         let fieldValidationErrors = this.state.formErrors;
         let usernameValid = this.state.usernameValid;
@@ -87,7 +89,7 @@ export default class SignUp extends Component {
         let passwordValid = this.state.passwordValid;
         let confirmPassValid = this.state.confrimPassValid;
 
-        switch(fieldName) {
+        switch (fieldName) {
             case 'username':
                 usernameValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
                 fieldValidationErrors.username = usernameValid ? '' : ' is invalid';
@@ -122,107 +124,108 @@ export default class SignUp extends Component {
     }
     validateForm() {
         this.setState({
-            formValid: 
-                this.state.usernameValid 
+            formValid:
+                this.state.usernameValid
                 && this.state.passwordValid
                 && this.state.firstNameValid
                 && this.state.lastNameValid
-                && this.state.confirmPassValid});
+                && this.state.confirmPassValid
+        });
     }
-    errorClass(error){
-        return(error.length === 0 ? '' : 'has-error');
+    errorClass(error) {
+        return (error.length === 0 ? '' : 'has-error');
     }
 
     render() {
         return (
             <>
-            <div className="panel panel-default">
-                <FormErrors formErrors={this.state.formErrors} />
-            </div>
+                <div className="panel panel-default">
+                    <FormErrors formErrors={this.state.formErrors} />
+                </div>
 
-            <div className="SignupForm">
-                <h1>Signup for access to cookEATrepeat</h1>
-                <div className="form-group" id="u-pass">
-                    <div className="col-auto">
-                        <label htmlFor="firstName"></label>
-                        <input
-                            className={`form-control ${this.errorClass(this.state.formErrors.firstName)}`}
-                            type="text"
-                            required
-                            name="firstName"
-                            placeholder="firstname"
-                            value={this.state.firstName}
-                            onChange={this.handleChange}
-                        />
+                <div className="SignupForm">
+                    <h1>Signup for access to cookEATrepeat</h1>
+                    <div className="form-group" id="u-pass">
+                        <div className="col-auto">
+                            <label htmlFor="firstName"></label>
+                            <input
+                                className={`form-control ${this.errorClass(this.state.formErrors.firstName)}`}
+                                type="text"
+                                required
+                                name="firstName"
+                                placeholder="firstname"
+                                value={this.state.firstName}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="form-group" id="u-pass">
-                    <div className="col-auto">
-                        <label htmlFor="lastName"></label>
-                        <input 
-                            className={`form-control ${this.errorClass(this.state.formErrors.lastName)}`}
-                            type="text"
-                            required
-                            name="lastName"
-                            placeholder="lastname"
-                            value={this.state.lastName}
-                            onChange={this.handleChange}
-                        />
+                    <div className="form-group" id="u-pass">
+                        <div className="col-auto">
+                            <label htmlFor="lastName"></label>
+                            <input
+                                className={`form-control ${this.errorClass(this.state.formErrors.lastName)}`}
+                                type="text"
+                                required
+                                name="lastName"
+                                placeholder="lastname"
+                                value={this.state.lastName}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="form-group" id="u-pass">
-                    <div className="col-auto">
-                        <label htmlFor="username"></label>
-                        <input
-                            className={`form-control ${this.errorClass(this.state.formErrors.username)}`}
-                            type="text"
-                            required
-                            name="username"
-                            placeholder="username@email.com"
-                            value={this.state.username}
-                            onChange={this.handleChange}
-                        />
+                    <div className="form-group" id="u-pass">
+                        <div className="col-auto">
+                            <label htmlFor="username"></label>
+                            <input
+                                className={`form-control ${this.errorClass(this.state.formErrors.username)}`}
+                                type="text"
+                                required
+                                name="username"
+                                placeholder="username@email.com"
+                                value={this.state.username}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="form-group" id="u-pass">
-                    <div className="col-auto">
-                        <label htmlFor="password"></label>
-                        <input
-                            className={`form-control ${this.errorClass(this.state.formErrors.password)}`}
-                            type="password"
-                            required
-                            name="password"
-                            placeholder="password"
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                        />
+                    <div className="form-group" id="u-pass">
+                        <div className="col-auto">
+                            <label htmlFor="password"></label>
+                            <input
+                                className={`form-control ${this.errorClass(this.state.formErrors.password)}`}
+                                type="password"
+                                required
+                                name="password"
+                                placeholder="password"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="form-group" id="u-pass">
-                    <div className="col-auto">
-                        <label htmlFor="confirmPassword"></label>
-                        <input
-                            className={`form-control ${this.errorClass(this.state.formErrors.password)}`}
-                            type="password"
-                            required
-                            name="confirmPassword"
-                            placeholder="confirm password"
-                            value={this.state.confirmPassword}
-                            onChange={this.handleChange}
-                        />
+                    <div className="form-group" id="u-pass">
+                        <div className="col-auto">
+                            <label htmlFor="confirmPassword"></label>
+                            <input
+                                className={`form-control ${this.errorClass(this.state.formErrors.password)}`}
+                                type="password"
+                                required
+                                name="confirmPassword"
+                                placeholder="confirm password"
+                                value={this.state.confirmPassword}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-                <br />
-                <div className="form-group">
-                    <div className="col-auto">
-                        <button className="btn btn-primary col-mr-auto" 
-                            onClick={this.handleSubmit}
-                            disabled={!this.state.formValid}>
-                            signup
+                    <br />
+                    <div className="form-group">
+                        <div className="col-auto">
+                            <button className="btn btn-primary col-mr-auto"
+                                onClick={this.handleSubmit}
+                                disabled={!this.state.formValid}>
+                                signup
                         </button>
+                        </div>
                     </div>
                 </div>
-            </div>
             </>
         )
     }

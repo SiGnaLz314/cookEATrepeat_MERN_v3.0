@@ -4,51 +4,51 @@ import axios from 'axios';
 /**
  * Profile: Displays List of registered users
  * 
- * @fires axios.get('http://localhost:5000/profiles/')
+ * @fires axios.get('/profiles/')
  * 
  * @returns {DOM elements} Registerd User Details
  */
 export default class Profile extends Component {
     constructor(props) {
         super(props);
-        
+
         this.componentDidMount = this.componentDidMount.bind(this);
-        
+
         this.state = {
             users: [],
         }
-    }    
-    
-    componentDidMount(){
+    }
+
+    componentDidMount() {
         // Ensure component mounts at top of page.
         window.scrollTo(0, 0);
         let axiosConfig = {
             withCredentials: true,
             headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': 'http://localhost:3000/',
-              'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
             }
         }
-        axios.get('http://localhost:5000/profiles/', axiosConfig)
-        .then((res) => {
-            if (res.data.users) {
-                // console.log("Profiles res.data:", res.data);
+        axios.get('/api/profiles/', axiosConfig)
+            .then((res) => {
+                if (res.data.users) {
+                    // console.log("Profiles res.data:", res.data);
 
-                this.setState({
-                    users: res.data,
-                });
-            } else {
-                // console.log("Profiles else res.data:", res.data);
-                this.setState({
-                    users: res.data,
-                });
-            }
-        })
-        .catch(error => {
-            console.log('load error: ')
-            console.log(error);
-        })
+                    this.setState({
+                        users: res.data,
+                    });
+                } else {
+                    // console.log("Profiles else res.data:", res.data);
+                    this.setState({
+                        users: res.data,
+                    });
+                }
+            })
+            .catch(error => {
+                console.log('load error: ')
+                console.log(error);
+            })
     }
 
     /**
@@ -56,27 +56,27 @@ export default class Profile extends Component {
      * 
      * @return {Array} Containing <tr> elements with user data.
      */
-    userDetail(){
+    userDetail() {
         const uList = this.state.users.map(currentuser => {
             return <tr key={currentuser._id}><td key={currentuser._id}>{currentuser.username}</td></tr>;
-        }) 
+        })
         return uList;
     }
 
     render() {
-        return(
+        return (
             <div>
                 <h2>USERS:</h2>
-                    <table className="table">
-                        <thead className="thead-light">
-                            <tr>
-                                <th>User:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            { this.userDetail()}
-                        </tbody>
-                    </table>
+                <table className="table">
+                    <thead className="thead-light">
+                        <tr>
+                            <th>User:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.userDetail()}
+                    </tbody>
+                </table>
             </div>
         )
     }

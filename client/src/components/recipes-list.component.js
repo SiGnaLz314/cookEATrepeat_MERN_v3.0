@@ -19,31 +19,31 @@ const RecipeListDetail = props => (
         <td>{props.recipe.animal}</td>
         <td><div id="data-long">{props.recipe.ingredients}</div></td>
         <td><div id="data-long">{props.recipe.instructions}</div></td>
-        <td>{props.recipe.date.substring(0,10)}</td>
+        <td>{props.recipe.date.substring(0, 10)}</td>
         <td>
-            <Link to={'/recipe/'+props.recipe.recipe_id} >
+            <Link to={'/recipe/' + props.recipe.recipe_id} >
                 <input type="image" alt="Not Available" id='recipe_img' src={`../uploads/${props.recipe.imagepath}`} />
             </Link>
         </td>
         <td>
             <div id="recipe-action">
-            <button className="btn btn-outline-primary col-auto col-mr-auto">
-                <Link key={props.recipe.recipe_id} to={{ pathname: `/edit/${props.recipe.recipe_id}`, state:{ recipe: props.recipe }}}>edit</Link>
-            </button>
+                <button className="btn btn-outline-primary col-auto col-mr-auto">
+                    <Link key={props.recipe.recipe_id} to={{ pathname: `/edit/${props.recipe.recipe_id}`, state: { recipe: props.recipe } }}>edit</Link>
+                </button>
             </div>
-        {/* Only Show to users logged in */}
-        {props.loggedIn   ? (
-            <div id="recipe-action">
-            <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}>
-                <Link key={props.recipe.recipe_id} to="#">delete</Link>
-            {/* <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) props.deleteRecipe(props.recipe.recipe_id) }}>
+            {/* Only Show to users logged in */}
+            {props.loggedIn ? (
+                <div id="recipe-action">
+                    <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}>
+                        <Link key={props.recipe.recipe_id} to="#">delete</Link>
+                        {/* <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) props.deleteRecipe(props.recipe.recipe_id) }}>
                 <Link key={props.recipe.recipe_id} to="#">delete</Link> */}
-            </button>
-            </div>
-        ):( 
-            <div></div>
-        )}
-        </td>   
+                    </button>
+                </div>
+            ) : (
+                    <div></div>
+                )}
+        </td>
     </tr>
 )
 
@@ -59,13 +59,13 @@ const RecipeListDetail = props => (
 export default class RecipesList extends Component {
     constructor(props) {
         super(props);
-        
+
         this.deleteRecipe = this.deleteRecipe.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
 
     }
 
-    componentDidMount(){
+    componentDidMount() {
         // Ensure component mounts at top of page.
         window.scrollTo(0, 0);
     }
@@ -76,15 +76,15 @@ export default class RecipesList extends Component {
      * @param {id} recipe_id
      */
     deleteRecipe(id) {
-        axios.delete('http://localhost:5000/recipes/delete/'+id )
-        .then(() => {
-            this.props.removeRecipe(id);
-        })
-        .catch((err) => {
-            console.log(`Error Deleting Recipe: ${err}`);
-        });
+        axios.delete('/api/recipes/delete/' + id)
+            .then(() => {
+                this.props.removeRecipe(id);
+            })
+            .catch((err) => {
+                console.log(`Error Deleting Recipe: ${err}`);
+            });
     }
-    
+
     /**
      * recipeListDetail: Map each recipe contained in props to currentrecipe
      * 
@@ -92,10 +92,10 @@ export default class RecipesList extends Component {
      * 
      * @return List of <RecipeListDetail> elements with Recipe Data organized in table rows.
      */
-    recipeListDetail(){
+    recipeListDetail() {
         const rList = this.props.recipes.map(currentrecipe => {
-            return <RecipeListDetail recipe={currentrecipe} location={this.props.location} deleteRecipe={this.deleteRecipe} key={currentrecipe.recipe_id}  loggedIn={this.props.loggedIn}/>;
-        }) 
+            return <RecipeListDetail recipe={currentrecipe} location={this.props.location} deleteRecipe={this.deleteRecipe} key={currentrecipe.recipe_id} loggedIn={this.props.loggedIn} />;
+        })
         return rList;
     }
 
@@ -106,17 +106,17 @@ export default class RecipesList extends Component {
                 <table className="table">
                     <thead className="thead-light">
                         <tr>
-                        <th>Recipe</th>
-                        <th>Animal</th>
-                        <th>Ingredients</th>
-                        <th>Instructions</th>
-                        <th>Date</th>
-                        <th>Recipe Image</th>
-                        <th>Actions</th>
+                            <th>Recipe</th>
+                            <th>Animal</th>
+                            <th>Ingredients</th>
+                            <th>Instructions</th>
+                            <th>Date</th>
+                            <th>Recipe Image</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        { this.recipeListDetail() }
+                        {this.recipeListDetail()}
                     </tbody>
                 </table>
             </div>

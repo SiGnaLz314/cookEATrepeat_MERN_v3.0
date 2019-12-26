@@ -18,7 +18,7 @@ export default class EditRecipe extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
-        
+
         this.state = {
             recipename: '',
             animal: '',
@@ -28,8 +28,8 @@ export default class EditRecipe extends Component {
             recipe_id: id,
         }
     }
-    
-    componentDidMount(){
+
+    componentDidMount() {
         // Ensure component mounts at top of page.
         window.scrollTo(0, 0);
         var recipe_props = this.props.location.state.recipe;
@@ -46,8 +46,8 @@ export default class EditRecipe extends Component {
             [event.target.name]: event.target.value
         });
     }
-    
-    onSubmit(e){
+
+    onSubmit(e) {
         e.preventDefault();
 
         const recipe = {
@@ -59,7 +59,7 @@ export default class EditRecipe extends Component {
             recipe_id: this.state.recipe_id,
         }
 
-        axios.post('http://localhost:5000/recipes/update/'+ recipe.recipe_id, recipe)
+        axios.post('/api/recipes/update/' + recipe.recipe_id, recipe)
             .then(res => {
                 this.props.history.push('/');
             })
@@ -87,20 +87,20 @@ export default class EditRecipe extends Component {
                             className="form-control"
                             value={this.state.animal}
                             onChange={this.handleChange}>
-                                <option value="beef">Beef</option>
-                                <option value="chicken">Chicken</option>
-                                <option value="dessert">Dessert</option>
-                                <option value="pork">Pork</option>
-                                <option value="seafood">Seafood</option>
-                            </select>
+                            <option value="beef">Beef</option>
+                            <option value="chicken">Chicken</option>
+                            <option value="dessert">Dessert</option>
+                            <option value="pork">Pork</option>
+                            <option value="seafood">Seafood</option>
+                        </select>
                     </div>
                     <div className="form-group">
                         <label htmlFor="ingredients">Variables: </label>
-                        <textarea className="form-control" 
-                            required 
+                        <textarea className="form-control"
+                            required
                             name="ingredients"
-                            rows="3" 
-                            cols="50" 
+                            rows="3"
+                            cols="50"
                             placeholder="Variables"
                             value={this.state.ingredients}
                             onChange={this.handleChange}
@@ -108,11 +108,11 @@ export default class EditRecipe extends Component {
                     </div>
                     <div className="form--group">
                         <label htmlFor="instructions">Algorithm: </label>
-                        <textarea className="form-control" 
-                            required 
+                        <textarea className="form-control"
+                            required
                             name="instructions"
-                            rows="3" 
-                            cols="50" 
+                            rows="3"
+                            cols="50"
                             placeholder="Algorithm"
                             value={this.state.instructions}
                             onChange={this.handleChange}

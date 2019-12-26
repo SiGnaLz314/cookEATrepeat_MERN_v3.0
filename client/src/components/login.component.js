@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import {FormErrors} from '../utils/FormErrors.util';
+import { FormErrors } from '../utils/FormErrors.util';
 
 /**
  * Login: Handle user input and interaction on Login
@@ -21,7 +21,7 @@ export default class Login extends Component {
             username: '',
             password: '',
             redirectTo: false,
-            formErrors: {username:'', password:''},
+            formErrors: { username: '', password: '' },
             usernameValid: false,
             passwordValid: false,
             formValid: false,
@@ -34,7 +34,7 @@ export default class Login extends Component {
         this.errorClass = this.errorClass.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         // Ensure component mounts at top of page.
         window.scrollTo(0, 0);
     }
@@ -42,14 +42,15 @@ export default class Login extends Component {
     handleChange(event) {
         const name = event.target.name;
         const value = event.target.value;
-        this.setState({ [name]: value},
-            ()=>{ this.validateField(name, value)
-        });
+        this.setState({ [name]: value },
+            () => {
+                this.validateField(name, value)
+            });
     }
     /**
      * handleSumbit: Passes results to props.setUser (method of App Component).
      * 
-     * @fires event:POST 'http://localhost:5000/users/login'
+     * @fires event:POST '/users/login'
      * 
      * @param {String} username 
      * @param {String} password
@@ -60,14 +61,14 @@ export default class Login extends Component {
         let axiosConfig = {
             withCredentials: true,
             headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': 'http://localhost:3000/',
-              'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
             }
-          }
-        axios.post('http://localhost:5000/users/login', { username:this.state.username, password:this.state.password }, axiosConfig)
+        }
+        axios.post('/api/users/login', { username: this.state.username, password: this.state.password }, axiosConfig)
             .then(res => {
-                // console.log("APP Login: res", res);
+                console.log("APP Login: res", res);
                 // console.log("APP Login: res.data", res.data);
                 if (res.status === 200) {
                     var userInfo = {
@@ -92,7 +93,7 @@ export default class Login extends Component {
         let usernameValid = this.state.usernameValid;
         let passwordValid = this.state.passwordValid;
 
-        switch(fieldName) {
+        switch (fieldName) {
             case 'username':
                 usernameValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
                 fieldValidationErrors.username = usernameValid ? '' : ' is invalid';
@@ -111,12 +112,12 @@ export default class Login extends Component {
         }, this.validateForm);
     }
     validateForm() {
-        this.setState({formValid: this.state.usernameValid && this.state.passwordValid});
+        this.setState({ formValid: this.state.usernameValid && this.state.passwordValid });
     }
     errorClass(error) {
-        return(error.length === 0 ? '' : 'has-error');
+        return (error.length === 0 ? '' : 'has-error');
     }
-    
+
     render() {
         const { from } = this.props.location || { from: { pathname: '/' } };
         const { redirectTo } = this.state;
@@ -126,53 +127,52 @@ export default class Login extends Component {
         } else {
             return (
                 <>
-                <div className="panel panel-default">
-                    <FormErrors formErrors={this.state.formErrors} />
-                </div>
+                    <div className="panel panel-default">
+                        <FormErrors formErrors={this.state.formErrors} />
+                    </div>
 
-                <div className="LoginForm">
-                    <h1>Login</h1>
-                    <form>
-                        <div id="u-pass" className={'form-group'}>
-                            <div className="col-auto">
-                                <label htmlFor="username"></label>
-                                <input 
-                                    className={`form-control ${this.errorClass(this.state.formErrors.username)}`}
-                                    type="text"
-                                    name="username"
-                                    placeholder="user@email.com"
-                                    value={this.state.username}
-                                    onChange={this.handleChange}
-                                />
+                    <div className="LoginForm">
+                        <h1>Login</h1>
+                        <form>
+                            <div id="u-pass" className={'form-group'}>
+                                <div className="col-auto">
+                                    <label htmlFor="username"></label>
+                                    <input
+                                        className={`form-control ${this.errorClass(this.state.formErrors.username)}`}
+                                        type="text"
+                                        name="username"
+                                        placeholder="user@email.com"
+                                        value={this.state.username}
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <div id="u-pass" className="form-group">
-                            <div className="col-auto">
-                                <label htmlFor="password"></label>
-                                <input
-                                    className={`form-control ${this.errorClass(this.state.formErrors.password)}`}
-                                    type="password"
-                                    name="password"
-                                    placeholder="password"
-                                    value={this.state.password}
-                                    onChange={this.handleChange}
-                                />
+                            <div id="u-pass" className="form-group">
+                                <div className="col-auto">
+                                    <label htmlFor="password"></label>
+                                    <input
+                                        className={`form-control ${this.errorClass(this.state.formErrors.password)}`}
+                                        type="password"
+                                        name="password"
+                                        placeholder="password"
+                                        value={this.state.password}
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <div className="form-group ">
-                            <div className="col-auto">
-                                <button className="btn btn-primary col-mr-auto" 
-                                    onClick={this.handleSubmit}
-                                    disabled={!this.state.formValid}>
-                                    Login
+                            <div className="form-group ">
+                                <div className="col-auto">
+                                    <button className="btn btn-primary col-mr-auto"
+                                        onClick={this.handleSubmit}
+                                        disabled={!this.state.formValid}>
+                                        Login
                                 </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
+                        </form>
+                    </div>
                 </>
             )
         }
     }
-
 }
