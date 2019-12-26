@@ -19,6 +19,7 @@ import EditRecipe from "./components/edit-recipe.component";
 import CreateRecipe from "./components/create-recipe.component";
 import Profile from "./components/profiles.component";
 
+// Animated Background Options
 const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -92,8 +93,8 @@ class App extends Component {
         // RECIPES & USER Passed down to components as PROPS of App
         setTimeout(() => {
             axios.all([
-                axios.get('http://localhost:5000/recipes/'),
-                axios.get('http://localhost:5000/users/')
+                axios.get('api/recipes/'),
+                axios.get('api/users/')
                 ])
                 .then(axios.spread((resRecipe, resUser) => {
                     if (resUser.data.user) {
@@ -122,7 +123,7 @@ class App extends Component {
 
     _logout(event) {
         event.preventDefault();
-        axios.post('http://localhost:5000/users/logout')
+        axios.post('api/users/logout')
             .then(res => {
                 if (res.status === 200) {
                     this.setState({
@@ -183,7 +184,6 @@ class App extends Component {
             recipes: rArray,
         })
     }
-    
 
     render() {
         return (
@@ -195,7 +195,7 @@ class App extends Component {
                         <div className="col-12 p-0">
                             <div className="min-vh-100 text-center d-flex flex-column justify-content-center">
                                 <h1>we shall wait for good food</h1>
-                                    <Lottie options={defaultOptions} height={120} width={120} />
+                                <Lottie options={defaultOptions} height={120} width={120} />
                             </div>
                         </div>
                     </div>
@@ -234,6 +234,7 @@ class App extends Component {
                             addRecipe={this.addRecipe} />
                         <AuthRoute path="/profiles" loggedIn={this.state.loggedIn} component={Profile} />
                     </>
+                    <Redirect path="*" to="/" />
                 </Switch >
             )}
             <Footer/>
