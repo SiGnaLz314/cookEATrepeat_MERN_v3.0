@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import axios from 'axios';
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -202,8 +202,8 @@ class App extends Component {
                     </div>
                 </FadeIn>
               ) : (
-                <Router>
-                    <div className="container">
+                <Switch>
+                    <>
                         <Navbar _logout={this._logout} loggedIn={this.state.loggedIn} />
                         <br />
                         <Route exact path="/" render={() =>
@@ -233,8 +233,8 @@ class App extends Component {
                             component={CreateRecipe}
                             addRecipe={this.addRecipe} />
                         <AuthRoute path="/profiles" loggedIn={this.state.loggedIn} component={Profile} />
-                    </div>
-                </Router >
+                    </>
+                </Switch >
             )}
             <Footer/>
             </>
