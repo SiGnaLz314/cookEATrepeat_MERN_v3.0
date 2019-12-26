@@ -1,51 +1,36 @@
 {
-  "name": "cer_mern_v2",
-  "version": "0.1.0",
-  "private": true,
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend for cer",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
+  },
+  "author": "signalz314",
+  "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.0",
+    "aws-sdk": "^2.589.0",
     "bcryptjs": "^2.4.3",
-    "bootstrap": "^4.3.1",
-    "http-proxy-middleware": "^0.20.0",
-    "is-empty": "^1.2.0",
+    "body-parser": "^1.19.0",
+    "connect-mongo": "^3.1.2",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.1.0",
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "express-session": "^1.17.0",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": ">=5.7.5",
+    "mongoose-sequence": "^5.2.2",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
     "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
-    "react": "^16.11.0",
-    "react-datepicker": "^2.9.6",
-    "react-dom": "^16.11.0",
-    "react-fade-in": "^0.1.6",
-    "react-lottie": "^1.2.3",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.3.0",
-    "validator": "^11.1.0"
+    "passport-google-oauth": "^2.0.0",
+    "passport-local": "^1.0.0"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "proxy": "http://localhost:5000",
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "eslint": "^6.6.0",
-    "eslint-utils": "^1.4.3"
+  "engines": {
+    "node": "12.13.1"
   }
 }

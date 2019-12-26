@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./stylesheets/App.css";
-import * as cooking from './stylesheets/cooking.json';
+import * as cooking from './stylesheets/cooking.json.js';
 
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
