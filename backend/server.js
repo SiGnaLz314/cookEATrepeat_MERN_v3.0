@@ -11,21 +11,19 @@ const MongoStore = require('connect-mongo')(session);
 const port = process.env.PORT || 5000;
 const morgan = require('morgan');
 
+var environment = process.env.NODE_ENV || 'development';
+
 const adminRouter = require('./routes/admin');
 const recipesRouter = require('./routes/recipes');
 const usersRouter = require('./routes/users');
 const uploadRouter = require('./routes/upload');
 
-var environment = process.env.NODE_ENV || 'development';
-
 // MIDDLEWARE
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(express.static('uploads'));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "client", "build")))
 
 // MongoClient constructor
 const uri = process.env.ATLAS_URI;
@@ -39,7 +37,6 @@ const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
 })
-
 
 // SESSION Config
 var sessionStore = new MongoStore({ mongooseConnection: connection });
@@ -59,9 +56,27 @@ app.use(
     })
 )
 app.use(passport.initialize());
-app.use(passport.session()); // Calls serializeUser and deserializerUser(?)
+app.use(passport.session()); // Calls serializeUser and deserializerUser
 
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cors({ credentials: true }));
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST, OPTIONS');
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept'
+    );
+    next();
+});
+
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('client/build'));
+}
+
+if (environment === "development") {
+    app.use(express.static('client/public'));
+}
 
 // Routes are below passport.session for proper order
 app.use('/profiles', ensureAuthenticated, adminRouter);
@@ -69,33 +84,11 @@ app.use('/recipes', recipesRouter);
 app.use('/users', usersRouter);
 app.use('/upload', uploadRouter);
 
-/// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    let err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+app.get('/*', (request, response) => {
+	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
-if (environment === "production") {
-    // Express will serve up production assets
-    app.use(express.static("build"));
-    app.get("*", (req, res) => res.sendFile(path.resolve("../build", "index.html")));
-}
-
-if (environment === "development") {
-    app.use(function (err, req, res, next) {
-        res.status(err.status || 500).json(err);
-        res.json(err);
-    });
-    // Express will serve up production assets
-    app.use(express.static("public"));
-    app.get("*", (req, res) =>
-        res.sendFile(path.resolve("../public", "index.html"))
-    );
-}
-
 app.listen(port, () => {
-    console.log('dirname:', path.resolve("../public", "index.html"));
     console.log(`SERVER is running on port: ${port}`);
 });
 
