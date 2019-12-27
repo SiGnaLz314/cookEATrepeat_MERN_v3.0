@@ -10,8 +10,8 @@ const path = require("path");
  * @param {string} filename gets original filename
  */
 const storageEngine = multer.diskStorage({
-    destination: "../public/uploads",
-    filename: function(req, file, fn) {
+    destination: "./uploads",
+    filename: function (req, file, fn) {
         fn(null, file.originalname);
     }
 });
@@ -22,7 +22,7 @@ const storageEngine = multer.diskStorage({
  * @param {Multer File} file 
  * @param {function} cb(error, boolean) 
  */
-const validateFile = function(file, cb) {
+const validateFile = function (file, cb) {
     allowedFileTypes = /jpeg|jpg|png|gif|pdf/;
     const extension = allowedFileTypes.test(
         path.extname(file.originalname).toLowerCase()
@@ -47,7 +47,7 @@ const uploadDocuments = multer({
     storage: storageEngine,
     //SET LIMIT AFTER IMAGE MANIPULATION
     //limits: { fileSize: 200000 },
-    fileFilter: function(req, file, callback) {
+    fileFilter: function (req, file, callback) {
         validateFile(file, callback);
     }
 }).single("file");

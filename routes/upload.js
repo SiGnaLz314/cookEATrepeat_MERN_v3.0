@@ -7,7 +7,7 @@ const uploadDocuments = require("./uploadDocuments");
 /**
  * POST: Upload image to storage 
  * 
- * @alias http://localhost:3000/upload/image
+ * @alias /upload/image
  * 
  * @see routes/uploadDocuments handles moving the image to storage
  */

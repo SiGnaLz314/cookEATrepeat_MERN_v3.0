@@ -8,13 +8,11 @@ let Recipe = require('../models/recipe.model');
  * Get: All Recipes in Database
  * 
  * @see home.component
- * @alias http://localhost:3000/
+ * @alias /
  */
 router.route('/').get((req, res) => {
-    // console.log("Session Debugging:");
-    // console.log("Recipe Request Session ID: ", req.sessionID);
-    // console.log("Recipe Request Session: ", req.session);
-    // console.log("Recipe Request _passport: ", req._passport);
+    // console.log("Mongo DB Debugging:");
+    // console.log("Recipe Request: ", req)
     Recipe.find()
         .then(recipes => res.json(recipes))
         .catch(err => res.status(400).json('Error: ' + err));
@@ -24,7 +22,7 @@ router.route('/').get((req, res) => {
  * Post: Create Recipe
  * 
  * @see create-recipe.component
- * @alias http://localhost:3000/create
+ * @alias /create
  */
 router.route('/add').post((req, res) => {
     const recipename = req.body.recipename;
@@ -44,13 +42,13 @@ router.route('/add').post((req, res) => {
     });
 
     newRecipe.save()
-        .then(() => 
+        .then(() =>
             res.send({
                 status: "200",
                 responseType: "string",
                 response: "success"
             })
-          )
+        )
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -62,7 +60,7 @@ router.route('/add').post((req, res) => {
  * Will remove
  */
 router.route('/:id').get((req, res) => {
-    Recipe.findOne({recipe_id: req.params.id})
+    Recipe.findOne({ recipe_id: req.params.id })
         .then(recipe => res.json(recipe))
         .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -70,31 +68,31 @@ router.route('/:id').get((req, res) => {
 /**
  * Delete: Removes recipe from Database
  * 
- * @alias http://localhost:3000/recipes
+ * @alias /recipes
  * @see recipes-list.component
  */
 router.route('/delete/:id').delete((req, res) => {
-    Recipe.findOneAndRemove({ recipe_id: req.params.id}, (err, result)=>{
-            if (err) {
-                return next(err);
-            }
-            const target_path = path.join(__dirname, '../../public/uploads/') + result.imagepath;
-            fs.unlink(target_path, function() {
-                res.json('Recipe Deleted Successfully');
-            });    
-        })
+    Recipe.findOneAndRemove({ recipe_id: req.params.id }, (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        const target_path = path.join(__dirname, '../../public/uploads/') + result.imagepath;
+        fs.unlink(target_path, function () {
+            res.json('Recipe Deleted Successfully');
+        });
+    })
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 /**
  * Update: Update recipe in Database
  * 
- * @alias http://localhost:3000/edit/:id
+ * @alias /edit/:id
  * @see edit-recipe.component
  */
 router.route('/update/:id').post((req, res) => {
     // console.log("Recipe Update POST Request: ", req);
-    Recipe.findOneAndUpdate({recipe_id: req.body.recipe_id}, req.body)
+    Recipe.findOneAndUpdate({ recipe_id: req.body.recipe_id }, req.body)
         .then(() => res.json('Recipe Updated!'))
         .catch(err => res.status(400).json('Error: ' + err));
 });

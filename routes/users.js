@@ -9,17 +9,17 @@ const passport = require('../passport');
  * 
  * Creates User Object in Database with user input details.
  * 
- * @alias http://localhost:3000/signup
+ * @alias /signup
  * @see signup.coponent
  */
-router.route('/signup').post( (req, res) => {
-    const {username, firstName, lastName, password } = req.body
+router.route('/signup').post((req, res) => {
+    const { username, firstName, lastName, password } = req.body
 
     User.findOne({ 'username': username }, (err, user) => {
-        if(err){
+        if (err) {
             console.log(`Sign Up Error: ${err}`);
         }
-        else if(user) {
+        else if (user) {
             return res.send({
                 err: 'User already exists.'
             });
@@ -31,13 +31,13 @@ router.route('/signup').post( (req, res) => {
             'lastName': lastName,
         })
         newUser.save((err, savedUser) => {
-                if (err) 
-                    return res.json(err)
-                res.json(savedUser)
-                // res.redirect('./login');
-		    })
+            if (err)
+                return res.json(err)
+            res.json(savedUser)
+            // res.redirect('./login');
+        })
     })
-    .catch(err => res.status(400).json('Error: ' + err));
+        .catch(err => res.status(400).json('Error: ' + err));
 })
 
 /**
@@ -47,7 +47,7 @@ router.route('/signup').post( (req, res) => {
  * 
  */
 router.route('/login').post(
-    function(req, res, next) {
+    function (req, res, next) {
         next();
     },
     passport.authenticate('local'),
@@ -59,8 +59,8 @@ router.route('/login').post(
         next();
     },
     (req, res, next) => {
-        req.login(req.user, () =>{
-            req.session.save(()=>{
+        req.login(req.user, () => {
+            req.session.save(() => {
                 // console.log('Req.Session.save():', req.session)
             });
         });
@@ -82,7 +82,7 @@ router.route('/login').post(
 //         console.log("USERS /login: error", error);
 //         console.log("USERS /login: user", user);
 //         console.log("USERS /login: info", info);
-    
+
 //         if (error) {
 //             res.status(401).send(error);
 //         } else if (!user) {
@@ -90,7 +90,7 @@ router.route('/login').post(
 //         } else {
 //             next();
 //         }
-    
+
 //             res.status(401).send(info);
 //         })(req, res);
 //     },
@@ -106,11 +106,11 @@ router.route('/login').post(
  * 
  * Supplies the boolean for loggedIn.
  * 
- * @alias http://localhost:3000/
+ * @alias /
  * @see App
  */
 router.route('/').get((req, res) => {
-    if(req.user){
+    if (req.user) {
         // console.log(`/ GET req.user: ${req.user}`);
         return res.json({ user: req.user });
     } else {
@@ -127,12 +127,13 @@ router.route('/').get((req, res) => {
  * 
  */
 router.route('/logout').post((req, res) => {
-    if(req.user) {
+    if (req.user) {
         // console.log('LOGOUT:', req.user);
         req.logout();
         res.redirect('/');
     } else {
-        return res.json({message: 'Logged Out'});
+        // return res.json({message: 'Logged Out'});
+        return res.clearCookie('connect.sid', { path: '/' }).status(200).send('Logged Out, Cookies Cleared');
     }
 })
 

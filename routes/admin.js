@@ -4,7 +4,7 @@ const User = require('../models/user.model');
 /**
  * GET: Profiles.
  * 
- * @alias http://localhost:3000/Profiles
+ * @alias /Profiles
  * @see profiles.component
  */
 router.route('/').get((req, res, next) => {
