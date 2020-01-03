@@ -206,6 +206,20 @@ class App extends Component {
                     <>
                         <Navbar _logout={this._logout} loggedIn={this.state.loggedIn} />
                         <br />
+                        {this.state.recipes ? (
+                            <Route exact path="/" render={() =>
+                                <Home
+                                    user={this.state.user}
+                                    recipes={this.state.recipes}
+                                />
+                            }
+                            />
+                        ):(
+                            <Route exact path="/" render={() =>
+                                ''
+                            }
+                            />
+                        )}
                         <Route exact path="/" render={() =>
                             <Home
                                 user={this.state.user}
