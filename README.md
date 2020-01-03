@@ -23,17 +23,20 @@ A work in progress.
 1. After Repository is cloned, dependencies installed, and database is established.
 2. Open a terminal window (CMD) and enter:
 	```
-	$ cd ..\cer_mern_v2>npm start
-    $ cd ..\cer_mern_v2\backend>nodemon server.js
+	$ cd ..\cer_mern_v2>nodemon server.js
+	$ cd ..\cer_mern_v2\client>npm start
 	```
 
 ### .env
-- Create .env file in ../backend/
+- Create .env file in root directory
 - Add Keys to .env file:
 
 SERVICE | ENTRY
 ------------ | -------------
 Mongo Cloud DB | ATLAS_URI = [MongoDB Atlas](https://cloud.mongodb.com/)
+Environment Variables | SECRET_KEY = **secret_key**
+...| GENERATE_SOURCEMAP = false
+GENERATE_SOURCEMAP=false
 Amazon Cloud Hosting | AWS_BUCKET_NAME = [AWS BUCKET](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html)
 ... | AWS_ACCESS_KEY_ID = **OPTION for hosting images instead of inside a static folder**
 ... | AWS_SECRET_ACCESS_KEY = **see above**

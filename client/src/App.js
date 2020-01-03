@@ -9,9 +9,10 @@ import * as cooking from './stylesheets/cooking.json';
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
 
-import Login from './components/login.component';
-import SignUp from './components/signup.component';
+import Login from "./components/login.component";
+import SignUp from "./components/signup.component";
 import Navbar from "./components/navbar.component";
+import Footer from "./components/footer.component";
 import Home from "./components/home.component";
 import RecipesList from "./components/recipes-list.component";
 import RecipeDetail from "./components/recipe-detail.component";
@@ -47,17 +48,6 @@ const AuthRoute = ({ component: Component, ...rest }) => (
                     state: { from: props.location }
             }} />
     )} />
-)
-
-const Footer = () => (
-    <>
-    <div id="seperator" />
-    <div className="footer">
-        &copy; {new Date().getFullYear()}<br/>
-        created by: chris del duco<br/>
-        <a href="https://www.linkedin.com/in/christopher-del-duco/"> contact </a>
-    </div>
-    </>
 )
 
 /**
