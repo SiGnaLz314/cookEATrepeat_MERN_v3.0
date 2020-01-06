@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 /**
- * RecipeList: List of Recipe Images
+ * RecipeImages: List of Recipe Images
  * 
  * @param {recipe Object} props 
  */
-const RecipeList = props => (
+const RecipeImages = props => (
     <div className="col-lg-6 box">
         <Link to={'/recipe/' + props.recipe.recipe_id}>
-            <input type="image" id='recipe_img' alt="Not Available" src={`../uploads/${props.recipe.imagepath}`} />
+            <img id='recipe_img' alt="Not Available" src={`../uploads/${props.recipe.imagepath}`} />
         </Link>
     </div>
 )
@@ -23,13 +23,12 @@ const RecipeList = props => (
  */
 export default class Home extends Component {
 
-    recipeList() {
+    recipeImages() {
         return this.props.recipes.map(currentrecipe => {
-            return <RecipeList recipe={currentrecipe} key={currentrecipe.recipe_id} />;
+            return <RecipeImages recipe={currentrecipe} key={currentrecipe.recipe_id} />;
         })
     }
     welcome(user) {
-        console.log("Welcome User:", user);
         let welcomeName = user.toString();
         welcomeName = welcomeName.substring(0, welcomeName.indexOf('@'));
         return (
@@ -37,7 +36,7 @@ export default class Home extends Component {
                 <h3>cookEATrepeat Recipes</h3>
                 <h1>Welcome {welcomeName}!</h1>
                 <div id="recipe" className="container">
-                    {this.recipeList()}
+                    {this.recipeImages()}
                 </div>
             </div>
         );
@@ -51,7 +50,7 @@ export default class Home extends Component {
                 <div>
                     <h3>cookEATrepeat Recipes</h3>
                     <div id="recipe" className="container">
-                        {this.recipeList()}
+                        {this.recipeImages()}
                     </div>
                 </div>
             )
