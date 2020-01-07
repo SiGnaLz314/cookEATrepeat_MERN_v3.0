@@ -26,7 +26,7 @@ const defaultOptions = {
     autoplay: true,
     animationData: cooking.default,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
+        preserveAspectRatio: "xMidYMid slice"
     }
 };
 
@@ -40,12 +40,12 @@ const defaultOptions = {
 const AuthRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
         rest.loggedIn === true
-            ? (Component === CreateRecipe 
-                ? <Component addRecipe={rest.addRecipe} {...props}/>
-                    : <Component {...props} /> )
-                : <Redirect to={{
-                    pathname: '/login',
-                    state: { from: props.location }
+            ? (Component === CreateRecipe
+                ? <Component addRecipe={rest.addRecipe} {...props} />
+                : <Component {...props} />)
+            : <Redirect to={{
+                pathname: '/login',
+                state: { from: props.location }
             }} />
     )} />
 )
@@ -85,7 +85,7 @@ class App extends Component {
             axios.all([
                 axios.get('/api/recipes/'),
                 axios.get('/api/users/')
-                ])
+            ])
                 .then(axios.spread((resRecipe, resUser) => {
                     if (resUser.data.user) {
                         this.setState({
@@ -154,7 +154,7 @@ class App extends Component {
             recipes: this.state.recipes.filter(el => el.recipe_id !== recipeID),
         })
     }
-    
+
     /**
      * addRecipe: Adds recipe to state based on recipe Object parameter.
      * 
@@ -178,64 +178,58 @@ class App extends Component {
     render() {
         return (
             <>
-            {!this.state.loading ? (
-                <FadeIn>
-                    <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-12 p-0">
-                            <div className="min-vh-100 text-center d-flex flex-column justify-content-center">
-                                <h1>we shall wait for good food</h1>
-                                <Lottie options={defaultOptions} height={120} width={120} />
+                {!this.state.loading ? (
+                    <FadeIn>
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-12 p-0">
+                                    <div className="min-vh-100 text-center d-flex flex-column justify-content-center">
+                                        <h1>we shall wait for good food</h1>
+                                        <Lottie options={defaultOptions} height={120} width={120} />
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    </div>
-                </FadeIn>
-              ) : (
-                <Switch>
-                    <>
-                        <Navbar _logout={this._logout} loggedIn={this.state.loggedIn} />
-                        <br />
-                        {this.state.recipes ? (
-                            <Route exact path="/" render={() =>
-                                <Home
-                                    user={this.state.user}
-                                    recipes={this.state.recipes}
+                    </FadeIn>
+                ) : (
+                        <Switch>
+                            <>
+                                <Navbar _logout={this._logout} loggedIn={this.state.loggedIn} />
+                                <br />
+                                {this.state.recipes ? (
+                                    <Route exact path="/" render={() =>
+                                        <Home
+                                            user={this.state.user}
+                                            recipes={this.state.recipes} />}
+                                    />
+                                ) : (
+                                    <Route exact path="/" render={() => '' } />
+                                )}
+                                <Route exact path="/login" render={() =>
+                                    <Login
+                                        setUser={this.setUser} />}
                                 />
-                            }
-                            />
-                        ):(
-                            <Route exact path="/" render={() =>
-                                ''
-                            }
-                            />
-                        )}
-                        <Route exact path="/login" render={() =>
-                            <Login
-                                setUser={this.setUser}
-                            />}
-                        />
-                        <Route exact path="/signup" component={SignUp} />
-                        <Route path="/recipes" render={() =>
-                            <RecipesList 
-                                recipes={this.state.recipes}
-                                removeRecipe={this.removeRecipe}
-                                loggedIn={this.state.loggedIn} />}
-                        />
-                        <Route path="/recipe/:id" render={() =>
-                            <RecipeDetail recipes={this.state.recipes} />}
-                        />
-                        <AuthRoute path="/edit/:id" loggedIn={this.state.loggedIn} recipes={this.state.recipes} component={EditRecipe} />
-                        <AuthRoute path="/create" 
-                            loggedIn={this.state.loggedIn} 
-                            component={CreateRecipe}
-                            addRecipe={this.addRecipe} />
-                        <AuthRoute path="/profiles" loggedIn={this.state.loggedIn} component={Profile} />
-                    </>
-                    <Redirect path="*" to="/" />
-                </Switch >
-            )}
-            <Footer/>
+                                <Route exact path="/signup" component={SignUp} />
+                                <Route path="/recipes" render={() =>
+                                    <RecipesList
+                                        recipes={this.state.recipes}
+                                        removeRecipe={this.removeRecipe}
+                                        loggedIn={this.state.loggedIn} />}
+                                />
+                                <Route path="/recipe/:id" render={() =>
+                                    <RecipeDetail recipes={this.state.recipes} />}
+                                />
+                                <AuthRoute path="/edit/:id" loggedIn={this.state.loggedIn} recipes={this.state.recipes} component={EditRecipe} />
+                                <AuthRoute path="/create"
+                                    loggedIn={this.state.loggedIn}
+                                    component={CreateRecipe}
+                                    addRecipe={this.addRecipe} />
+                                <AuthRoute path="/profiles" loggedIn={this.state.loggedIn} component={Profile} />
+                            </>
+                            <Redirect path="*" to="/" />
+                        </Switch >
+                    )}
+                <Footer />
             </>
         );
     }

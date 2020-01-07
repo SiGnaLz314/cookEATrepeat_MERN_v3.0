@@ -19,10 +19,15 @@ const usersRouter = require('./routes/users');
 const uploadRouter = require('./routes/upload');
 
 // MIDDLEWARE
+//  debugging
 app.use(morgan('dev'));
+//  handling json data
 app.use(express.json());
+//  read url data
 app.use(express.urlencoded({ extended: true }));
+//  read body data (express includes this -- may be removed)
 app.use(bodyParser.urlencoded({ extended: true }));
+//  read body data in json
 app.use(bodyParser.json());
 
 // MongoClient constructor
@@ -60,6 +65,7 @@ app.use(passport.session()); // Calls serializeUser and deserializerUser
 
 app.use(cors({ credentials: true }));
 
+// Middleware to set headers
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST, OPTIONS');
@@ -70,21 +76,22 @@ app.use((req, res, next) => {
     next();
 });
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('client/build'));
-}
-
-if (environment === "development") {
+// Middleware to determine and set environment based variables
+if (environment === 'production') {
+    app.use(express.static('client/build'));
+} else {
     app.use(express.static('client/public'));
 }
 
-// Routes are below passport.session for proper order
+// ROUTES
+//  Declared below passport.session() to ensure sessionData is sent with each request.
 app.use('/api/profiles', ensureAuthenticated, adminRouter);
 app.use('/api/recipes', recipesRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/upload', uploadRouter);
 
-if(process.env.NODE_ENV === 'production'){
+// MIDDLEWARE to send all uncaught routes to index.html
+if (environment === 'production') {
     app.get('/*', (request, response) => {
         response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
     });
