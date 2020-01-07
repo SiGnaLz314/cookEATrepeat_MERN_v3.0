@@ -92,8 +92,8 @@ app.use('/api/upload', uploadRouter);
 
 // MIDDLEWARE to send all uncaught routes to index.html
 if (environment === 'production') {
-    app.get('/*', (request, response) => {
-        response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    app.get('/*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
     });
 }
 

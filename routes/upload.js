@@ -12,8 +12,8 @@ const uploadDocuments = require("./uploadDocuments");
  * @see routes/uploadDocuments handles moving the image to storage
  */
 router.route('/image').post((req, res) => {
-  uploadDocuments(req, res, error => {
-    if (error) {
+  uploadDocuments(req, res, err => {
+    if (err) {
       console.log("Error after Routing, please try again !!");
     } else {
       if (req.file == undefined) {

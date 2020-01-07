@@ -104,9 +104,9 @@ class App extends Component {
                         });
                     }
                 }))
-                .catch(error => {
+                .catch(err => {
                     console.log('load error: ')
-                    console.log(error);
+                    console.log(err);
                 })
         }, 2100);
     }
@@ -122,9 +122,9 @@ class App extends Component {
                     });
                 }
             })
-            .catch(error => {
+            .catch(err => {
                 console.log('logout error: ')
-                console.log(error);
+                console.log(err);
             })
     }
 

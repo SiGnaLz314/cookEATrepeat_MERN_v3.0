@@ -45,9 +45,9 @@ export default class Profile extends Component {
                     });
                 }
             })
-            .catch(error => {
+            .catch(err => {
                 console.log('load error: ')
-                console.log(error);
+                console.log(err);
             })
     }
 

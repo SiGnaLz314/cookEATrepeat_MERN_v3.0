@@ -76,15 +76,15 @@ router.route('/login').post(
 // router.route('/login').post(
 //     function (req, res, next) {
 //         // call passport authentication passing the "local" strategy name and a callback function
-//         passport.authenticate('local', function (error, user, info) {
+//         passport.authenticate('local', function (err, user, info) {
 //           // this will execute in any case, even if a passport strategy will find an error
 //           // log everything to console
-//         console.log("USERS /login: error", error);
+//         console.log("USERS /login: error", err);
 //         console.log("USERS /login: user", user);
 //         console.log("USERS /login: info", info);
 
-//         if (error) {
-//             res.status(401).send(error);
+//         if (err) {
+//             res.status(401).send(err);
 //         } else if (!user) {
 //             res.status(401).send(info);
 //         } else {

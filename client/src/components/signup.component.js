@@ -75,8 +75,8 @@ export default class SignUp extends Component {
                     alert(res.data.error);
                 }
             })
-            .catch(error => {
-                console.log("Error Signing up ", error);
+            .catch(err => {
+                console.log("Error Signing up ", err);
             })
     }
 
@@ -132,8 +132,8 @@ export default class SignUp extends Component {
                 && this.state.confirmPassValid
         });
     }
-    errorClass(error) {
-        return (error.length === 0 ? '' : 'has-error');
+    errorClass(err) {
+        return (err.length === 0 ? '' : 'has-error');
     }
 
     render() {

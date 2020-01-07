@@ -83,8 +83,8 @@ export default class Login extends Component {
                     })
                 }
             })
-            .catch(error => {
-                console.log(`login error: ${error}`);
+            .catch(err => {
+                console.log(`login error: ${err}`);
             })
     }
 
@@ -114,8 +114,8 @@ export default class Login extends Component {
     validateForm() {
         this.setState({ formValid: this.state.usernameValid && this.state.passwordValid });
     }
-    errorClass(error) {
-        return (error.length === 0 ? '' : 'has-error');
+    errorClass(err) {
+        return (err.length === 0 ? '' : 'has-error');
     }
 
     render() {
