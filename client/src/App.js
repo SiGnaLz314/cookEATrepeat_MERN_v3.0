@@ -78,10 +78,10 @@ class App extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         window.scrollTo(0, 0)
         // RECIPES & USER Passed down to components as PROPS of App
-        setTimeout(() => {
+        await setTimeout(() => {
             axios.all([
                 axios.get('/api/recipes/'),
                 axios.get('/api/users/')
@@ -196,29 +196,21 @@ class App extends Component {
                             <>
                                 <Navbar _logout={this._logout} loggedIn={this.state.loggedIn} />
                                 <br />
-                                {this.state.recipes ? (
-                                    <Route exact path="/" render={() =>
+                                <Route exact path="/" render={() =>
                                         <Home
                                             user={this.state.user}
-                                            recipes={this.state.recipes} />}
-                                    />
-                                ) : (
-                                    <Route exact path="/" render={() => '' } />
-                                )}
+                                            recipes={this.state.recipes} />} />
                                 <Route exact path="/login" render={() =>
                                     <Login
-                                        setUser={this.setUser} />}
-                                />
+                                        setUser={this.setUser} />} />
                                 <Route exact path="/signup" component={SignUp} />
                                 <Route path="/recipes" render={() =>
                                     <RecipesList
                                         recipes={this.state.recipes}
                                         removeRecipe={this.removeRecipe}
-                                        loggedIn={this.state.loggedIn} />}
-                                />
+                                        loggedIn={this.state.loggedIn} />} />
                                 <Route path="/recipe/:id" render={() =>
-                                    <RecipeDetail recipes={this.state.recipes} />}
-                                />
+                                    <RecipeDetail recipes={this.state.recipes} />} />
                                 <AuthRoute path="/edit/:id" loggedIn={this.state.loggedIn} recipes={this.state.recipes} component={EditRecipe} />
                                 <AuthRoute path="/create"
                                     loggedIn={this.state.loggedIn}

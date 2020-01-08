@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 /**
@@ -6,13 +6,32 @@ import { Link } from 'react-router-dom';
  * 
  * @param {recipe Object} props 
  */
-const RecipeImages = props => (
+const RecipeImages = (props) => (
     <div className="col-lg-6 box">
         <Link to={'/recipe/' + props.recipe.recipe_id}>
             <img id='recipe_img' alt="Not Available" src={`../uploads/${props.recipe.imagepath}`} />
         </Link>
     </div>
 )
+
+const recipeImages = (recipes) => {
+    return recipes.map(currentrecipe => {
+        return <RecipeImages recipe={currentrecipe} key={currentrecipe.recipe_id} />;
+    })
+}
+const welcome = (user, recipes) => {
+    let welcomeName = user.toString();
+    welcomeName = welcomeName.substring(0, welcomeName.indexOf('@'));
+    return (
+        <div>
+            <h3>cookEATrepeat Recipes</h3>
+            <h1>Welcome {welcomeName}!</h1>
+            <div id="recipe" className="container">
+                {recipeImages(recipes)}
+            </div>
+        </div>
+    );
+}
 
 /**
  * Home: Displays Recipes recieved from App as Props.
@@ -21,39 +40,19 @@ const RecipeImages = props => (
  * 
  * @returns {DOM element} Displaying recipe images
  */
-export default class Home extends Component {
-
-    recipeImages() {
-        return this.props.recipes.map(currentrecipe => {
-            return <RecipeImages recipe={currentrecipe} key={currentrecipe.recipe_id} />;
-        })
-    }
-    welcome(user) {
-        let welcomeName = user.toString();
-        welcomeName = welcomeName.substring(0, welcomeName.indexOf('@'));
+const Home = (props) => {
+    if (props.user) {
+        return (welcome(props.user, props.recipes))
+    } else {
         return (
             <div>
                 <h3>cookEATrepeat Recipes</h3>
-                <h1>Welcome {welcomeName}!</h1>
                 <div id="recipe" className="container">
-                    {this.recipeImages()}
+                    {recipeImages(props.recipes)}
                 </div>
             </div>
-        );
-    }
-
-    render() {
-        if (this.props.user) {
-            return (this.welcome(this.props.user))
-        } else {
-            return (
-                <div>
-                    <h3>cookEATrepeat Recipes</h3>
-                    <div id="recipe" className="container">
-                        {this.recipeImages()}
-                    </div>
-                </div>
-            )
-        }
+        )
     }
 }
+
+export default Home;
