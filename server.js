@@ -85,7 +85,7 @@ if (environment === 'production') {
 
 // ROUTES
 //  Declared below passport.session() to ensure sessionData is sent with each request.
-app.use('/api/profiles', ensureAuthenticated, adminRouter);
+app.use('/api/profiles', adminRouter);
 app.use('/api/recipes', recipesRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/upload', uploadRouter);
@@ -101,14 +101,5 @@ app.listen(port, () => {
     console.log(`SERVER is running on port: ${port}`);
 });
 
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-    res.redirect('http://localhost:3000/login');
-}
 
 module.exports = app;
