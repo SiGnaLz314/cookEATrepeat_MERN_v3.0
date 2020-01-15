@@ -12,11 +12,10 @@ const port = process.env.PORT || 5000;
 const morgan = require('morgan');
 
 var environment = process.env.NODE_ENV || 'development';
-
+console.log(environment);
 const adminRouter = require('./routes/admin');
 const recipesRouter = require('./routes/recipes');
 const usersRouter = require('./routes/users');
-const uploadRouter = require('./routes/upload');
 
 // MIDDLEWARE
 //  debugging
@@ -78,9 +77,9 @@ app.use((req, res, next) => {
 
 // Middleware to determine and set environment based variables
 if (environment === 'production') {
-    app.use(express.static('client/build'));
+    app.use(express.static(path.join(__dirname, 'client/build')));
 } else {
-    app.use(express.static('client/public'));
+    app.use(express.static(path.join(__dirname, 'client/public')));
 }
 
 // ROUTES
@@ -88,7 +87,6 @@ if (environment === 'production') {
 app.use('/api/profiles', adminRouter);
 app.use('/api/recipes', recipesRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/upload', uploadRouter);
 
 // MIDDLEWARE to send all uncaught routes to index.html
 if (environment === 'production') {

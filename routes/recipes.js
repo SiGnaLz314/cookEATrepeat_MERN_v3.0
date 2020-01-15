@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const path = require('path');
 const fs = require("fs");
+const uploadDocuments = require("./uploadDocuments");
 
 let Recipe = require('../models/recipe.model');
 
@@ -25,32 +26,43 @@ router.route('/').get((req, res) => {
  * @alias /create
  */
 router.route('/add').post((req, res) => {
-    const recipename = req.body.recipename;
-    const animal = req.body.animal;
-    let ingredients = req.body.ingredients;
-    let instructions = req.body.instructions;
-    const imagepath = req.body.imagepath;
-    const date = Date.parse(req.body.date);
+    uploadDocuments(req, res, err => {
+        if (err) {
+            console.log("Error after Routing, please try again !!");
+        } else {
+            if (req.file == undefined) {
+                console.log("Error on File, no file was selected");
+            } else {
+                const recipename = req.body.recipename;
+                const animal = req.body.animal;
+                let ingredients = req.body.ingredients;
+                let instructions = req.body.instructions;
+                const imagepath = req.file.filename;
+                const date = Date.parse(req.body.date);
 
-    const newRecipe = new Recipe({
-        recipename,
-        animal,
-        ingredients,
-        instructions,
-        imagepath,
-        date,
+                const newRecipe = new Recipe({
+                    recipename,
+                    animal,
+                    ingredients,
+                    instructions,
+                    imagepath,
+                    date,
+                });
+
+                newRecipe.save()
+                    .then(() =>
+                        res.send({
+                            status: "200",
+                            responseType: "string",
+                            response: "success"
+                        })
+                    )
+                    .catch(err => res.status(400).json('Error: ' + err));
+            }
+        }
     });
-
-    newRecipe.save()
-        .then(() =>
-            res.send({
-                status: "200",
-                responseType: "string",
-                response: "success"
-            })
-        )
-        .catch(err => res.status(400).json('Error: ' + err));
 });
+
 
 /**
  * Get/id: Individual Recipe

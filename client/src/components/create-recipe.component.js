@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import { FormErrors } from '../utils/FormErrors.util';
 
 import "react-datepicker/dist/react-datepicker.css";
-
-const endpoint = "/api/upload/image/";
 
 
 /**
@@ -76,29 +73,19 @@ export default class CreateRecipe extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const recipe = {
-            recipename: this.state.recipename,
-            animal: this.state.animal,
-            ingredients: this.state.ingredients,
-            instructions: this.state.instructions,
-            imagepath: this.state.imagepath,
-            date: this.state.date
-        }
 
         let data = new FormData(e.target);
         data.append("file", this.state.selectedFile, this.state.description);
 
-        axios.all([
-            axios.post('/api/recipes/add', recipe),
-            axios.post(endpoint, data)
-        ])
-            .then(axios.spread((resRecipe, resUpload) => {
-                this.props.addRecipe(recipe);
-            }))
-            .catch(err => {
-                console.log("Error Adding Recipe", err);
+        const recipeCall = '/api/recipes/add';
+        try{
+            fetch(recipeCall, {method: 'POST', body: data, })
+            .then(async (res) => {
+                // await this.props.addRecipe(recipe);
             })
-            .then(this.props.history.push("/"));
+        } catch(err) {
+            console.log(err);
+        }
     }
 
     validateField(fieldName, value) {
@@ -156,7 +143,7 @@ export default class CreateRecipe extends Component {
 
                 <div>
                     <h3>Create Recipe</h3>
-                    <form onSubmit={this.onSubmit}>
+                    <form onSubmit={this.onSubmit} encType="multipart/form-data">
                         <div className="form-group">
                             <label htmlFor="recipename">Recipe Name:</label>
                             <input type="text"
