@@ -82,6 +82,7 @@ export default class CreateRecipe extends Component {
             fetch(recipeCall, {method: 'POST', body: data, })
             .then(async (res) => {
                 // await this.props.addRecipe(recipe);
+                await this.props.history.push('/');
             })
         } catch(err) {
             console.log(err);

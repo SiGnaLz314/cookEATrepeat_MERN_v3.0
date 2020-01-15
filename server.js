@@ -12,7 +12,6 @@ const port = process.env.PORT || 5000;
 const morgan = require('morgan');
 
 var environment = process.env.NODE_ENV || 'development';
-console.log(environment);
 const adminRouter = require('./routes/admin');
 const recipesRouter = require('./routes/recipes');
 const usersRouter = require('./routes/users');

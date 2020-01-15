@@ -16,7 +16,7 @@ const Recipe = props => (
             </h1>
         </div>
         <div className="column">
-            <img id="recipe_detail_img" alt="Not Available" src={`../uploads/${props.recipe.imagepath}`} />
+            <img id="recipe_detail_img" alt="Not Available" src={`https://cer-images.s3.amazonaws.com/images/${props.recipe.imagepath}`} />
             <div>
                 <h3>Algorithm:</h3>
                 <div id="recipe_detail">

@@ -28,6 +28,7 @@ router.route('/').get((req, res) => {
 router.route('/add').post((req, res) => {
     uploadDocuments(req, res, err => {
         if (err) {
+            // console.log(err.message);
             console.log("Error after Routing, please try again !!");
         } else {
             if (req.file == undefined) {
@@ -35,10 +36,12 @@ router.route('/add').post((req, res) => {
             } else {
                 const recipename = req.body.recipename;
                 const animal = req.body.animal;
-                let ingredients = req.body.ingredients;
-                let instructions = req.body.instructions;
-                const imagepath = req.file.filename;
+                const ingredients = req.body.ingredients;
+                const instructions = req.body.instructions;
+                const imagepath = req.file.originalname;
                 const date = Date.parse(req.body.date);
+
+                console.log('FileName:', req.file.originalname);
 
                 const newRecipe = new Recipe({
                     recipename,
@@ -48,6 +51,8 @@ router.route('/add').post((req, res) => {
                     imagepath,
                     date,
                 });
+
+                console.log(newRecipe);
 
                 newRecipe.save()
                     .then(() =>
