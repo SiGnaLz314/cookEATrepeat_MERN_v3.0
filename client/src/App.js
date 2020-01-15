@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from "react-router-dom";
-import axios from 'axios';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./stylesheets/App.css";
@@ -80,48 +79,57 @@ class App extends Component {
 
     async componentDidMount() {
         window.scrollTo(0, 0)
-        // RECIPES & USER Passed down to components as PROPS of App
+
         await setTimeout(() => {
-            axios.all([
-                axios.get('/api/recipes/'),
-                axios.get('/api/users/')
-            ])
-                .then(axios.spread((resRecipe, resUser) => {
-                    if (resUser.data.user) {
+            const recipe = '/api/recipes/';
+            const user = '/api/users/';
+            try{
+                Promise.all([
+                    fetch(recipe, {method: 'GET', headers: {
+                        Accept: 'application/json', },
+                    }),
+                    fetch(user, {method: 'GET', headers: {
+                        Accept: 'application/json', },
+                    }),
+                ])
+                .then(async (res) => {
+                    const recipes = await res[0].json();
+                    const users = await res[1].json();
+                    
+                    if (users.user) {
                         this.setState({
                             loggedIn: true,
-                            user: resUser.data.user,
-                            recipes: resRecipe.data,
+                            user: users,
+                            recipes: recipes,
                             loading: true,
                         });
                     } else {
-                        console.log(resRecipe.data);
                         this.setState({
                             loggedIn: false,
                             user: null,
-                            recipes: resRecipe.data,
+                            recipes: recipes,
                             loading: true,
                         });
                     }
-                }))
-                .catch(err => {
-                    console.log('load error: ')
-                    console.log(err);
                 })
+            } catch(err) {
+                console.log(err);
+            }
         }, 2100);
     }
 
     _logout(event) {
         event.preventDefault();
-        axios.post('api/users/logout')
+        
+        fetch('/api/users/logout', {method: 'POST',})
             .then(res => {
-                if (res.status === 200) {
+                if(res.status === 200) {
                     this.setState({
                         loggedIn: false,
                         user: null
                     });
                 }
-            })
+            })        
             .catch(err => {
                 console.log('logout error: ')
                 console.log(err);
