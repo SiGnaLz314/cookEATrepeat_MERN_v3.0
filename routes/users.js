@@ -128,11 +128,14 @@ router.route('/').get((req, res) => {
  */
 router.route('/logout').post((req, res) => {
     if (req.user) {
-        // console.log('LOGOUT:', req.user);
         req.logout();
-        res.redirect('/');
+        res.status(200).clearCookie('connect.sid', {
+            path: '/'
+        });
+        req.session.destroy(function (err) {
+            res.redirect('/');
+        });
     } else {
-        // return res.json({message: 'Logged Out'});
         return res.clearCookie('connect.sid', { path: '/' }).status(200).send('Logged Out, Cookies Cleared');
     }
 })
