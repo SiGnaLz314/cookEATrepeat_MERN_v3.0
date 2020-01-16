@@ -2,8 +2,22 @@ const router = require('express').Router();
 const path = require('path');
 const fs = require("fs");
 const uploadDocuments = require("./uploadDocuments");
+const aws = require('aws-sdk');
 
 let Recipe = require('../models/recipe.model');
+
+
+// Setup AWS connection
+aws.config.update({
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    region: process.env.AWS_REGION
+});
+
+const s3 = new aws.S3();
+
+
+
 
 /**
  * Get: All Recipes in Database
@@ -93,12 +107,24 @@ router.route('/delete/:id').delete((req, res) => {
         if (err) {
             return next(err);
         }
-        const target_path = path.join(__dirname, '../../public/uploads/') + result.imagepath;
-        fs.unlink(target_path, function () {
-            res.json('Recipe Deleted Successfully');
+        const params = {
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Delete: { // required
+                Objects: [ // required
+                    {
+                        Key: result.imagepath // required
+                    },
+                ],
+            },
+        };
+
+        s3.deleteObjects(params, function (err, data) {
+            if (err) console.log(err, err.stack); // an error occurred
+            else console.log('Deleted:', data);           // successful response
         });
     })
-        .catch(err => res.status(400).json('Error: ' + err));
+    .then(() => res.json('Recipe Deleted!'))
+    .catch(err => res.status(400).json('Error: ' + err));
 });
 
 /**
