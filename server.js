@@ -12,11 +12,9 @@ const port = process.env.PORT || 5000;
 const morgan = require('morgan');
 
 var environment = process.env.NODE_ENV || 'development';
-
 const adminRouter = require('./routes/admin');
 const recipesRouter = require('./routes/recipes');
 const usersRouter = require('./routes/users');
-const uploadRouter = require('./routes/upload');
 
 // MIDDLEWARE
 //  debugging
@@ -78,17 +76,16 @@ app.use((req, res, next) => {
 
 // Middleware to determine and set environment based variables
 if (environment === 'production') {
-    app.use(express.static('client/build'));
+    app.use(express.static(path.join(__dirname, 'client/build')));
 } else {
-    app.use(express.static('client/public'));
+    app.use(express.static(path.join(__dirname, 'client/public')));
 }
 
 // ROUTES
 //  Declared below passport.session() to ensure sessionData is sent with each request.
-app.use('/api/profiles', ensureAuthenticated, adminRouter);
+app.use('/api/profiles', adminRouter);
 app.use('/api/recipes', recipesRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/upload', uploadRouter);
 
 // MIDDLEWARE to send all uncaught routes to index.html
 if (environment === 'production') {
@@ -101,14 +98,5 @@ app.listen(port, () => {
     console.log(`SERVER is running on port: ${port}`);
 });
 
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-    res.redirect('http://localhost:3000/login');
-}
 
 module.exports = app;
