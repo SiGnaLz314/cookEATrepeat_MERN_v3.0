@@ -2,6 +2,7 @@ const router = require('express').Router();
 const path = require('path');
 const fs = require("fs");
 const uploadDocuments = require("./uploadDocuments");
+const deleteDocuments = require("../services/deleteDocuments");
 const aws = require('aws-sdk');
 
 let Recipe = require('../models/recipe.model');
@@ -107,21 +108,7 @@ router.route('/delete/:id').delete((req, res) => {
         if (err) {
             return next(err);
         }
-        const params = {
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Delete: { // required
-                Objects: [ // required
-                    {
-                        Key: result.imagepath // required
-                    },
-                ],
-            },
-        };
-
-        s3.deleteObjects(params, function (err, data) {
-            if (err) console.log(err, err.stack); // an error occurred
-            else console.log('Deleted:', data);           // successful response
-        });
+        deleteDocuments(result);
     })
     .then(() => res.json('Recipe Deleted!'))
     .catch(err => res.status(400).json('Error: ' + err));
