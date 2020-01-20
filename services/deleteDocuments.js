@@ -14,7 +14,6 @@ const deleteDocuments = async (result) => {
           Key: `images/${result.imagepath}` //if any sub folder-> path/of/the/folder.ext
   }
   try {
-      console.log(params);
       await s3.headObject(params).promise()
       console.log("File Found in S3")
       try {

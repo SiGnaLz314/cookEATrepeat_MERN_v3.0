@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const path = require('path');
 const fs = require("fs");
-const uploadDocuments = require("./uploadDocuments");
+const uploadDocuments = require("../services/uploadDocuments");
 const deleteDocuments = require("../services/deleteDocuments");
 const aws = require('aws-sdk');
 
