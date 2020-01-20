@@ -80,9 +80,9 @@ export default class RecipesList extends Component {
             .then(() => {
                 this.props.removeRecipe(id);
             })
-            .then(() => {
-                this.props.history.push('/');
-            })
+            // .then(() => {
+            //     this.props.history.push('/');
+            // })
             .catch((err) => {
                 console.log(`Error Deleting Recipe: ${err}`);
             });
