@@ -40,47 +40,34 @@ router.route('/').get((req, res) => {
  * @see create-recipe.component
  * @alias /create
  */
-router.route('/add').post((req, res) => {
-    uploadDocuments(req, res, err => {
-        if (err) {
-            // console.log(err.message);
-            console.log("Error after Routing, please try again !!");
-        } else {
-            if (req.file == undefined) {
-                console.log("Error on File, no file was selected");
-            } else {
-                const recipename = req.body.recipename;
-                const animal = req.body.animal;
-                const ingredients = req.body.ingredients;
-                const instructions = req.body.instructions;
-                const imagepath = req.file.originalname;
-                const date = Date.parse(req.body.date);
+router.route('/add').post(uploadDocuments.single('file'), async (req, res, next) => {
+    try{
+        const recipename = req.body.recipename;
+        const animal = req.body.animal;
+        const ingredients = req.body.ingredients;
+        const instructions = req.body.instructions;
+        const imagepath = req.file.originalname;
+        const date = Date.parse(req.body.date);
 
-                console.log('FileName:', req.file.originalname);
+        console.log('FileName:', req.file.originalname);
 
-                const newRecipe = new Recipe({
-                    recipename,
-                    animal,
-                    ingredients,
-                    instructions,
-                    imagepath,
-                    date,
-                });
-
-                console.log(newRecipe);
-
-                newRecipe.save()
-                    .then(() =>
-                        res.send({
-                            status: "200",
-                            responseType: "string",
-                            response: "success"
-                        })
-                    )
-                    .catch(err => res.status(400).json('Error: ' + err));
-            }
+        const newRecipe = new Recipe({
+            recipename,
+            animal,
+            ingredients,
+            instructions,
+            imagepath,
+            date,
+        });
+        const savedRecipe = await newRecipe.save();
+        if(savedRecipe) return res.redirect('/');
+        return next(new Error('Failed to save the Recipe'));
+    }catch(err){
+        if(req.file && req.file.storedFilename) {
+            await deleteDocuments(imagepath);
         }
-    });
+        return next(err);
+    }   
 });
 
 

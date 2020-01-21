@@ -46,7 +46,7 @@ const upload = multer({
 });
 
 // upload call
-const uploadDocuments = upload.single('file');
+const uploadDocuments = upload;
 
 
 
