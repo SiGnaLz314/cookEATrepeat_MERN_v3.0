@@ -4,21 +4,6 @@ const aws = require('aws-sdk');
 const multerS3 = require('multer-s3'); 
 
 
-/**
- * storageEngine: Uses Multer to establish destination folder
- * 
- * @link https://www.npmjs.com/package/multer#api
- * 
- * @param {string} destination location of folder
- * @param {string} filename gets original filename
- */
-// const storageEngine = multer.diskStorage({
-//     destination: "./uploads",
-//     filename: function (req, file, fn) {
-//         fn(null, file.originalname);
-//     }
-// });
-
 // Setup AWS connection
 aws.config.update({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -26,7 +11,7 @@ aws.config.update({
     region: process.env.AWS_REGION
 });
 
-// new instance of s3
+// new instance of s3 with config
 const s3 = new aws.S3();
 
 // multer storage config
@@ -44,11 +29,6 @@ const upload = multer({
         }
     })
 });
-
-// upload call
-const uploadDocuments = upload;
-
-
 
 /**
  * validateFile: ensure file is of proper type
@@ -70,21 +50,8 @@ const validateFile = function (file, cb) {
     }
 };
 
-/**
- * upldoadDocuemnts: multer Instance.
- * 
- * Validates and Uploads file to file destination through multer
- * 
- * @see storageEngine
- * @see validateFile
- */
-// const uploadDocuments = multer({
-//     storage: storageEngine,
-//     //SET LIMIT AFTER IMAGE MANIPULATION
-//     //limits: { fileSize: 200000 },
-//     fileFilter: function (req, file, callback) {
-//         validateFile(file, callback);
-//     }
-// }).single("file");
+
+// upload call
+const uploadDocuments = upload;
 
 module.exports = uploadDocuments;
