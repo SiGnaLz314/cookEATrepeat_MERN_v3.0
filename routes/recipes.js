@@ -7,8 +7,12 @@ let Recipe = require('../models/recipe.model');
 let bucketURL;
 if (process.env.NODE_ENV === 'production') {
     bucketURL = process.env.AWS_PROD_BUCKET_URL
+    // console.log('production: ', process.env.NODE_ENV)
+    // console.log('production bucket: ', bucketURL)
 } else {
     bucketURL = process.env.AWS_DEV_BUCKET_URL
+    // console.log('dev: ', process.env.NODE_ENV)
+    // console.log('dev bucket: ', bucketURL)
 }
 
 
