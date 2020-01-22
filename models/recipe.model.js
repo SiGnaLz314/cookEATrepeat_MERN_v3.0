@@ -34,6 +34,10 @@ const recipeSchema = new Schema(
         type: String,
         required: true
     },
+    imageURL: {
+        type: String,
+        required: true
+    },
     date: {
         type: Date,
         required: true

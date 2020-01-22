@@ -4,6 +4,19 @@ import { FormErrors } from '../utils/FormErrors.util';
 
 import "react-datepicker/dist/react-datepicker.css";
 
+import * as cooking from '../stylesheets/cooking.json';
+import Lottie from "react-lottie";
+
+// Animation Options
+const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: cooking.default,
+    rendererSettings: {
+        preserveAspectRatio: "xMidYMid slice"
+    }
+};
+
 
 /**
  * CreateRecipe: Component to assist in adding a new recipe to the database.
@@ -34,6 +47,7 @@ export default class CreateRecipe extends Component {
             image: '',
             imagepath: '',
             date: new Date(),
+            loading: false, 
 
             formErrors: {
                 recipename: '',
@@ -73,6 +87,7 @@ export default class CreateRecipe extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        this.setState({loading: true});
 
         let data = new FormData(e.target);
         data.append("file", this.state.selectedFile, this.state.description);
@@ -80,9 +95,9 @@ export default class CreateRecipe extends Component {
         const recipeCall = '/api/recipes/add';
         try{
             fetch(recipeCall, {method: 'POST', body: data, })
-            .then(async (res) => {
-                // await this.props.addRecipe(recipe);
-                await this.props.history.push('/');
+            .then(() => {
+                this.props.updateRecipes();
+                this.props.history.push('/');
             })
         } catch(err) {
             console.log(err);
@@ -231,7 +246,12 @@ export default class CreateRecipe extends Component {
                             </div>
                         </div>
                         <div className="form-group">
-                            <input type="submit" value="Create Recipe" className="btn btn-primary" />
+                        {!this.state.loading ? (
+                            <input type="submit" value="Create Recipe" className='btn btn-primary' /> 
+                        ):(
+                            <><Lottie options={defaultOptions} height={100} width={100} />
+                            <p>Uploading Recipe</p></>
+                        )}
                         </div>
                     </form>
                 </div>

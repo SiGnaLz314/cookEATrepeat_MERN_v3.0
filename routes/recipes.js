@@ -4,6 +4,14 @@ const deleteDocuments = require("../services/deleteDocuments");
 
 let Recipe = require('../models/recipe.model');
 
+let bucketURL;
+if (process.env.NODE_ENV === 'production') {
+    bucketURL = process.env.AWS_PROD_BUCKET_URL
+} else {
+    bucketURL = process.env.AWS_DEV_BUCKET_URL
+}
+
+
 /**
  * Get: All Recipes in Database
  * 
@@ -31,9 +39,8 @@ router.route('/add').post(
             const ingredients = req.body.ingredients;
             const instructions = req.body.instructions;
             const imagepath = req.file.originalname;
+            const imageURL = bucketURL + req.file.originalname;
             const date = Date.parse(req.body.date);
-
-            console.log('FileName:', req.file.originalname);
 
             const newRecipe = new Recipe({
                 recipename,
@@ -41,6 +48,7 @@ router.route('/add').post(
                 ingredients,
                 instructions,
                 imagepath,
+                imageURL,
                 date,
             });
             const savedRecipe = await newRecipe.save();

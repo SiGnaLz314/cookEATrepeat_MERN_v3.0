@@ -68,7 +68,7 @@ export default class Login extends Component {
         }
         axios.post('/api/users/login', { username: this.state.username, password: this.state.password }, axiosConfig)
             .then(res => {
-                console.log("APP Login: res", res);
+                // console.log("APP Login: res", res);
                 // console.log("APP Login: res.data", res.data);
                 if (res.status === 200) {
                     var userInfo = {

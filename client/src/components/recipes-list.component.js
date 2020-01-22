@@ -22,7 +22,7 @@ const RecipeListDetail = props => (
         <td>{props.recipe.date.substring(0, 10)}</td>
         <td>
             <Link to={'/recipe/' + props.recipe.recipe_id} >
-                <input type="image" alt="Not Available" id='recipe_img' src={`https://cer-images.s3.amazonaws.com/images/${props.recipe.imagepath}`} />
+                <input type="image" alt="Not Available" id='recipe_img' src={`${props.recipe.imageURL}`} />
             </Link>
         </td>
         <td>
@@ -78,11 +78,8 @@ export default class RecipesList extends Component {
     deleteRecipe(id) {
         axios.delete('/api/recipes/delete/' + id)
             .then(() => {
-                this.props.removeRecipe(id);
+                this.props.updateRecipes();
             })
-            // .then(() => {
-            //     this.props.history.push('/');
-            // })
             .catch((err) => {
                 console.log(`Error Deleting Recipe: ${err}`);
             });
