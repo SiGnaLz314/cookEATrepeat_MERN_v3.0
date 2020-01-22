@@ -20,7 +20,7 @@ const upload = multer({
         s3: s3,
         bucket: process.env.AWS_BUCKET_NAME,
         key: function (req, file, cb) {
-            console.log('upload multer file:', file);
+            // console.log('upload multer file:', file);
             const folder = 'images/' + file.originalname;
             cb(null, folder); //use Date.now() for unique file keys
         },
@@ -43,7 +43,6 @@ const validateFile = function (file, cb) {
     );
     const mimeType = allowedFileTypes.test(file.mimetype);
     if (extension && mimeType) {
-        console.log('Validation Passed.')
         return cb(null, true);
     } else {
         cb("Invalid file type. Only PDF, JPEG, PNG and GIF files are allowed.");

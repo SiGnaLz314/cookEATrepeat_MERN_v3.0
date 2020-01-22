@@ -33,14 +33,14 @@ const defaultOptions = {
  * AuthRoute: Protect Routes.
  * Unauthorized Users will be Redirected to /login Page.
  * 
- * @param component Protected Component
- * @param [...rest] Additional Props to be passed to the Component
+ * @param component Authentication Protected Component
+ * @param [...rest] Props pertinent to the Component
  */
 const AuthRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
         rest.loggedIn === true
             ? (Component === CreateRecipe
-                ? <Component addRecipe={rest.addRecipe} {...props} />
+                ? <Component updateRecipes={rest.updateRecipes} {...props} />
                 : <Component {...props} />)
             : <Redirect to={{
                 pathname: '/login',
@@ -66,8 +66,7 @@ class App extends Component {
         this.componentDidMount = this.componentDidMount.bind(this);
         this._logout = this._logout.bind(this);
         this.setUser = this.setUser.bind(this);
-        this.removeRecipe = this.removeRecipe.bind(this);
-        this.addRecipe = this.addRecipe.bind(this);
+        this.updateRecipes = this.updateRecipes.bind(this);
 
         this.state = {
             loggedIn: false,
@@ -148,23 +147,9 @@ class App extends Component {
             user: user.userInfo.user
         });
     }
-    /**
-     * removeRecipe: Removes recipe from state based on recipeID parameter.
-     * 
-     * Recieved from recipes-list.component.
-     * 
-     * @see recipes-list.component
-     * 
-     * @param {String} recipeID id of recipe that was deleted
-     */
-    removeRecipe(recipeID) {
-        this.setState({
-            recipes: this.state.recipes.filter(el => el.recipe_id !== recipeID),
-        })
-    }
 
     /**
-     * addRecipe: Adds recipe to state based on recipe Object parameter.
+     * updateRecipes: Makes an update call to recipes database.collection.
      * 
      * Recieved from create-recipe.component.
      * 
@@ -172,15 +157,20 @@ class App extends Component {
      * 
      * @param {Object} recipe recipe that was added
      */
-    addRecipe(recipe) {
-        let rArray = this.state.recipes;
-        // Assign temp recipe_id to new recipe. 
-        // Will be updated with Actual on next get to /recipes
-        recipe.recipe_id = rArray[rArray.length - 1].recipe_id + 1;
-        rArray.push(recipe);
-        this.setState({
-            recipes: rArray,
+    updateRecipes() {
+        const recipe = '/api/recipes/';
+        fetch(recipe, {method: 'GET', headers: {
+            Accept: 'application/json', },
         })
+        .then(async (res) => {
+            const recipes = await res.json();
+            this.setState({
+                recipes: recipes,
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
 
     render() {
@@ -215,7 +205,7 @@ class App extends Component {
                                 <Route path="/recipes" render={() =>
                                     <RecipesList
                                         recipes={this.state.recipes}
-                                        removeRecipe={this.removeRecipe}
+                                        updateRecipes={this.updateRecipes}
                                         loggedIn={this.state.loggedIn} />} />
                                 <Route path="/recipe/:id" render={() =>
                                     <RecipeDetail recipes={this.state.recipes} />} />
@@ -223,7 +213,7 @@ class App extends Component {
                                 <AuthRoute path="/create"
                                     loggedIn={this.state.loggedIn}
                                     component={CreateRecipe}
-                                    addRecipe={this.addRecipe} />
+                                    updateRecipes={this.updateRecipes} />
                                 <AuthRoute path="/profiles" loggedIn={this.state.loggedIn} component={Profile} />
                             </>
                             <Redirect path="*" to="/" />

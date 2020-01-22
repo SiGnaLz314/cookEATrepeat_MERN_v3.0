@@ -9,16 +9,17 @@ aws.config.update({
 const s3 = new aws.S3();
 
 const deleteDocuments = async (result) => {
-  const params = {
+    // console.log(result);
+    const params = {
           Bucket: process.env.AWS_BUCKET_NAME,
           Key: `images/${result.imagepath}` //if any sub folder-> path/of/the/folder.ext
   }
   try {
       await s3.headObject(params).promise()
-      console.log("File Found in S3")
+      // console.log("File Found in S3")
       try {
           await s3.deleteObject(params).promise()
-          console.log("file deleted Successfully")
+          // console.log("file deleted Successfully")
       }
       catch (err) {
           console.log("ERROR in file Deleting : " + JSON.stringify(err))

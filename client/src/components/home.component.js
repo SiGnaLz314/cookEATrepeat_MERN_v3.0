@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 const RecipeImages = (props) => (
     <div className="col-lg-6 box">
         <Link to={'/recipe/' + props.recipe.recipe_id}>
-            <img id='recipe_img' alt="Not Available" src={`https://cer-images.s3.amazonaws.com/images/${props.recipe.imagepath}`} />
+            <img id='recipe_img' alt="Not Available" src={`${props.recipe.imageURL}`} />
         </Link>
     </div>
 )
