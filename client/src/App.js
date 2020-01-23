@@ -69,6 +69,7 @@ class App extends Component {
         this.updateRecipes = this.updateRecipes.bind(this);
 
         this.state = {
+            admin: false,
             loggedIn: false,
             user: null,
             recipes: [],
@@ -99,12 +100,14 @@ class App extends Component {
                         this.setState({
                             loggedIn: true,
                             user: users,
+                            admin: users.user.admin,
                             recipes: recipes,
                             loading: true,
                         });
                     } else {
                         this.setState({
                             loggedIn: false,
+                            admin: false,
                             user: null,
                             recipes: recipes,
                             loading: true,
@@ -125,6 +128,7 @@ class App extends Component {
                 if(res.status === 200) {
                     this.setState({
                         loggedIn: false,
+                        admin: false,
                         user: null
                     });
                 }
@@ -144,6 +148,7 @@ class App extends Component {
     setUser(user) {
         this.setState({
             loggedIn: true,
+            admin: user.userInfo.admin,
             user: user.userInfo.user
         });
     }
@@ -197,24 +202,50 @@ class App extends Component {
                                 <Route exact path="/" render={() =>
                                         <Home
                                             user={this.state.user}
-                                            recipes={this.state.recipes} />} />
-                                <Route exact path="/login" render={() =>
+                                            recipes={this.state.recipes} 
+                                            admin={this.state.admin} />} 
+                                />
+                                <Route exact path="/login" render={(props) =>
                                     <Login
-                                        setUser={this.setUser} />} />
+                                        setUser={this.setUser} />} 
+                                />
+                                {/* For ReDirect after logging in after unauthRoute
+
+                                    <Login
+                                        setUser={this.setUser}
+                                        loggedIn={this.state.loggedIn}
+                                        from={props.location.state.from} />} 
+                                /> */}
                                 <Route exact path="/signup" component={SignUp} />
                                 <Route path="/recipes" render={() =>
                                     <RecipesList
                                         recipes={this.state.recipes}
                                         updateRecipes={this.updateRecipes}
-                                        loggedIn={this.state.loggedIn} />} />
+                                        loggedIn={this.state.loggedIn}
+                                        admin={this.state.admin} />} 
+                                />
                                 <Route path="/recipe/:id" render={() =>
-                                    <RecipeDetail recipes={this.state.recipes} />} />
-                                <AuthRoute path="/edit/:id" loggedIn={this.state.loggedIn} recipes={this.state.recipes} component={EditRecipe} />
+                                    <RecipeDetail 
+                                        recipes={this.state.recipes} 
+                                        admin={this.state.admin} />} 
+                                />
+                                <AuthRoute path="/edit/:id" 
+                                    loggedIn={this.state.loggedIn} 
+                                    recipes={this.state.recipes} 
+                                    admin={this.state.admin}
+                                    component={EditRecipe} 
+                                />
                                 <AuthRoute path="/create"
                                     loggedIn={this.state.loggedIn}
-                                    component={CreateRecipe}
-                                    updateRecipes={this.updateRecipes} />
-                                <AuthRoute path="/profiles" loggedIn={this.state.loggedIn} component={Profile} />
+                                    updateRecipes={this.updateRecipes} 
+                                    admin={this.state.admin} 
+                                    component={CreateRecipe} 
+                                />
+                                <AuthRoute path="/profiles" 
+                                    loggedIn={this.state.loggedIn} 
+                                    admin={this.state.admin} 
+                                    component={Profile} 
+                                />
                             </>
                             <Redirect path="*" to="/" />
                         </Switch >

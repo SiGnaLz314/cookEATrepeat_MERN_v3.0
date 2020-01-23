@@ -73,7 +73,8 @@ export default class Login extends Component {
                 if (res.status === 200) {
                     var userInfo = {
                         loggedIn: true,
-                        user: res.data.user
+                        admin: res.data.admin,
+                        user: res.data.user,
                     };
                     this.props.setUser({
                         userInfo
@@ -120,10 +121,12 @@ export default class Login extends Component {
 
     render() {
         const { from } = this.props.location || { from: { pathname: '/' } };
-        const { redirectTo } = this.state;
-
+        // const { from } = this.props.from.pathname;
+        const { redirectTo } = this.state.redirectTo;
+        
         if (redirectTo === true) {
-            return <Redirect to={from} />
+            console.log(from);
+            return(<><Redirect to={from} /> </> )
         } else {
             return (
                 <>

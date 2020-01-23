@@ -13,7 +13,7 @@ const passport = require('../passport');
  * @see signup.coponent
  */
 router.route('/signup').post((req, res) => {
-    const { username, firstName, lastName, password } = req.body
+    const { admin, username, firstName, lastName, password } = req.body
 
     User.findOne({ 'username': username }, (err, user) => {
         if (err) {
@@ -25,6 +25,7 @@ router.route('/signup').post((req, res) => {
             });
         }
         const newUser = new User({
+            'admin': admin,
             'username': username,
             'password': password,
             'firstName': firstName,
@@ -53,7 +54,8 @@ router.route('/login').post(
     passport.authenticate('local'),
     (req, res, next) => {
         var userInfo = {
-            user: req.user.username
+            user: req.user.username,
+            admin: req.user.admin,
         }
         res.json(userInfo);
         next();
@@ -61,7 +63,6 @@ router.route('/login').post(
     (req, res, next) => {
         req.login(req.user, () => {
             req.session.save(() => {
-                // console.log('Req.Session.save():', req.session)
             });
         });
     }

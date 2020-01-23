@@ -26,13 +26,15 @@ const RecipeListDetail = props => (
             </Link>
         </td>
         <td>
-            <div id="recipe-action">
-                <button className="btn btn-outline-primary col-auto col-mr-auto">
-                    <Link key={props.recipe.recipe_id} to={{ pathname: `/edit/${props.recipe.recipe_id}`, state: { recipe: props.recipe } }}>edit</Link>
-                </button>
-            </div>
+            
             {/* Only Show to users logged in */}
-            {props.loggedIn ? (
+            {props.loggedIn && props.admin ? (
+                <>
+                <div id="recipe-action">
+                    <button className="btn btn-outline-primary col-auto col-mr-auto">
+                        <Link key={props.recipe.recipe_id} to={{ pathname: `/edit/${props.recipe.recipe_id}`, state: { recipe: props.recipe } }}>edit</Link>
+                    </button>
+                </div>
                 <div id="recipe-action">
                     <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}>
                         <Link key={props.recipe.recipe_id} to="#">delete</Link>
@@ -40,8 +42,9 @@ const RecipeListDetail = props => (
                 <Link key={props.recipe.recipe_id} to="#">delete</Link> */}
                     </button>
                 </div>
+                </>
             ) : (
-                    <div></div>
+                    <></>
                 )}
         </td>
     </tr>
@@ -94,7 +97,14 @@ export default class RecipesList extends Component {
      */
     recipeListDetail() {
         const rList = this.props.recipes.map(currentrecipe => {
-            return <RecipeListDetail recipe={currentrecipe} location={this.props.location} deleteRecipe={this.deleteRecipe} key={currentrecipe.recipe_id} loggedIn={this.props.loggedIn} />;
+            return <RecipeListDetail 
+                            recipe={currentrecipe} 
+                            location={this.props.location} 
+                            deleteRecipe={this.deleteRecipe} 
+                            key={currentrecipe.recipe_id} 
+                            loggedIn={this.props.loggedIn} 
+                            admin={this.props.admin}
+                    />;
         })
         return rList;
     }

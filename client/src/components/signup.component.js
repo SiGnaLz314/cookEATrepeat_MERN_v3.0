@@ -20,6 +20,7 @@ export default class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            admin: false,
             username: '',
             firstName: '',
             lastName: '',
@@ -63,6 +64,7 @@ export default class SignUp extends Component {
         }
 
         axios.post('/api/users/signup', {
+            admin: this.state.admin,
             username: this.state.username,
             password: this.state.password,
             firstName: this.state.firstName,
