@@ -58,6 +58,7 @@ export default class Login extends Component {
      */
     handleSubmit(event) {
         event.preventDefault();
+
         let axiosConfig = {
             withCredentials: true,
             headers: {
@@ -120,13 +121,12 @@ export default class Login extends Component {
     }
 
     render() {
-        const { from } = this.props.location || { from: { pathname: '/' } };
-        // const { from } = this.props.from.pathname;
-        const { redirectTo } = this.state.redirectTo;
+        // const { from } = this.props.location || { from: { pathname: '/' } };
+        // const  from  = this.props.from.pathname;
+        const redirectTo = this.state.redirectTo;
         
-        if (redirectTo === true) {
-            console.log(from);
-            return(<><Redirect to={from} /> </> )
+        if (redirectTo) {
+            return(<Redirect to={'/'} /> )
         } else {
             return (
                 <>
