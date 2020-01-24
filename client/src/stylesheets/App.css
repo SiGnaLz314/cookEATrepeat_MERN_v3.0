@@ -6,7 +6,8 @@ body {
     margin: 0;
     font-family: Helvetica, Arial, sans-serif;
     text-align: center;
-    background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255,255,255,.7)), no-repeat fixed center url("./images/leaf_background.jpg");
+    background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255,255,255,.7)), center url("./images/leaf_background.jpg");
+    background-attachment: fixed, fixed;
 }
 
 .main {
@@ -63,13 +64,11 @@ body {
     padding: 15px;
 }
 
-/* Create two equal columns that sits next to each other */
 .column {
     flex: 50%;
     padding: 0 4px;
 }
 
-/* Add Footer Space */
 .footer {
     margin-top: 25px;
     background-color: #3BA458 ;
@@ -132,16 +131,39 @@ body {
     border-radius: 4px;
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 1000px) {
     body {
         margin: 1em;
+    }
+    #seperator {
+        padding: 10vh;
     }
     #u-pass {
         width: auto;
     }
     #recipe_img {
+        width: 150px;
+        height: 100px;
+    }
+    #recipe_detail_img {
         width: 300px;
         height: 200px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    body {
+        margin: 5px 5px 20px;
+    }
+    #seperator {
+        padding: 5vh;
+    }
+    #u-pass {
+        width: auto;
+    }
+    #recipe_img {
+        width: 150px;
+        height: 100px;
     }
     #recipe_detail_img {
         width: 300px;

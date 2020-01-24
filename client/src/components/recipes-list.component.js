@@ -17,8 +17,8 @@ const RecipeListDetail = props => (
     <tr>
         <td>{props.recipe.recipename}</td>
         <td>{props.recipe.animal}</td>
-        <td>{props.recipe.ingredients.substring(0,150)}...</td>
-        <td>{props.recipe.instructions.substring(0,150)}...</td>
+        <td>{props.recipe.ingredients.substring(0, 150)}...</td>
+        <td>{props.recipe.instructions.substring(0, 150)}...</td>
         <td>{props.recipe.date.substring(0, 10)}</td>
         <td>
             <Link to={'/recipe/' + props.recipe.recipe_id} >
@@ -26,22 +26,65 @@ const RecipeListDetail = props => (
             </Link>
         </td>
         <td>
-            
+
             {/* Only Show to users logged in */}
             {props.loggedIn && props.admin ? (
                 <>
-                <div id="recipe-action">
-                    <button className="btn btn-outline-primary col-auto col-mr-auto">
-                        <Link key={props.recipe.recipe_id} to={{ pathname: `/edit/${props.recipe.recipe_id}`, state: { recipe: props.recipe } }}>edit</Link>
-                    </button>
-                </div>
-                <div id="recipe-action">
-                    <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}>
-                        <Link key={props.recipe.recipe_id} to="#">delete</Link>
-                        {/* <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) props.deleteRecipe(props.recipe.recipe_id) }}>
-                <Link key={props.recipe.recipe_id} to="#">delete</Link> */}
-                    </button>
-                </div>
+                    <div id="recipe-action">
+                        <button className="btn btn-outline-primary col-auto col-mr-auto">
+                            <Link key={props.recipe.recipe_id} to={{ pathname: `/edit/${props.recipe.recipe_id}`, state: { recipe: props.recipe } }}>edit</Link>
+                        </button>
+                    </div>
+                    <div id="recipe-action">
+                        <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}>
+                            <Link key={props.recipe.recipe_id} to="#">delete</Link>
+                            {/* <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) props.deleteRecipe(props.recipe.recipe_id) }}>
+                            <Link key={props.recipe.recipe_id} to="#">delete</Link> */}
+                        </button>
+                    </div>
+                </>
+            ) : (
+                    <></>
+                )}
+        </td>
+    </tr>
+)
+
+/**
+ * RecipeListDetailSmall: Manages individual Recipe Data.
+ * 
+ * Organizes and Displays Data recieved from recipeDetail().
+ * Desgned for MOBILE RESPONSIVENESS
+ * 
+ * @see recipeListDetail()
+ * 
+ * @param {recipe object} props
+ * 
+ * @returns {DOM elements} Recipe Data in table row
+ */
+const RecipeListDetailSmall = props => (
+    <tr>
+        <td>{props.recipe.recipename}</td>
+        <td>
+            <Link to={'/recipe/' + props.recipe.recipe_id} >
+                <input type="image" alt="Not Available" id='recipe_img' src={`${props.recipe.imageURL}`} />
+            </Link>
+        </td>
+        <td>
+            {props.loggedIn && props.admin ? (
+                <>
+                    <div id="recipe-action">
+                        <button className="btn btn-outline-primary col-auto col-mr-auto">
+                            <Link key={props.recipe.recipe_id} to={{ pathname: `/edit/${props.recipe.recipe_id}`, state: { recipe: props.recipe } }}>edit</Link>
+                        </button>
+                    </div>
+                    <div id="recipe-action">
+                        <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { props.deleteRecipe(props.recipe.recipe_id) }}>
+                            <Link key={props.recipe.recipe_id} to="#">delete</Link>
+                            {/* <button className="btn btn-outline-primary col-auto col-mr-auto" href="#" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) props.deleteRecipe(props.recipe.recipe_id) }}>
+            <Link key={props.recipe.recipe_id} to="#">delete</Link> */}
+                        </button>
+                    </div>
                 </>
             ) : (
                     <></>
@@ -96,40 +139,78 @@ export default class RecipesList extends Component {
      * @return List of <RecipeListDetail> elements with Recipe Data organized in table rows.
      */
     recipeListDetail() {
-        const rList = this.props.recipes.map(currentrecipe => {
-            return <RecipeListDetail 
-                            recipe={currentrecipe} 
-                            location={this.props.location} 
-                            deleteRecipe={this.deleteRecipe} 
-                            key={currentrecipe.recipe_id} 
-                            loggedIn={this.props.loggedIn} 
-                            admin={this.props.admin}
-                    />;
-        })
+        let width = window.innerWidth;
+        let rList;
+        if (width >= 600) {
+            rList = this.props.recipes.map(currentrecipe => {
+                return <RecipeListDetail
+                    recipe={currentrecipe}
+                    location={this.props.location}
+                    deleteRecipe={this.deleteRecipe}
+                    key={currentrecipe.recipe_id}
+                    loggedIn={this.props.loggedIn}
+                    admin={this.props.admin}
+                    width={width}
+                />;
+            })
+        } else {
+            rList = this.props.recipes.map(currentrecipe => {
+                return <RecipeListDetailSmall
+                    recipe={currentrecipe}
+                    location={this.props.location}
+                    deleteRecipe={this.deleteRecipe}
+                    key={currentrecipe.recipe_id}
+                    loggedIn={this.props.loggedIn}
+                    admin={this.props.admin}
+                    width={width}
+                />;
+            })
+        }
         return rList;
     }
 
     render() {
-        return (
-            <div>
-                <h3>cookEATrepeat Recipes</h3>
-                <table className="table">
-                    <thead className="thead-light">
-                        <tr>
-                            <th>Recipe</th>
-                            <th>Animal</th>
-                            <th>Ingredients</th>
-                            <th>Instructions</th>
-                            <th>Date</th>
-                            <th>Recipe Image</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.recipeListDetail()}
-                    </tbody>
-                </table>
-            </div>
-        )
+        let width = window.innerWidth;
+        if (width >= 600) {
+            return (
+                <div>
+                    <h3>cookEATrepeat Recipes</h3>
+                    <table className="table">
+                        <thead className="thead-light">
+                            <tr>
+                                <th>Recipe</th>
+                                <th>Animal</th>
+                                <th>Ingredients</th>
+                                <th>Instructions</th>
+                                <th>Date</th>
+                                <th>Recipe Image</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.recipeListDetail()}
+                        </tbody>
+                    </table>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <h3>cookEATrepeat Recipes</h3>
+                    <table className="table">
+                        <thead className="thead-light">
+                            <tr>
+                                <th>Recipe</th>
+                                <th>Recipe Image</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.recipeListDetail()}
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
     }
 }
