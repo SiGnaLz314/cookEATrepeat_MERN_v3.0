@@ -39,22 +39,12 @@ export default class Profile extends Component {
                     userNames.push(userObject.username.slice(0, i));
                     return true;
                 })
-                
-                if (res.data.users) {
-                    // console.log("Profiles res.data:", res.data);
-
-                    this.setState({
-                        users: userNames,
-                    });
-                } else {
-                    // console.log("Profiles else res.data:", res.data);
-                    this.setState({
-                        users: userNames,
-                    });
-                }
+                this.setState({
+                    users: userNames,
+                });
             })
             .catch(err => {
-                console.log('load error: ')
+                console.log('Profiles Load Error: ')
                 console.log(err);
             })
     }
