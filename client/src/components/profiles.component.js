@@ -32,16 +32,24 @@ export default class Profile extends Component {
         }
         axios.get('/api/profiles/', axiosConfig)
             .then((res) => {
+                console.log("Profiles res.data:", res.data);
+                let userNames = [];
+                res.data.map(userObject =>{
+                    let i = userObject.username.split('').findIndex(el => el === '@')
+                    userNames.push(userObject.username.slice(0, i));
+                    return true;
+                })
+                
                 if (res.data.users) {
                     // console.log("Profiles res.data:", res.data);
 
                     this.setState({
-                        users: res.data,
+                        users: userNames,
                     });
                 } else {
                     // console.log("Profiles else res.data:", res.data);
                     this.setState({
-                        users: res.data,
+                        users: userNames,
                     });
                 }
             })
@@ -57,8 +65,8 @@ export default class Profile extends Component {
      * @return {Array} Containing <tr> elements with user data.
      */
     userDetail() {
-        const uList = this.state.users.map(currentuser => {
-            return <tr key={currentuser._id}><td key={currentuser._id}>{currentuser.username}</td></tr>;
+        const uList = this.state.users.map((currentuser, idx) => {
+            return <tr key={idx}><td key={idx}>{currentuser}</td></tr>;
         })
         return uList;
     }

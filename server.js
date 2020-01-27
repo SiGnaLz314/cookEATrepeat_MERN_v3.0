@@ -19,13 +19,13 @@ const usersRouter = require('./routes/users');
 // MIDDLEWARE
 //  debugging
 app.use(morgan('dev'));
-//  handling json data
+//  parsing application/json data
 app.use(express.json());
-//  read url data
+//  parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
-//  read body data (express includes this -- may be removed)
+//  parse req.body data (express includes bodyparser -- may be removed)
 app.use(bodyParser.urlencoded({ extended: true }));
-//  read body data in json
+//  parse req.body data in application/json
 app.use(bodyParser.json());
 
 // MongoClient constructor
