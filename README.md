@@ -1,5 +1,12 @@
 # cookEATrepeat
-A web app to present my recipes, cooking tips, and suggested preperation techniques.
+A web app to present recipes, cooking tips, and suggested preperation techniques for an array of dishes.  Supports user signup and login, as well as create, update and delete recipe capabilities.
+
+- Built on MERN Stack
+	- [MongoDB](https://cloud.mongodb.com/)
+	- [Express](https://expressjs.com/)
+	- [Node.js](https://nodejs.org/en/)
+	- [React.js](https://reactjs.org/)
+
 A work in progress.
 
 
@@ -7,14 +14,20 @@ A work in progress.
 - [x] Display static images
 - [x] Connect to Database to host recipe data
 - [x] Dynamically load recipe data and images
-- [.] CRUD capabilities (Create, Read, Update, Delete)
-	- [ ] Refactor (Update, Delete) for stateless component
-- [.] Authentication
+- [x] Host images on AWS S3
+- [x] CRUD capabilities (Create, Read, Update, Delete)
+- [o] Authentication
 	- [x] passport-local
 	- [ ] passport-jwt
 	- [ ] passport-google
-- [ ] Format and Validate Input (Images, Recipes, Users )
+- [o] Format and Validate Input (Images, Recipes, Users )
+	- [x] Move Route logic to containers (test logic indepedently)
 	- [ ] Testing
+- [o] Search Functionality
+	- [o] Sort Recipes
+- [o] Recipe Features
+	- [o] User Comments
+	- [o] Edit Recipes
 - [ ] Redux & Hooks Refactoring
 - [ ] Plant roses and paint the barn
 
@@ -23,7 +36,7 @@ A work in progress.
 1. After Repository is cloned, dependencies installed, and database is established.
 2. Open a terminal window (CMD) and enter:
 	```
-	$ cd ..\cer_mern_v2>nodemon server.js
+	$ cd ..\cer_mern_v2>npm start
 	$ cd ..\cer_mern_v2\client>npm start
 	```
 
@@ -36,10 +49,9 @@ SERVICE | ENTRY
 Mongo Cloud DB | ATLAS_URI = [MongoDB Atlas](https://cloud.mongodb.com/)
 Environment Variables | SECRET_KEY = **secret_key**
 ...| GENERATE_SOURCEMAP = false
-GENERATE_SOURCEMAP=false
-Amazon Cloud Hosting | AWS_BUCKET_NAME = [AWS BUCKET](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html)
-... | AWS_ACCESS_KEY_ID = **OPTION for hosting images instead of inside a static folder**
-... | AWS_SECRET_ACCESS_KEY = **see above**
+Amazon Cloud | AWS_BUCKET_NAME = [AWS BUCKET](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html)
+... | AWS_ACCESS_KEY_ID = **AWS Access ID**
+... | AWS_SECRET_ACCESS_KEY = **AWS Secret Key**
 ... | AWS_REGION = **YOUR REGION**
 ... | AWS_Uploaded_File_URL_Link = **YOUR FILE URL**
 Authentication | SECRET_KEY = **YOUR SECRET FOR AUTHENTICATION**
@@ -58,5 +70,6 @@ Authentication | SECRET_KEY = **YOUR SECRET FOR AUTHENTICATION**
 1. Open MongoDB Atlas Dashboard
 2. Add environment variables to .env file
 3. Create collection called 'cookeatrepeat'
-4. Run Program and necessary collections will populate.	
-5. Upload Recipes
+4. Run Program and necessary collections will populate.
+5. Sign up, and login.
+6. Upload Recipes
