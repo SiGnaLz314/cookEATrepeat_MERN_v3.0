@@ -21,9 +21,11 @@ const RecipeListDetail = props => (
         <td>{props.recipe.instructions.substring(0, 150)}...</td>
         <td>{props.recipe.date.substring(0, 10)}</td>
         <td>
-            <Link to={'/recipe/' + props.recipe.recipe_id} >
-                <input type="image" alt="Not Available" id='recipe_img' src={`${props.recipe.imageURL}`} />
-            </Link>
+            <div className="rec_img_box">
+                <Link to={'/recipe/' + props.recipe.recipe_id} >
+                    <img id='recipe_img' type="image" alt="Not Available" src={`${props.recipe.imageURL}`} />
+                </Link>
+            </div>
         </td>
         <td>
 
@@ -66,9 +68,11 @@ const RecipeListDetailSmall = props => (
     <tr>
         <td>{props.recipe.recipename}</td>
         <td>
-            <Link to={'/recipe/' + props.recipe.recipe_id} >
-                <input type="image" alt="Not Available" id='recipe_img' src={`${props.recipe.imageURL}`} />
-            </Link>
+            <div className="rec_img_box">
+                <Link to={'/recipe/' + props.recipe.recipe_id} >
+                    <img id='recipe_img' type="image" alt="Not Available" src={`${props.recipe.imageURL}`} />
+                </Link>
+            </div>
         </td>
         <td>
             {props.loggedIn && props.admin ? (

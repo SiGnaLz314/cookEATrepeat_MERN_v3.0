@@ -19,15 +19,19 @@ const Recipe = props => (
             <img id="recipe_detail_img" alt="Not Available" src={`${props.recipe.imageURL}`} />
             <div>
                 <h3>Algorithm:</h3>
-                <div id="recipe_detail">
-                    {props.recipe.instructions}
+                <div className="recipe_detail_box">
+                    <div id="recipe_detail">
+                        {props.recipe.instructions}
+                    </div>
                 </div>
             </div>
         </div>
         <div className="column">
             <h3>Variables:</h3>
-            <div id="recipe_detail">
-                {props.recipe.ingredients}
+            <div className="recipe_detail_box">
+                <div id="recipe_detail">
+                    {props.recipe.ingredients}
+                </div>
             </div>
         </div>
     </>

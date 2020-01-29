@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
  * @param {recipe Object} props 
  */
 const RecipeImages = (props) => (
-    <div className="col-lg-6 box">
+    <div className="col-lg-6 box rec_img_box">
         <Link to={'/recipe/' + props.recipe.recipe_id}>
-            <img id='recipe_img' alt="Not Available" src={`${props.recipe.imageURL}`} />
+            <img  id='recipe_img' alt="Not Available" src={`${props.recipe.imageURL}`} />
         </Link>
     </div>
 )

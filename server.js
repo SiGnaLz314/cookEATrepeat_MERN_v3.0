@@ -30,6 +30,7 @@ app.use(bodyParser.json());
 
 // MongoClient constructor
 const uri = process.env.ATLAS_URI;
+// ES6 implementation of Promises
 mongoose.Promise = global.Promise;
 mongoose.connect(uri, {
         useNewUrlParser: true, 
@@ -62,17 +63,6 @@ app.use(passport.initialize());
 app.use(passport.session()); // Calls serializeUser and deserializerUser
 
 app.use(cors({ credentials: true }));
-
-// Middleware to set headers
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST, OPTIONS');
-    res.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept'
-    );
-    next();
-});
 
 // Middleware to determine and set environment based variables
 if (environment === 'production') {

@@ -232,8 +232,8 @@ export default class CreateRecipe extends Component {
                                 onChange={this.handleSelectedFile}
                             />
                         </div>
-                        <div>
-                            <img alt="" src={this.state.image} width='200px' height='200px' />
+                        <div className="rec_img_box">
+                            <img id="recipe_img" alt="" src={this.state.image} />
                         </div>
                         <div className="form-group">
                             <label htmlFor="date" >Date: </label>
