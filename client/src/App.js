@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from "react-router-dom";
 
@@ -8,16 +9,16 @@ import * as cooking from './stylesheets/cooking.json';
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
 
-import Login from "./components/login.component";
-import SignUp from "./components/signup.component";
-import Navbar from "./components/navbar.component";
-import Footer from "./components/footer.component";
-import Home from "./components/home.component";
-import RecipesList from "./components/recipes-list.component";
-import RecipeDetail from "./components/recipe-detail.component";
-import EditRecipe from "./components/edit-recipe.component";
-import CreateRecipe from "./components/create-recipe.component";
-import Profile from "./components/profiles.component";
+import Login from "./components/login";
+import SignUp from "./components/signup";
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
+import Home from "./components/home";
+import RecipesList from "./components/recipes-list";
+import RecipeDetail from "./components/recipe-detail";
+import EditRecipe from "./components/edit-recipe";
+import CreateRecipe from "./components/create-recipe";
+import Profile from "./components/profiles";
 
 // Animated Background Options
 const defaultOptions = {
@@ -59,7 +60,7 @@ const AuthRoute = ({ component: Component, ...rest }) => (
  * 
  * @returns {render()} Routes with necessary props passed.
  */
-class App extends Component {
+class App extends Component<{}> {
     constructor() {
         super();
 

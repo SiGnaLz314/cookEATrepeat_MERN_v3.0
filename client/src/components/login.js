@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { FormErrors } from '../utils/FormErrors.util';
+import { FormErrors } from '../utils/FormErrors';
 
 /**
  * Login: Handle user input and interaction on Login

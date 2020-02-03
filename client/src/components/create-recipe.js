@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
-import { FormErrors } from '../utils/FormErrors.util';
+import { FormErrors } from '../utils/FormErrors';
 
 import "react-datepicker/dist/react-datepicker.css";
 
