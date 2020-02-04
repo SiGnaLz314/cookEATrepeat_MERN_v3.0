@@ -20,6 +20,14 @@ import EditRecipe from "./components/edit-recipe";
 import CreateRecipe from "./components/create-recipe";
 import Profile from "./components/profiles";
 
+type State = {
+    admin: boolean,
+    loggedIn: boolean,
+    user?: string | null,
+    recipes: Array<number>,
+    loading: boolean
+};
+
 // Animated Background Options
 const defaultOptions = {
     loop: true,
@@ -40,7 +48,7 @@ const defaultOptions = {
 const AuthRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
         rest.loggedIn === true
-            ? (Component === CreateRecipe
+            ? (rest.updateRecipes
                 ? <Component updateRecipes={rest.updateRecipes} {...props} />
                 : <Component {...props} />)
             : <Redirect to={{
@@ -60,21 +68,21 @@ const AuthRoute = ({ component: Component, ...rest }) => (
  * 
  * @returns {render()} Routes with necessary props passed.
  */
-class App extends Component<{}> {
+class App extends Component<void, State> {
+    state: State;
     constructor() {
         super();
 
-        this.componentDidMount = this.componentDidMount.bind(this);
         this._logout = this._logout.bind(this);
         this.setUser = this.setUser.bind(this);
         this.updateRecipes = this.updateRecipes.bind(this);
-
+        this.updateRecipes();
+        
         this.state = {
             admin: false,
             loggedIn: false,
-            user: null,
             recipes: [],
-            loading: undefined
+            loading: false
         }
     }
 
@@ -82,27 +90,19 @@ class App extends Component<{}> {
         window.scrollTo(0, 0)
 
         await setTimeout(() => {
-            const recipe = '/api/recipes/';
             const user = '/api/users/';
             try{
-                Promise.all([
-                    fetch(recipe, {method: 'GET', headers: {
-                        Accept: 'application/json', },
-                    }),
-                    fetch(user, {method: 'GET', headers: {
-                        Accept: 'application/json', },
-                    }),
-                ])
+                fetch(user, {method: 'GET', headers: {
+                    Accept: 'application/json', }, 
+                })
                 .then(async (res) => {
-                    const recipes = await res[0].json();
-                    const users = await res[1].json();
-                    
+                    const users = await res.json();
+
                     if (users.user) {
                         this.setState({
                             loggedIn: true,
                             user: users,
                             admin: users.user.admin,
-                            recipes: recipes,
                             loading: true,
                         });
                     } else {
@@ -110,7 +110,6 @@ class App extends Component<{}> {
                             loggedIn: false,
                             admin: false,
                             user: null,
-                            recipes: recipes,
                             loading: true,
                         });
                     }
@@ -121,7 +120,7 @@ class App extends Component<{}> {
         }, 2100);
     }
 
-    _logout(event) {
+    _logout = (event: SyntheticEvent<>) => {
         event.preventDefault();
         
         fetch('/api/users/logout', {method: 'POST',})
@@ -137,7 +136,7 @@ class App extends Component<{}> {
             .catch(err => {
                 console.log('logout error: ')
                 console.log(err);
-            })
+        })
     }
 
     /**
@@ -146,7 +145,7 @@ class App extends Component<{}> {
      * Sets loggedIn state to boolean, and user to object passed from response login.component.js.
      * 
      */
-    setUser(user) {
+    setUser = (user: {userInfo: {admin: boolean, user: string}}) => {
         this.setState({
             loggedIn: true,
             admin: user.userInfo.admin,
@@ -163,7 +162,7 @@ class App extends Component<{}> {
      * 
      * @param {Object} recipe recipe that was added
      */
-    updateRecipes() {
+    updateRecipes = () => {
         const recipe = '/api/recipes/';
         fetch(recipe, {method: 'GET', headers: {
             Accept: 'application/json', },
