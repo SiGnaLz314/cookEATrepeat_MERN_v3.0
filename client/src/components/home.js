@@ -6,13 +6,26 @@ import { Link } from 'react-router-dom';
  * 
  * @param {recipe Object} props 
  */
-const RecipeImages = (props) => (
-    <div className="col-lg-6 box rec_img_box">
-        <Link to={'/recipe/' + props.recipe.recipe_id}>
-            <img  id='recipe_img' alt="Not Available" src={`${props.recipe.imageURL}`} />
-        </Link>
-    </div>
-)
+const RecipeImages = (props) => {
+    if(props.recipe.recipe_id){
+        return(
+        <div className="col-lg-6 box rec_img_box">
+            <Link to={{
+                pathname: '/recipe/' + props.recipe.recipe_id,
+                state: {
+                    recipeId: props.recipe.recipe_id,
+                    recipe: props.recipe
+                }
+            }}>
+                <img  id='recipe_img' alt="Not Available" src={`${props.recipe.imageURL}`} />
+            </Link>
+            {/* <Link to={'/recipe/' + props.recipe.recipe_id}>
+                <img  id='recipe_img' alt="Not Available" src={`${props.recipe.imageURL}`} />
+            </Link> */}
+        </div>
+        )
+    }
+}
 
 const recipeImages = (recipes) => {
     return recipes.map(currentrecipe => {

@@ -17,19 +17,19 @@ const UserLinks = props => {
                 </NavLink>
             </li>
         </ul>
-    ) : (
-            <ul className="navbar-nav mr-auto">
-                <li className="navbar-item">
-                    <NavLink to="/login" className="nav-link">
-                        login
-            </NavLink>
-                </li>
-                <li className="navbar-item">
-                    <NavLink to="/signup" className="nav-link">
-                        sign up
-            </NavLink>
-                </li>
-            </ul>
+        ) : (
+        <ul className="navbar-nav mr-auto">
+            <li className="navbar-item">
+                <NavLink to="/login" className="nav-link">
+                    login
+                </NavLink>
+            </li>
+            <li className="navbar-item">
+                <NavLink to="/signup" className="nav-link">
+                    sign up
+                </NavLink>
+            </li>
+        </ul>
         )
     )
 }

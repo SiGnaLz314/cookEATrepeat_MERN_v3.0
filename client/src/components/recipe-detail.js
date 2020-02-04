@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import 'react-router';
 
 /**
@@ -47,30 +48,17 @@ const Recipe = props => (
  * @returns {DOM elements}
  */
 export default class RecipeDetail extends Component {
-    constructor(props) {
-        super(props);
-
-        this.componentDidMount = this.componentDidMount.bind(this);
-
-        this.state = {
-            recipe: [],
-        }
-    }
-
     componentDidMount() {
         // Ensure component mounts at top of page.
         window.scrollTo(0, 0);
     }
 
     recipe() {
-        const rList = this.props.recipes
-        // console.log("REC_DETAILS PROPS: ", this.props);
-        if (rList.length > 0) {
-            // Array.find() returns the first occurence found
-            const recipe = rList.find(el => el.recipe_id.toString() === window.location.pathname.substring(8));
-            return <Recipe recipe={recipe} deleteRecipe={this.deleteRecipe} key={recipe.recipe_id} />;
+        const recipeDetail = this.props.location.state.recipe
+        if (recipeDetail) {
+            return <Recipe recipe={recipeDetail} key={recipeDetail.recipe_id} />;
         } else {
-            this.props.history.push('/');
+            return <Redirect path="*" to="/" />
         }
     }
 

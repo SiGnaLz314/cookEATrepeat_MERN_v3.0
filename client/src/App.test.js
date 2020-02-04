@@ -6,14 +6,9 @@ import { shallow } from 'enzyme';
 
 describe('App Component Testing', () => {
   const wrapper = shallow(<App />);
-
-  it('renders correctly', () => {
+  global.scrollTo = jest.fn();
+  test('renders correctly', () => {
     expect(wrapper).toMatchSnapshot();
   })
 });
 
-// test('App snapshot test', () => {
-//   const component = renderer.create(<App />);
-//   const tree = component.toJSON();
-//   expect(tree).toMatchSnapshot();
-// });
