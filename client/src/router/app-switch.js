@@ -17,10 +17,16 @@ type State = {
     admin: boolean,
     loggedIn: boolean,
     user?: string | null, 
-    recipes: Array<number>,
+    recipes: Array<{
+        recipe_id: string,
+        recipename?: string,
+        ingredients?: string,
+        instructions?: string,
+        imageURL: string
+    }>,
     loading: boolean
 }
-class AppSwitch extends Component<void, State> {
+class AppSwitch extends Component<{}, State> {
     state: State;
     constructor() {
         super();
@@ -49,7 +55,6 @@ class AppSwitch extends Component<void, State> {
             })
             .then(async (res) => {
                 const userData = await res.json();
-                console.log('user: ', userData);
                 if (userData.user) {
                     this.setState({
                         loggedIn: true,

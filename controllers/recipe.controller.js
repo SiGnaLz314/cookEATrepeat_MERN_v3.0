@@ -1,3 +1,4 @@
+// @flow
 "use strict";
 const deleteDocuments = require('../services/deleteDocuments')
 

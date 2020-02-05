@@ -56,7 +56,7 @@ class App extends Component<void, State> {
                 </div>
             </FadeIn>
           ) : (
-            <AppRouter {...this.props} />
+            <AppRouter />
           )}
           <Footer />
         </div>

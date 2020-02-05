@@ -1,3 +1,4 @@
+// @flow
 "use strict";
 
 let UserCtlr = (User) => {
