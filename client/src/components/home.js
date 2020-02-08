@@ -26,10 +26,8 @@ const RecipeImages = (props):React.ChildrenArray<any> => {
     }
 }
 
-const recipeImages = (recipes):Iterable<React.Element<any>> => {
-    return recipes.map(currentrecipe => {
-        return <RecipeImages recipe={currentrecipe} key={currentrecipe.recipe_id} />;
-    })
+const recipeImages = (recipes):React.ChildrenArray<React.Element<any>> => {
+    return recipes.map(currentrecipe => <RecipeImages recipe={currentrecipe} key={currentrecipe.recipe_id} />)
 }
 // const welcome = (user, recipes) => {
 //     let welcomeName = user.toString();
@@ -63,8 +61,7 @@ type Props = {
     }>,
     admin?: boolean,
 }
-const Home = (props:Props) => {
-    console.log("Home Props: ", props);
+const Home = (props:Props):React.ChildrenArray<React.Element<any>> => {
     return (
         <div>
             <h3>cookEATrepeat Recipes</h3>
