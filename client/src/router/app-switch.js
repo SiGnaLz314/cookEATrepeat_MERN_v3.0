@@ -23,8 +23,7 @@ type State = {
         ingredients?: string,
         instructions?: string,
         imageURL: string
-    }>,
-    loading: boolean
+    }>
 }
 class AppSwitch extends Component<{}, State> {
     state: State;
@@ -41,7 +40,6 @@ class AppSwitch extends Component<{}, State> {
             loggedIn: false,
             user: null,
             recipes: [],
-            loading: false
         }
     }
 
@@ -60,14 +58,12 @@ class AppSwitch extends Component<{}, State> {
                         loggedIn: true,
                         user: userData.username,
                         admin: userData.user.admin,
-                        loading: true,
                     });
                 } else {
                     this.setState({
                         loggedIn: false,
                         admin: false,
                         user: null,
-                        loading: true,
                     });
                 }
             })
@@ -126,8 +122,7 @@ class AppSwitch extends Component<{}, State> {
             <Route exact path="/" render={() =>
                     <Home
                         user={this.state.user}
-                        recipes={this.state.recipes} 
-                        admin={this.state.admin} />} 
+                        recipes={this.state.recipes}  />} 
             />
             <Route exact path="/login" render={(props) =>
                 <Login

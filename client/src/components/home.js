@@ -58,8 +58,7 @@ type Props = {
         ingredients?: string,
         instructions?: string,
         imageURL: string
-    }>,
-    admin?: boolean,
+    }>
 }
 const Home = (props:Props):React.ChildrenArray<React.Element<any>> => {
     return (
